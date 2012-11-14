@@ -1,5 +1,73 @@
 #include "LevelParser.h"
 
+
+LevelData LevelParser::parseTrollbergLevel(std::string path)
+{
+	TiXmlDocument doc( path.c_str() );
+	if (!doc.LoadFile())
+	{
+		std::string desc = "Could not open PIM-file for parsing:\n";
+		desc.append(path);
+		TrollbergExit(desc);
+	}
+
+	LevelData		level;
+	TiXmlElement	*elem = NULL;
+	const char		*attr = NULL;;
+
+	// Get the level main texture
+	elem = doc.FirstChildElement("batchnode");
+	if (elem)
+	{
+		if (attr = elem->Attribute("tex", (double*)NULL))
+			level.batchFile = attr;
+		else
+			TrollbergExit("No batch tex specified!");
+
+		if (attr = elem->Attribute("color", (double*)NULL))
+			level.color = colorFromString(attr);
+		else
+			std::cout<<"WARNING: NO COLOR SPECIFIED IN THE LEVEL FILE. IT WILL BE WHITE.\n";
+	}
+	else
+		TrollbergExit("Corrupt level file:\nNo level texture specified!");
+
+	// Get the four (possible) parallax layers
+	Pim::Rect *rectPtr[4] = {
+		&level.parallax0,  &level.parallax1,
+		&level.parallax2,  &level.parallax3
+	};
+	for (int i=0; i<4; i++)
+	{
+		std::stringstream ss;
+		ss <<"parallax" <<i;
+
+		elem = doc.FirstChildElement(ss.str().c_str());
+		if (elem)
+		{
+			if (attr = elem->Attribute("rect", (double*)NULL))
+				(*rectPtr[i]) = rectFromString(attr);
+		}
+	}
+
+	// Get the playfield
+	elem = doc.FirstChildElement("playfield");
+	if (elem)
+	{
+		if (attr = elem->Attribute("rect", (double*)NULL))
+			level.playfield = rectFromString(attr);
+		else
+			TrollbergExit("No rect specified for the playfield");
+	}
+	else
+		TrollbergExit("Corrupt level file:\nNo playfield data specified!");
+
+	return level;
+}
+
+// ------------------------------------
+// ------------------------------------
+
 std::string LevelParser::getResourcePath(std::string path)
 {
 	TiXmlDocument doc( path.c_str() );
@@ -62,9 +130,6 @@ Pim::Layer* LevelParser::parse(std::string path)
 	root = doc.FirstChildElement("layer");
 	if (root)
 	{
-		layer = new Pim::Layer;
-		layer->identifier = "layer";
-		
 		setLayerAttributes(root, layer);
 		parseNode(root, layer);
 	}

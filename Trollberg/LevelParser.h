@@ -2,9 +2,19 @@
 
 #include "Trollberg.h"
 
+/*
+	This class is taken from the PimEdit-application, and thus contains a lot of
+	member functions never used by the game. 
+
+	"LevelData parseTrollbergLevel(...)" is the only function called on a parser-object.
+*/
+
 class LevelParser
 {
 public:
+
+	// Returns a LevelData-object
+	LevelData parseTrollbergLevel(std::string path);
 
 	// Returns the resource path from the meta data in the provided file
 	std::string getResourcePath(std::string path);
