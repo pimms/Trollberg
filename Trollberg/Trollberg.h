@@ -4,6 +4,8 @@
 
 #include "Pim.h"
 #include "tinyxml.h"
+#include "Box2D\Box2D.h"
+
 #include "LevelData.h"
 
 typedef std::vector<std::vector<Pim::Vec2>> Polygons;

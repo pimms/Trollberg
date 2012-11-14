@@ -43,20 +43,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(PIM_HOME)\include;$(ProjectDir)..\TinyXML\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PIM_HOME)\include;$(SolutionDir)DEP\include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(PIM_HOME)\lib;$(SolutionDir)$(Configuration)tinyxml\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;pim_d.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PIM_HOME)\lib;$(SolutionDir)DEP\lib\$(Configuration)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;tinyxml.lib;pim_d.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)$(SolutionName).sln" "$(GIT_HOME)\Trollberg" /Y
-xcopy "$(ProjectDir)$(ProjectName).vcxproj" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-
-xcopy "$(ProjectDir)*.h" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -65,19 +62,19 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(PIM_HOME)\include;$(ProjectDir)..\TinyXML\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PIM_HOME)\include;$(SolutionDir)DEP\include;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(PIM_HOME)\lib;$(SolutionDir)$(Configuration)tinyxml\;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>tinyxml.lib;pim.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(PIM_HOME)\lib;$(SolutionDir)DEP\lib\$(Configuration)\;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Box2D.lib;tinyxml.lib;pim.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.h" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
