@@ -8,6 +8,9 @@ class GameLayer;
 class GameScene : public Pim::Scene
 {
 public:
+	// Returns the Box2D world
+	static b2World* getWorld() { return singleton->world; }
+
 	GameScene(int levelNumber);
 	~GameScene();
 
@@ -18,6 +21,8 @@ public:
 	void update(float dt);
 
 private:
+	static GameScene* singleton;
+
 	std::string levelFile;
 	LevelData	levelData;
 
@@ -30,5 +35,8 @@ private:
 	ParallaxLayer			*par1;
 	ParallaxLayer			*par2;
 	ParallaxLayer			*par3;
+
+	// The Box2D world
+	b2World					*world;
 };
 

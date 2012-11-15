@@ -1,8 +1,6 @@
 #include "Pim.h"
 #include "GameScene.h"
 
-
-
 int main()
 {
 	{   // Stack cheating: avoid 'cd' from "leaking" memory
@@ -18,7 +16,7 @@ int main()
 		cd.aspectRatio					= 16.f / 9.f;
 
 		cd.winTitle						= "Trollberg";
-		cd.winStyle						= Pim::WinStyle::WINDOWED;
+		cd.winStyle						= Pim::WinStyle::BORDERLESS_WINDOWED;
 
 		Pim::GameControl *gc = new Pim::GameControl;
 		gc->go(new GameScene(1), cd);
@@ -33,6 +31,21 @@ int main()
 	return 0;
 }
 
+
+// Pim::Vec2 to b2Vec2 conversion. PTM-Ratio is taken into account.
+b2Vec2 toB2(const Pim::Vec2 &v)
+{
+	return b2Vec2(v.x / PTMR, v.y / PTMR);
+}
+
+// b2Vec2 to Pim::Vec2 conversion. PTM-Ratio is taken into account.
+Pim::Vec2 toPim(const b2Vec2 &v)
+{
+	return Pim::Vec2(v.x * PTMR, v.y * PTMR);
+}
+
+
+// Something went horribly wrong. Display an error message and exit the game completely.
 void TrollbergExit(std::string s)
 {
 	MessageBoxA(NULL, s.c_str(), "Trololol", MB_OK | MB_ICONEXCLAMATION);

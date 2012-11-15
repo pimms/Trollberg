@@ -2,25 +2,51 @@
 #include "LevelParser.h"
 #include "ParallaxLayer.h"
 #include "GameLayer.h"
+#include "Entity.h"
+
+GameScene* GameScene::singleton = NULL;
 
 GameScene::GameScene(int levelNumber)
 {
+	singleton = this;
+
 	std::stringstream ss;
 	ss <<"tbl" <<levelNumber <<".pim";
 	levelFile = ss.str();
 
 	batch = NULL;
+	world = NULL;
 }
 GameScene::~GameScene()
 {
+	singleton = NULL;
+
 	// As the GameScene does not inherit from the GameNode-class, all 
-	// memory management has do be performed manually.
+	// memory management regarding batch nodes has do be performed manually.
 	if (batch) delete batch;
+
+	// Remove all bodies. Unless a body is destroyed prematurely to the 
+	// game's finish, it is cleaned up automatically.
+	if (world)
+	{
+		while (world->GetBodyCount())
+			world->DestroyBody( world->GetBodyList() );
+
+		while (world->GetJointCount())
+			world->DestroyJoint( world->GetJointList() );
+
+		delete world;
+	}
 }
 
 void GameScene::loadResources()
 {
+	// Create the Box2D world
+	world = new b2World(b2Vec2(0, -30));
+
+	// Load stuff
 	loadLevelData();
+	loadLayers();
 }
 void GameScene::loadLevelData()
 {
@@ -29,8 +55,6 @@ void GameScene::loadLevelData()
 	color = levelData.color;
 
 	batch = new Pim::SpriteBatchNode(levelData.batchFile);
-
-	loadLayers();
 }
 void GameScene::loadLayers()
 {
@@ -38,6 +62,7 @@ void GameScene::loadLayers()
 	gameLayer = new GameLayer;
 	addLayer(gameLayer);
 	gameLayer->setSpriteInformation(batch, levelData.playfield);
+	gameLayer->createGroundBody(levelData.physics);
 
 	// Parallax layer #0
 	if (levelData.parallax0.width != 0)
@@ -78,5 +103,20 @@ void GameScene::loadLayers()
 
 void GameScene::update(float dt)
 {
+	if (world)
+	{
+		world->Step(1.f/60.f, 10, 10);
 
+		// Iterate over all the bodies, update position and rotation
+		for (auto it=world->GetBodyList(); it; it=it->GetNext())
+		{
+			void *ud = it->GetUserData();
+			if (ud)
+			{
+				Entity *ent = static_cast<Entity*>(ud);
+				ent->position = toPim( ent->body->GetPosition() );
+				ent->rotation = ent->body->GetAngle() * RADTODEG;
+			}
+		}
+	}
 }

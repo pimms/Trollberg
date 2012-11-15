@@ -3,6 +3,12 @@
 
 LevelData LevelParser::parseTrollbergLevel(std::string path)
 {
+	LevelData		level;
+
+	// Parse the physics data
+	level.physics = parsePoly(path);
+
+	// Load the file
 	TiXmlDocument doc( path.c_str() );
 	if (!doc.LoadFile())
 	{
@@ -11,7 +17,6 @@ LevelData LevelParser::parseTrollbergLevel(std::string path)
 		TrollbergExit(desc);
 	}
 
-	LevelData		level;
 	TiXmlElement	*elem = NULL;
 	const char		*attr = NULL;;
 
