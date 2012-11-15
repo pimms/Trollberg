@@ -16,7 +16,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	rect		= anim.frameIndex(0);
 
 	position	= pos;
-	jumpForce	= 60.f;
+	jumpForce	= 70.f;
 	velX		= 0.;
 
 	createCircularBody(6.f, PLAYER, GROUND | TROLLS);
@@ -31,7 +31,7 @@ Player::~Player()
 void Player::createLight()
 {
 	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-	ld->radius			= 100;
+	ld->radius			= 80;
 	ld->innerColor.a	= 0.7f;
 	ld->castShadows		= false;
 	getParentLayer()->addLight(this, ld);

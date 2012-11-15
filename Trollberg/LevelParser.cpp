@@ -38,11 +38,12 @@ LevelData LevelParser::parseTrollbergLevel(std::string path)
 		TrollbergExit("Corrupt level file:\nNo level texture specified!");
 
 	// Get the four (possible) parallax layers
-	Pim::Rect *rectPtr[4] = {
+	Pim::Rect *rectPtr[5] = {
 		&level.parallax0,  &level.parallax1,
-		&level.parallax2,  &level.parallax3
+		&level.parallax2,  &level.parallax3,
+		&level.parallax4
 	};
-	for (int i=0; i<4; i++)
+	for (int i=0; i<5; i++)
 	{
 		std::stringstream ss;
 		ss <<"parallax" <<i;

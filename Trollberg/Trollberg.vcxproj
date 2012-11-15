@@ -90,6 +90,7 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Trollberg.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
@@ -102,6 +103,7 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Trollberg.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

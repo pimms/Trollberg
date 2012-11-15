@@ -19,6 +19,7 @@ public:
 
 	// Create a b2Body based on the vertex information in the Polygons-struct.
 	void createGroundBody(Polygons &poly);
+	void createLevelEdges();
 
 	void update(float dt);
 	void followPlayer();

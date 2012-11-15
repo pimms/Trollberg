@@ -30,4 +30,7 @@ struct LevelData
 
 	// Parallax layer placed in front of the playfield
 	Pim::Rect	parallax3;
+
+	// Parallax layer all the way in the fronst of the playfield
+	Pim::Rect	parallax4;
 };

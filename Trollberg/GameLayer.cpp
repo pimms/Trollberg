@@ -70,7 +70,7 @@ void GameLayer::loadResources()
 	actorSheet = new Pim::SpriteBatchNode("res\\player.png");
 	addChild(actorSheet);
 
-	player = new Player(actorSheet, Pim::Vec2(100.f, 100.f));
+	player = new Player(actorSheet, Pim::Vec2(1070.f, 60.f));
 	addChild(player);
 	player->createLight();
 }
@@ -131,26 +131,26 @@ void GameLayer::createGroundBody(Polygons &poly)
 		groundBody->CreateFixture(&fd);
 	}
 
-	// Prepare definitions for the edges
-	b2BodyDef bd;
-	bd.type = b2_staticBody;
-	b2EdgeShape shape;
-	shape.Set(b2Vec2(0,0), b2Vec2(0, 1000));
-	b2FixtureDef fd;
-	fd.shape = &shape;
-	fd.filter.categoryBits = LVLEDGE;
-	fd.filter.maskBits = PLAYER|TROLLS|SENSOR;
-	
-	b2Body *edge;
+	createLevelEdges();
+}
+void GameLayer::createLevelEdges()
+{
+	for (int i=0; i<2; i++)
+	{
+		b2BodyDef bd;
+		bd.type = b2_staticBody;
 
-	// Edge  #1
-	edge = world->CreateBody(&bd);
-	edge->CreateFixture(&fd);
+		b2EdgeShape shape;
+		shape.Set(b2Vec2(i*levelWidth/PTMR,1000), b2Vec2(i*levelWidth/PTMR, 0));
+
+		b2FixtureDef fd;
+		fd.shape = &shape;
+		fd.filter.categoryBits = LVLEDGE;
+		fd.filter.maskBits = PLAYER|TROLLS|SENSOR;
 	
-	// Edge #2
-	shape.Set(b2Vec2(levelWidth, 0), b2Vec2(levelWidth, 1000));
-	edge = world->CreateBody(&bd);
-	edge->CreateFixture(&fd);
+		b2Body *edge = world->CreateBody(&bd);
+		edge->CreateFixture(&fd);
+	}
 }
 
 void GameLayer::update(float dt)

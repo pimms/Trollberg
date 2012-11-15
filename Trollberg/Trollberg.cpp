@@ -16,7 +16,7 @@ int main()
 		cd.aspectRatio					= 16.f / 9.f;
 
 		cd.winTitle						= "Trollberg";
-		cd.winStyle						= Pim::WinStyle::BORDERLESS_WINDOWED;
+		cd.winStyle						= Pim::WinStyle::WINDOWED;
 
 		Pim::GameControl *gc = new Pim::GameControl;
 		gc->go(new GameScene(1), cd);

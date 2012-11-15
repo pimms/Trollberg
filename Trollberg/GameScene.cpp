@@ -67,7 +67,7 @@ void GameScene::loadLayers()
 	// Parallax layer #0
 	if (levelData.parallax0.width != 0)
 	{
-		par0 = new ParallaxLayer(gameLayer, 0.2f);
+		par0 = new ParallaxLayer(gameLayer, 0.3f);
 		addLayer(par0);
 		par0->setZOrder(-5);
 		par0->setSpriteInformation(batch, levelData.parallax0);
@@ -76,7 +76,7 @@ void GameScene::loadLayers()
 	// Parallax layer #1
 	if (levelData.parallax1.width != 0)
 	{
-		par1 = new ParallaxLayer(gameLayer, 0.35f);
+		par1 = new ParallaxLayer(gameLayer, 0.5f);
 		addLayer(par1);
 		par1->setZOrder(-4);
 		par1->setSpriteInformation(batch, levelData.parallax1);
@@ -85,7 +85,7 @@ void GameScene::loadLayers()
 	// Parallax layer #2
 	if (levelData.parallax2.width != 0)
 	{
-		par2 = new ParallaxLayer(gameLayer, 0.55f);
+		par2 = new ParallaxLayer(gameLayer, 0.7f);
 		addLayer(par2);
 		par2->setZOrder(-3);
 		par2->setSpriteInformation(batch, levelData.parallax2);
@@ -94,10 +94,19 @@ void GameScene::loadLayers()
 	// Parallax layer #3
 	if (levelData.parallax3.width != 0)
 	{
-		par3 = new ParallaxLayer(gameLayer, 0.35f);
+		par3 = new ParallaxLayer(gameLayer, 1.35f);
 		addLayer(par3);
-		par3->setZOrder(-2);
+		par3->setZOrder(2);
 		par3->setSpriteInformation(batch, levelData.parallax3);
+	}
+
+	// Parallax layer #4
+	if (levelData.parallax4.width != 0)
+	{
+		par4 = new ParallaxLayer(gameLayer, 1.8f);
+		addLayer(par4);
+		par4->setZOrder(3);
+		par4->setSpriteInformation(batch, levelData.parallax4);
 	}
 }
 

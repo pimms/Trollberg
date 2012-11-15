@@ -31,10 +31,11 @@ private:
 	Pim::SpriteBatchNode	*batch;
 
 	GameLayer				*gameLayer;
-	ParallaxLayer			*par0;
-	ParallaxLayer			*par1;
-	ParallaxLayer			*par2;
-	ParallaxLayer			*par3;
+	ParallaxLayer			*par0;	// Back		(furthest)
+	ParallaxLayer			*par1;	// Back
+	ParallaxLayer			*par2;	// Back
+	ParallaxLayer			*par3;	// Front
+	ParallaxLayer			*par4;	// Front	(nearest)
 
 	// The Box2D world
 	b2World					*world;
