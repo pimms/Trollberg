@@ -1,6 +1,7 @@
 #pragma once
 #include "actor.h"
 #include "Animation.h"
+#include "Weapon.h"
 
 class Player : public Actor
 {
@@ -11,11 +12,18 @@ public:
 	void createLight();
 
 	void keyEvent(Pim::KeyEvent &evt);
-	void update(float dt);
+	void mouseEvent(Pim::MouseEvent &evt);
+
+	void update(float dt);	// Handle animation, directional facing, etc
+	void updateWeapon();	// Rotate according to the position of the mouse
 
 private:
 	float velX;
 
-	Animation	anim;
+	Animation				anim;
+	Weapon					*weapon;
+
+	Pim::MouseEvent			*mEvt;			// Keep a reference to this..
+	Pim::SpriteBatchNode	*actorBatch;	// and this.
 };
 
