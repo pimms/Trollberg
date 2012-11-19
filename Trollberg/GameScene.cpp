@@ -29,11 +29,11 @@ GameScene::~GameScene()
 	// game's finish, it is cleaned up automatically.
 	if (world)
 	{
-		while (world->GetBodyCount())
-			world->DestroyBody( world->GetBodyList() );
-
 		while (world->GetJointCount())
 			world->DestroyJoint( world->GetJointList() );
+
+		while (world->GetBodyCount())
+			world->DestroyBody( world->GetBodyList() );
 
 		delete world;
 	}

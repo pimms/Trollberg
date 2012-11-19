@@ -36,8 +36,8 @@ Player::~Player()
 void Player::createLight()
 {
 	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-	ld->radius			= 300;
-	ld->innerColor.a	= 0.7f;
+	ld->radius			= 600;
+	//ld->innerColor.a	= 0.7f;
 	ld->castShadows		= false;
 	getParentLayer()->addLight(this, ld);
 }

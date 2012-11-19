@@ -52,11 +52,8 @@
       <AdditionalDependencies>Box2D.lib;tinyxml.lib;pim_d.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(SolutionDir)$(SolutionName).sln" "$(GIT_HOME)\Trollberg" /Y
-xcopy "$(ProjectDir)$(ProjectName).vcxproj" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-
-xcopy "$(ProjectDir)*.h" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -76,8 +73,8 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
       <AdditionalDependencies>Box2D.lib;tinyxml.lib;pim.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.h" "$(GIT_HOME)\Trollberg\Trollberg" /Y
-xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -87,6 +84,7 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
     <ClCompile Include="GameLayer.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="LevelParser.cpp" />
+    <ClCompile Include="LightRifle.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Trollberg.cpp" />
@@ -100,6 +98,7 @@ xcopy "$(ProjectDir)*.cpp" "$(GIT_HOME)\Trollberg\Trollberg" /Y</Command>
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="LevelParser.h" />
+    <ClInclude Include="LightRifle.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Trollberg.h" />

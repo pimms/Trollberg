@@ -8,7 +8,7 @@ class GameLayer : public Pim::Layer
 {
 public:
 	GameLayer();
-	~GameLayer();
+	virtual ~GameLayer();
 
 	void draw();
 	void loadResources();
