@@ -24,3 +24,12 @@ void Entity::setPosition(b2Vec2 pos)
 	position = toPim(pos);
 	body->SetTransform(pos, body->GetAngle());
 }
+
+void Entity::deleteBody()
+{
+	if (body)
+	{
+		world->DestroyBody(body);
+		body = NULL;
+	}
+}

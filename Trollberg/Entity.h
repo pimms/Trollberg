@@ -10,6 +10,8 @@ public:
 	void setPosition(Pim::Vec2);
 	void setPosition(b2Vec2);
 
+	void deleteBody();
+
 	// The physics body
 	b2Body		*body;
 
