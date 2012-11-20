@@ -2,7 +2,9 @@
 #include "LevelParser.h"
 #include "ParallaxLayer.h"
 #include "GameLayer.h"
+#include "HUDLayer.h"
 #include "Entity.h"
+#include "Troll.h"
 
 GameScene* GameScene::singleton = NULL;
 
@@ -64,6 +66,11 @@ void GameScene::loadLayers()
 	addLayer(gameLayer);
 	gameLayer->setSpriteInformation(batch, levelData.playfield);
 	gameLayer->createGroundBody(levelData.physics);
+
+	// HUD layer
+	hudLayer = new HUDLayer;
+	hudLayer->setZOrder(100);
+	addLayer(hudLayer);
 
 	// Parallax layer #0
 	if (levelData.parallax0.width != 0)

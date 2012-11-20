@@ -1,5 +1,6 @@
 #include "Trollberg.h"
 
+#include "Weapon.h"
 #include "GameLayer.h"
 #include "TrollControl.h"
 #include "Player.h"
@@ -7,9 +8,13 @@
 #include "Troll.h"
 #include "Slinker.h"
 
+TrollControl* TrollControl::singleton = NULL;
+
 TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l, 
 						   Player *pl, float lvlWidth, int lvl)
 {
+	singleton = this;
+
 	actorSheet	= batch;
 	player		= pl;
 	levelWidth	= lvlWidth;
@@ -21,4 +26,5 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 }
 TrollControl::~TrollControl(void)
 {
+	singleton = NULL;
 }

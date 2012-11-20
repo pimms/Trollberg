@@ -17,10 +17,14 @@ void SlinkerAI::update(float dt)
 {
 	leapCooldown -= dt;
 
-	if ((isLeaping || willLeap))
+	if (isLeaping || willLeap)
+	{
 		leapUpdate(dt);
+	}
 	else if (abs(trollPlayerXDiff()) >= 100.f)
+	{
 		moveToPlayer();
+	}
 	else
 	{
 		willLeap = true;
@@ -32,7 +36,7 @@ void SlinkerAI::leapUpdate(float dt)
 	leapCooldown = 4.f;
 	leapTimer += dt;
 
-	if (!isLeaping)
+	if (!isLeaping && troll->isGrounded())
 	{
 		willLeap = false;
 		isLeaping = true;

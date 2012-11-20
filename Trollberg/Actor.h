@@ -20,5 +20,7 @@ public:
 protected:
 	Pim::SpriteBatchNode	*actorSheet;
 	float		jumpForce;		// The force with which we jump. 60 is a good value.
+
+	float		health;
 };
 
