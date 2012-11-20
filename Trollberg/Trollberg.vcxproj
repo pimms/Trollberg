@@ -52,8 +52,11 @@
       <AdditionalDependencies>Box2D_d.lib;tinyxml_d.lib;pim_d.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.h" "C:\users\pimms\desktop\trollberg backup\" /Y
-xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\" /Y</Command>
+      <Command>cd "C:\users\pimms\desktop\trollberg backup\"
+md "%1\%TIMESTAMP%"
+
+xcopy "$(ProjectDir)*.h" "C:\users\pimms\desktop\trollberg backup\%1\%TIMESTAMP%" /Y
+xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\%1\%TIMESTAMP%" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,6 +90,8 @@ xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\" /Y</Comman
     <ClCompile Include="LevelParser.cpp" />
     <ClCompile Include="LightRifle.cpp" />
     <ClCompile Include="LRBullet.cpp" />
+    <ClCompile Include="MainMenuLayer.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Slinker.cpp" />
@@ -108,6 +113,8 @@ xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\" /Y</Comman
     <ClInclude Include="LevelParser.h" />
     <ClInclude Include="LightRifle.h" />
     <ClInclude Include="LRBullet.h" />
+    <ClInclude Include="MainMenuLayer.h" />
+    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Slinker.h" />

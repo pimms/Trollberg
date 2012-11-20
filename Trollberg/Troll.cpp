@@ -39,13 +39,12 @@ void Troll::addFloatLabel(float dmg)
 {
 	std::stringstream ss;
 	ss << (int)dmg;
-	std::string s = ss.str();
 
 	FloatLabel *lab = new FloatLabel(floatFont);
 	lab->setText(ss.str());
-	lab->scale = Pim::Vec2(0.1f, 0.1f);
+	//lab->scale = Pim::Vec2(0.1f, 0.1f);
 	lab->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
-	lab->position = position + getParentLayer()->position + Pim::Vec2(0.f, 10.f);
+	lab->position = position + getParentLayer()->position + Pim::Vec2(0.f, 15.f);
 	
 	hudLayer->addChild(lab);
 	labels.push_back(lab);
@@ -58,11 +57,11 @@ void Troll::updateFloatLabels(float dt)
 		labels[i]->color.a		-= dt / 1.f;
 
 		labels[i]->position		= position + getParentLayer()->position;
-		labels[i]->position.y	+= labels[i]->lifetime * 40.f;
+		labels[i]->position.y	+= labels[i]->lifetime * 40.f + 15.f;
 
 		if (labels[i]->lifetime >= 1.f)
 		{
-			hudLayer->removeChild(labels[i]);
+			hudLayer->removeChild(labels[i], true);
 			labels.erase(labels.begin() + i);
 		}
 	}
