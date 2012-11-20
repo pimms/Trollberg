@@ -52,11 +52,8 @@
       <AdditionalDependencies>Box2D_d.lib;tinyxml_d.lib;pim_d.lib;OpenGL32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>cd "C:\users\pimms\desktop\trollberg backup\"
-md "%1\%TIMESTAMP%"
-
-xcopy "$(ProjectDir)*.h" "C:\users\pimms\desktop\trollberg backup\%1\%TIMESTAMP%" /Y
-xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\%1\%TIMESTAMP%" /Y</Command>
+      <Command>xcopy "$(ProjectDir)*.h" "C:\users\pimms\desktop\trollberg backup\" /Y
+xcopy "$(ProjectDir)*.cpp" "C:\users\pimms\desktop\trollberg backup\" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

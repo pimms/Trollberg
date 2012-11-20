@@ -42,7 +42,7 @@ void Troll::addFloatLabel(float dmg)
 
 	FloatLabel *lab = new FloatLabel(floatFont);
 	lab->setText(ss.str());
-	//lab->scale = Pim::Vec2(0.1f, 0.1f);
+	lab->scale = Pim::Vec2(0.1f, 0.1f);
 	lab->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	lab->position = position + getParentLayer()->position + Pim::Vec2(0.f, 15.f);
 	

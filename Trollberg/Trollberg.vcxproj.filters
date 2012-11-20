@@ -1,141 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Trollberg.cpp" />
-    <ClCompile Include="Actor.cpp">
-      <Filter>Entity and Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Entity and Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="ParallaxLayer.cpp">
-      <Filter>Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLayer.cpp">
-      <Filter>Layers</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Entity and Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelParser.cpp">
-      <Filter>Other</Filter>
-    </ClCompile>
-    <ClCompile Include="Troll.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Slinker.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="TrollAI.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="TrollControl.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="SlinkerAI.cpp" />
-    <ClCompile Include="LightRifle.cpp">
-      <Filter>Player\LightRifle</Filter>
-    </ClCompile>
-    <ClCompile Include="LRBullet.cpp">
-      <Filter>Player\LightRifle</Filter>
-    </ClCompile>
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="GameLayer.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="HUDLayer.cpp" />
-    <ClCompile Include="MainMenuScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenuLayer.cpp">
-      <Filter>Layers</Filter>
-    </ClCompile>
+    <ClCompile Include="LevelParser.cpp" />
+    <ClCompile Include="LightRifle.cpp" />
+    <ClCompile Include="LRBullet.cpp" />
+    <ClCompile Include="MainMenuLayer.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
+    <ClCompile Include="ParallaxLayer.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Slinker.cpp" />
+    <ClCompile Include="SlinkerAI.cpp" />
+    <ClCompile Include="Troll.cpp" />
+    <ClCompile Include="TrollAI.cpp" />
+    <ClCompile Include="Trollberg.cpp" />
+    <ClCompile Include="TrollControl.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Trollberg.h" />
-    <ClInclude Include="Actor.h">
-      <Filter>Entity and Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Entity and Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="ParallaxLayer.h">
-      <Filter>Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLayer.h">
-      <Filter>Layers</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Entity and Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelParser.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelData.h">
-      <Filter>Other</Filter>
-    </ClInclude>
-    <ClInclude Include="Troll.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Slinker.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="TrollAI.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="TrollControl.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="SlinkerAI.h" />
-    <ClInclude Include="LightRifle.h">
-      <Filter>Player\LightRifle</Filter>
-    </ClInclude>
-    <ClInclude Include="LRBullet.h">
-      <Filter>Player\LightRifle</Filter>
-    </ClInclude>
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="GameLayer.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="HUDLayer.h" />
-    <ClInclude Include="MainMenuScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuLayer.h">
-      <Filter>Layers</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{dbf6d1ba-379f-4ed5-b1e6-f4f5a9d259e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Layers">
-      <UniqueIdentifier>{5c804537-2911-4ffa-8fbc-7e1b8c9421bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Other">
-      <UniqueIdentifier>{c0ffbd7b-e538-4e22-86e3-54671ef89852}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{876ff9be-70d3-4238-b008-3d3be76a0e41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entity and Actor">
-      <UniqueIdentifier>{84b677de-9bf4-4907-93cf-149191107960}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemies">
-      <UniqueIdentifier>{ffb15992-e8c9-4341-b145-7025fb15be3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\LightRifle">
-      <UniqueIdentifier>{f245a4f4-017e-421c-8737-b0d715132b4a}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="LevelData.h" />
+    <ClInclude Include="LevelParser.h" />
+    <ClInclude Include="LightRifle.h" />
+    <ClInclude Include="LRBullet.h" />
+    <ClInclude Include="MainMenuLayer.h" />
+    <ClInclude Include="MainMenuScene.h" />
+    <ClInclude Include="ParallaxLayer.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Slinker.h" />
+    <ClInclude Include="SlinkerAI.h" />
+    <ClInclude Include="Troll.h" />
+    <ClInclude Include="TrollAI.h" />
+    <ClInclude Include="Trollberg.h" />
+    <ClInclude Include="TrollControl.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
 </Project>
