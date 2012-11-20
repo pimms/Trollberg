@@ -41,13 +41,6 @@ Pim::Button* MainMenuLayer::addButton(){
 	button->position = Pim::Vec2(192, 108);
 	//button->position = Pim::Vec2(rand()%385, rand()%216);
 
-	Pim::Font *fonten =  new Pim::Font("res/arial.ttf", 50, true);
-	Pim::Label *labelen = new Pim::Label(fonten, "dette er en fucker");
-	labelen->color = Pim::Color(1.f, 1.f, 1.f, 1.f);
-	labelen->position = Pim::Vec2(112, 108);
-
-	addChild(labelen);
-
 	return button;
 
 }

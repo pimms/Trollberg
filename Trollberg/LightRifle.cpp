@@ -52,7 +52,7 @@ void LightRifle::altFire()
 {
 	if (timerAlt >= rofAlt)
 	{
-		LRBullet *b = new LRBullet(actorSheet, getLayerPosition(), angle());
+		LRBullet *b = new LRBullet(this, actorSheet, getLayerPosition(), angle());
 		b->listenFrame();
 		getParentLayer()->addChild(b);
 		bullets.push_back(b);
