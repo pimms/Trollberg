@@ -49,6 +49,8 @@
       <Filter>Player\LightRifle</Filter>
     </ClCompile>
     <ClCompile Include="HUDLayer.cpp" />
+    <ClCompile Include="MainMenuLayer.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trollberg.h" />
@@ -102,6 +104,8 @@
       <Filter>Player\LightRifle</Filter>
     </ClInclude>
     <ClInclude Include="HUDLayer.h" />
+    <ClInclude Include="MainMenuLayer.h" />
+    <ClInclude Include="MainMenuScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
