@@ -9,6 +9,7 @@ public:
 	LightRifle(Pim::SpriteBatchNode *batch);
 
 	void fire();
+	void altFire();
 	void setMirrored(bool flag);
 
 	void update(float dt);

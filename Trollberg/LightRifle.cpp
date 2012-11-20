@@ -8,6 +8,7 @@ LightRifle::LightRifle(Pim::SpriteBatchNode *b)
 	maxDamage	= 30;
 	accuracy	= 5.f;
 	rof			= 0.1f;
+	rofAlt		= 1.f;
 
 	position = Pim::Vec2(3.f, -2.f);
 	anchor = Pim::Vec2(0.2f, 0.5f);
@@ -23,13 +24,34 @@ void LightRifle::fire()
 		bullets.push_back(b);
 
 		Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-		ld->radius = 300.f;
+		//ld->radius = 200.f;
+		ld->radius = 150.f+( rand() % 150);
 		ld->innerColor.a = 0.7f;
 		getParentLayer()->addLight(b, ld);
 
 		timer = 0.f;
 	}
 }
+
+void LightRifle::altFire()
+{
+	if (timerAlt >= rofAlt)
+	{
+		LRBullet *b = new LRBullet(actorSheet, getLayerPosition(), angle());
+		b->listenFrame();
+		getParentLayer()->addChild(b);
+		bullets.push_back(b);
+
+		Pim::FlatLightDef *ld = new Pim::FlatLightDef;
+		ld->radius = 600.f;
+		ld->falloff = 0.1f;
+		ld->innerColor.a = 0.7f;
+		getParentLayer()->addLight(b, ld);
+
+		timerAlt = 0.f;
+	}
+}
+
 void LightRifle::setMirrored(bool flag)
 {
 	if (flag)
