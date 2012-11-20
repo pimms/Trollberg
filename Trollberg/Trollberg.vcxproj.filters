@@ -29,15 +29,26 @@
     <ClCompile Include="LevelParser.cpp">
       <Filter>Other</Filter>
     </ClCompile>
-    <ClCompile Include="LightRifle.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="Troll.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="TrollControl.cpp" />
-    <ClCompile Include="TrollAI.cpp" />
-    <ClCompile Include="Slinker.cpp" />
+    <ClCompile Include="Slinker.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="TrollAI.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="TrollControl.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="SlinkerAI.cpp" />
+    <ClCompile Include="LightRifle.cpp">
+      <Filter>Player\LightRifle</Filter>
+    </ClCompile>
+    <ClCompile Include="LRBullet.cpp">
+      <Filter>Player\LightRifle</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDLayer.cpp" />
     <ClCompile Include="MainMenuLayer.cpp">
       <Filter>Layers</Filter>
     </ClCompile>
@@ -77,15 +88,26 @@
     <ClInclude Include="LevelData.h">
       <Filter>Other</Filter>
     </ClInclude>
-    <ClInclude Include="LightRifle.h">
-      <Filter>Player</Filter>
-    </ClInclude>
     <ClInclude Include="Troll.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="TrollControl.h" />
-    <ClInclude Include="TrollAI.h" />
-    <ClInclude Include="Slinker.h" />
+    <ClInclude Include="Slinker.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollAI.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollControl.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="SlinkerAI.h" />
+    <ClInclude Include="LightRifle.h">
+      <Filter>Player\LightRifle</Filter>
+    </ClInclude>
+    <ClInclude Include="LRBullet.h">
+      <Filter>Player\LightRifle</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDLayer.h" />
     <ClInclude Include="MainMenuLayer.h">
       <Filter>Layers</Filter>
     </ClInclude>
@@ -111,6 +133,9 @@
     </Filter>
     <Filter Include="Enemies">
       <UniqueIdentifier>{ffb15992-e8c9-4341-b145-7025fb15be3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\LightRifle">
+      <UniqueIdentifier>{f245a4f4-017e-421c-8737-b0d715132b4a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
