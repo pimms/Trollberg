@@ -22,7 +22,6 @@ Weapon::Weapon(Pim::SpriteBatchNode *b, Pim::Rect r)
 	actorSheet	= b;
 	rect		= r;	
 	timer		= 10.f;			// Initial high value, instant firing is allowed
-	timerAlt	= 10.f;	
 	useBatchNode(actorSheet);
 }
 
@@ -42,5 +41,4 @@ float Weapon::angle()
 void Weapon::update(float dt)
 {
 	timer += dt;
-	timerAlt += dt;
 }

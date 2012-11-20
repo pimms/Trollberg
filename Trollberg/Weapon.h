@@ -17,7 +17,6 @@ public:
 	virtual float angle();		// Returns a calculated fire angle
 
 	virtual void fire() = 0;	// Fire the bullet. 
-	virtual void altFire() = 0;	// Fire the bullet. 
 	virtual void setMirrored(bool flag) = 0;
 
 protected:
@@ -32,8 +31,6 @@ protected:
 	int		maxDamage;	// The maximum damage
 	float 	accuracy;	// +/-  degrees 
 	float 	rof;		// Rate of fire - bullets per second
-	float 	rofAlt;		// Rate of fire on Alt fire - bullets per second
 
 	float	timer;		// Time since last bullet was fired
-	float	timerAlt;		// Time since last bullet was fired in Altfire
 };
