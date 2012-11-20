@@ -38,6 +38,12 @@
     <ClCompile Include="TrollControl.cpp" />
     <ClCompile Include="TrollAI.cpp" />
     <ClCompile Include="Slinker.cpp" />
+    <ClCompile Include="MainMenuLayer.cpp">
+      <Filter>Layers</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trollberg.h" />
@@ -80,6 +86,12 @@
     <ClInclude Include="TrollControl.h" />
     <ClInclude Include="TrollAI.h" />
     <ClInclude Include="Slinker.h" />
+    <ClInclude Include="MainMenuLayer.h">
+      <Filter>Layers</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">

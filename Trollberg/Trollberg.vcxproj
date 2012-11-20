@@ -85,6 +85,8 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="LevelParser.cpp" />
     <ClCompile Include="LightRifle.cpp" />
+    <ClCompile Include="MainMenuLayer.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Slinker.cpp" />
@@ -103,6 +105,8 @@
     <ClInclude Include="LevelData.h" />
     <ClInclude Include="LevelParser.h" />
     <ClInclude Include="LightRifle.h" />
+    <ClInclude Include="MainMenuLayer.h" />
+    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Slinker.h" />
