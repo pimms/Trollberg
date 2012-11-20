@@ -8,6 +8,7 @@
 MainMenuScene::MainMenuScene(){
 
 	//loadMainMenu();
+	//1
 
 }
 
