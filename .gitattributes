@@ -8,7 +8,11 @@
 *.vbproj merge=union
 *.fsproj merge=union
 *.dbproj merge=union
+
+*.vcxproj diff=astextplain
 *.vcxproj merge=union
+
+*.vcxproj.filters diff=astextplain
 *.vcxproj.filters merge=union
 
 # Libraries
