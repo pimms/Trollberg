@@ -39,7 +39,6 @@ local.properties
 # FUCK SYNCING THE PROJECT FILES. IT'S NOTHING BUT CHAOS!
 *.vcxproj
 *.vcxproj.filters
-*.vcxproj.user
 
 # User-specific files
 *.suo
