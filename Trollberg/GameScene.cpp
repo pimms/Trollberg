@@ -9,9 +9,10 @@ GameScene* GameScene::singleton = NULL;
 GameScene::GameScene(int levelNumber)
 {
 	singleton = this;
+	levelNum  = levelNumber;
 
 	std::stringstream ss;
-	ss <<"tbl" <<levelNumber <<".pim";
+	ss <<"tbl" <<levelNum <<".pim";
 	levelFile = ss.str();
 
 	batch = NULL;
@@ -59,7 +60,7 @@ void GameScene::loadLevelData()
 void GameScene::loadLayers()
 {
 	// Game layer
-	gameLayer = new GameLayer;
+	gameLayer = new GameLayer(levelNum);
 	addLayer(gameLayer);
 	gameLayer->setSpriteInformation(batch, levelData.playfield);
 	gameLayer->createGroundBody(levelData.physics);

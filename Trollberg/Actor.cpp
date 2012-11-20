@@ -1,15 +1,12 @@
 #include "Actor.h"
 
 
-Actor::Actor(std::string path)
-	:Entity(path)
+Actor::Actor(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 {
 	jumpForce	= 0.f;
-}
-Actor::Actor()
-	:Entity() 
-{
-	jumpForce	= 0.f;
+	actorSheet	= node;
+	position	= pos;
+	useBatchNode(actorSheet);
 }
 Actor::~Actor()
 {

@@ -1,16 +1,19 @@
 #include "GameLayer.h"
 #include "GameScene.h"
 #include "Player.h"
+#include "TrollControl.h"
 
-GameLayer::GameLayer()
+GameLayer::GameLayer(int lvl)
 {
-	world		= GameScene::getWorld();
-	groundBody	= NULL;
+	levelNum		= lvl;
+	world			= GameScene::getWorld();
+	groundBody		= NULL;
+	trollControl	= NULL;
 }
 GameLayer::~GameLayer()
 {
-//	if (groundBody)
-	//	world->DestroyBody(groundBody);
+	if (trollControl)
+		delete trollControl;
 }
 
 void GameLayer::draw()
@@ -73,6 +76,8 @@ void GameLayer::loadResources()
 	player = new Player(actorSheet, Pim::Vec2(1070.f, 60.f));
 	addChild(player);
 	player->createLight();
+
+	trollControl = new TrollControl(actorSheet, this, player, levelWidth, levelNum);
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)

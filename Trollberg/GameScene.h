@@ -25,6 +25,7 @@ private:
 
 	std::string levelFile;
 	LevelData	levelData;
+	int			levelNum;
 
 	// The batch object containing the texture used for all
 	// the custom layers in the scene

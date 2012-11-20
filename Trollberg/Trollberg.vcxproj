@@ -87,7 +87,11 @@
     <ClCompile Include="LightRifle.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Slinker.cpp" />
+    <ClCompile Include="Troll.cpp" />
+    <ClCompile Include="TrollAI.cpp" />
     <ClCompile Include="Trollberg.cpp" />
+    <ClCompile Include="TrollControl.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,7 +105,11 @@
     <ClInclude Include="LightRifle.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Slinker.h" />
+    <ClInclude Include="Troll.h" />
+    <ClInclude Include="TrollAI.h" />
     <ClInclude Include="Trollberg.h" />
+    <ClInclude Include="TrollControl.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

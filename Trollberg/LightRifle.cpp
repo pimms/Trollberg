@@ -2,7 +2,7 @@
 #include "GameScene.h"
 
 LightRifle::LightRifle(Pim::SpriteBatchNode *b)
-	: Weapon(b, Pim::Rect(0,14,14,8))
+	: Weapon(b, Pim::Rect(0,14,14,5))
 {
 	minDamage	= 20;
 	maxDamage	= 30;

@@ -4,7 +4,6 @@
 class Entity : public Pim::Sprite
 {
 public:
-	Entity(std::string file);
 	Entity();
 
 	void setPosition(Pim::Vec2);

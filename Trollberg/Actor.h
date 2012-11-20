@@ -4,8 +4,7 @@
 class Actor : public Entity
 {
 public:
-	Actor(std::string path);
-	Actor();
+	Actor(Pim::SpriteBatchNode *n, Pim::Vec2 p);
 	~Actor();
 
 	// Create a box body based on pixel dimensions. The body's center
@@ -19,6 +18,7 @@ public:
 	virtual bool isGrounded();	// Checks whether or not the Actors is in contact with the ground
 
 protected:
+	Pim::SpriteBatchNode	*actorSheet;
 	float		jumpForce;		// The force with which we jump. 60 is a good value.
 };
 

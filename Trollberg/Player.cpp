@@ -2,7 +2,7 @@
 
 
 Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
-	: Actor()
+	: Actor(node, pos)
 {
 	// Prepare the animation object
 	anim.frameWidth = 14;
@@ -12,18 +12,15 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	anim.totalFrames = 5;
 	anim.horizontalFrames = 5;
 
-	useBatchNode(node);
 	rect		= anim.frameIndex(0);
 	
-	actorBatch	= node;
-	position	= pos;
 	jumpForce	= 70.f;
 	velX		= 0.;
 	mEvt		= NULL;
 
 	createCircularBody(6.f, PLAYER, GROUND | TROLLS);
 
-	weapon = Weapon::createWeapon(node, LIGHT_RIFLE);
+	weapon = Weapon::createWeapon(actorSheet, LIGHT_RIFLE);
 	addChild(weapon);
 
 	listenFrame();

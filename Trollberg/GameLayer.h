@@ -3,11 +3,12 @@
 
 // Forward declarations
 class Player;
+class TrollControl;
 
 class GameLayer : public Pim::Layer
 {
 public:
-	GameLayer();
+	GameLayer(int lvl);
 	virtual ~GameLayer();
 
 	void draw();
@@ -27,6 +28,9 @@ public:
 	void keyEvent(Pim::KeyEvent &evt);
 
 private:
+	// The troll spawn controller
+	TrollControl			*trollControl;
+
 	// The ground sprite. 
 	Pim::Sprite				*ground;
 
@@ -45,5 +49,8 @@ private:
 
 	// The width of the level in pixels
 	float					levelWidth;
+
+	// The number of the current level (1-3)
+	int						levelNum;
 };
 

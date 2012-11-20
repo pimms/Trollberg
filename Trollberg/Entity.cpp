@@ -2,12 +2,6 @@
 #include "GameScene.h"
 
 
-Entity::Entity(std::string file)
-	: Pim::Sprite(file)
-{
-	body = NULL;
-	world = GameScene::getWorld();
-}
 Entity::Entity(void)
 {
 	body = NULL;

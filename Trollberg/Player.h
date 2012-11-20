@@ -23,7 +23,6 @@ private:
 	Animation				anim;
 	Weapon					*weapon;
 
-	Pim::MouseEvent			*mEvt;			// Keep a reference to this..
-	Pim::SpriteBatchNode	*actorBatch;	// and this.
+	Pim::MouseEvent			*mEvt;			// Keep a reference to this
 };
 
