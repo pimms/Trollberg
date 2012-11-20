@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "Player.h"
 #include "TrollControl.h"
+#include "Troll.h"
 
 GameLayer::GameLayer(int lvl)
 {
@@ -14,6 +15,8 @@ GameLayer::~GameLayer()
 {
 	if (trollControl)
 		delete trollControl;
+
+	Troll::destroyFont();
 }
 
 void GameLayer::draw()
@@ -65,6 +68,7 @@ void GameLayer::loadResources()
 {
 	listenFrame();
 	listenKeys();
+	Troll::createFont();
 
 	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
 	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.93f));

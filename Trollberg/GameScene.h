@@ -4,6 +4,7 @@
 // Forward declarations
 class ParallaxLayer;
 class GameLayer;
+class HUDLayer;
 
 class GameScene : public Pim::Scene
 {
@@ -32,6 +33,8 @@ private:
 	Pim::SpriteBatchNode	*batch;
 
 	GameLayer				*gameLayer;
+	HUDLayer				*hudLayer;
+
 	ParallaxLayer			*par0;	// Back		(furthest)
 	ParallaxLayer			*par1;	// Back
 	ParallaxLayer			*par2;	// Back

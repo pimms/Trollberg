@@ -2,11 +2,15 @@
 
 #include "Weapon.h"
 
+// Forward declarations
 class LRBullet;
+
 class LightRifle : public Weapon
 {
 public:
 	LightRifle(Pim::SpriteBatchNode *batch);
+
+	void removeChild(Pim::GameNode *n, bool cleanup=false);
 
 	void fire();
 	void setMirrored(bool flag);
@@ -15,13 +19,4 @@ public:
 
 private:
 	std::list<LRBullet*> bullets;
-};
-class LRBullet : public Entity
-{
-public:
-	LRBullet(Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle);
-	void update(float dt);
-
-	float			life;
-	b2Vec2			vel;
 };

@@ -3,6 +3,7 @@
 
 Actor::Actor(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 {
+	health		= 0.f;
 	jumpForce	= 0.f;
 	actorSheet	= node;
 	position	= pos;
@@ -53,6 +54,7 @@ void Actor::createCircularBody(float radius, int category, int mask)
 	fd.restitution			= 0.f;
 	fd.friction				= 0.f;
 	fd.density				= pow((radius/PTMR)*M_PI, 2);
+	fd.userData				= this;
 	fd.filter.categoryBits	= category;
 	fd.filter.maskBits		= mask;
 
@@ -88,13 +90,17 @@ bool Actor::isGrounded()
 			if (fixA->GetBody() != body)
 			{
 				ABCat = fixA->GetFilterData().categoryBits;
-				if ((ABCat & LVLEDGE) == 0 && (ABCat & bodyCat) != 0)
+				if (	(ABCat & LVLEDGE) == 0 
+					&&  (ABCat & SENSOR) == 0
+					&&  (ABCat & bodyCat) != 0)
 					return true;
 			}
 			if (fixB->GetBody() != body)
 			{
 				ABCat = fixB->GetFilterData().categoryBits;
-				if ((ABCat & LVLEDGE) == 0 && (ABCat & bodyCat) != 0)
+				if (	(ABCat & LVLEDGE) == 0 
+					&&  (ABCat & SENSOR) == 0
+					&&  (ABCat & bodyCat) != 0)
 					return true;
 			}
 		}
