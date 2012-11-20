@@ -35,9 +35,15 @@
     <ClCompile Include="Troll.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="TrollControl.cpp" />
-    <ClCompile Include="TrollAI.cpp" />
-    <ClCompile Include="Slinker.cpp" />
+    <ClCompile Include="Slinker.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="TrollAI.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="TrollControl.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Trollberg.h" />
@@ -77,9 +83,15 @@
     <ClInclude Include="Troll.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="TrollControl.h" />
-    <ClInclude Include="TrollAI.h" />
-    <ClInclude Include="Slinker.h" />
+    <ClInclude Include="Slinker.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollAI.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="TrollControl.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Scenes">
