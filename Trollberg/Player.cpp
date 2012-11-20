@@ -18,7 +18,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	velX		= 0.;
 	mEvt		= NULL;
 
-	createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
+	createCircularBody(6.f, PLAYER, GROUND | TROLLS);
 
 	weapon = Weapon::createWeapon(actorSheet, LIGHT_RIFLE);
 	addChild(weapon);
@@ -57,6 +57,9 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 
 	if (evt.isKeyDown(Pim::MouseEvent::MBTN_LEFT))
 		weapon->fire();
+
+	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
+		weapon->altFire();
 }
 
 void Player::update(float dt)
