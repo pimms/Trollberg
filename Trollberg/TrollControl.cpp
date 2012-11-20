@@ -16,7 +16,7 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 	levelNum	= lvl;
 	layer		= l;
 
-	Slinker *sl = new Slinker(actorSheet, Pim::Vec2(1050.f, 50.f));
+	Slinker *sl = new Slinker(pl, actorSheet, Pim::Vec2(1050.f, 50.f));
 	layer->addChild(sl);
 }
 TrollControl::~TrollControl(void)

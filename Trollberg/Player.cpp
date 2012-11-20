@@ -18,7 +18,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	velX		= 0.;
 	mEvt		= NULL;
 
-	createCircularBody(6.f, PLAYER, GROUND | TROLLS);
+	createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
 
 	weapon = Weapon::createWeapon(actorSheet, LIGHT_RIFLE);
 	addChild(weapon);

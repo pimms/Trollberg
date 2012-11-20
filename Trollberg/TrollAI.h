@@ -1,17 +1,23 @@
 #pragma once
 
+#include "Trollberg.h"
+
 // Forward declarations
 class Troll;
+class Player;
 
 class TrollAI
 {
 public:
-	virtual ~TrollAI();
+	TrollAI();
+	virtual void update(float dt) = 0;
 
-private:
-	TrollAI(){}
-	TrollAI(const TrollAI&) {}
+	void moveToPlayer();
+	float trollPlayerXDiff();
 
-	Troll *troll;
+protected:
+
+	Troll	*troll;
+	Player	*player;
 };
 

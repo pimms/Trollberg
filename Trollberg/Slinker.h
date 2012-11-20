@@ -1,10 +1,15 @@
 #pragma once
 #include "troll.h"
 
+// Forward declarations
+class Player;
+
 class Slinker : public Troll
 {
 public:
-	Slinker(Pim::SpriteBatchNode *b, Pim::Vec2 p);
+	Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p);
 	~Slinker(void);
+
+	void update(float dt);
 };
 
