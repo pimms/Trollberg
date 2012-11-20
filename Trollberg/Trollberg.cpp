@@ -21,6 +21,8 @@ int main()
 		Pim::GameControl *gc = new Pim::GameControl;
 		gc->go(new GameScene(1), cd);
 		delete gc;
+
+		// Test
 	}
 
 #ifdef _DEBUG
