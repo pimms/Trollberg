@@ -9,6 +9,7 @@ MainMenuScene::MainMenuScene(){
 
 	//loadMainMenu();
 	//1
+	//2
 }
 
 void MainMenuScene::loadMainMenu(){
