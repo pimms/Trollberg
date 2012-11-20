@@ -1,5 +1,6 @@
 #include "Pim.h"
 #include "GameScene.h"
+#include "MainMenuScene.h"
 
 int main()
 {
@@ -19,7 +20,7 @@ int main()
 		cd.winStyle						= Pim::WinStyle::WINDOWED;
 
 		Pim::GameControl *gc = new Pim::GameControl;
-		gc->go(new GameScene(1), cd);
+		gc->go(new MainMenuScene, cd);
 		delete gc;
 	}
 
