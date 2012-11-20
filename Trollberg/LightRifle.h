@@ -13,6 +13,7 @@ public:
 	void removeChild(Pim::GameNode *n, bool cleanup=false);
 
 	void fire();
+	void altFire();
 	void setMirrored(bool flag);
 
 	void update(float dt);
