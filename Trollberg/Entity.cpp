@@ -27,3 +27,24 @@ void Entity::deleteBody()
 		body = NULL;
 	}
 }
+
+b2Fixture* Entity::otherCollidingFixture(b2Contact *c, unsigned int catFlags)
+{
+	if (c)
+	{
+		b2Fixture *ret = NULL;
+		if (c->GetFixtureA() != body->GetFixtureList())
+		{
+			ret = c->GetFixtureA();
+		}
+		else
+		{
+			ret = c->GetFixtureB();
+		}
+
+		if (ret->GetFilterData().categoryBits & catFlags != 0)
+			return ret;
+	}
+
+	return NULL;
+}
