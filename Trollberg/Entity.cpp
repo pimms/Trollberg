@@ -42,8 +42,10 @@ b2Fixture* Entity::otherCollidingFixture(b2Contact *c, unsigned int catFlags)
 			ret = c->GetFixtureB();
 		}
 
-		if (ret->GetFilterData().categoryBits & catFlags != 0)
+		if ((ret->GetFilterData().categoryBits & catFlags) != 0)
+		{
 			return ret;
+		}
 	}
 
 	return NULL;

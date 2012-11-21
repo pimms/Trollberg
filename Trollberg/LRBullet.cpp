@@ -6,8 +6,8 @@
 
 LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
-	_tw = 3;
-	_th = 3;
+	_tw			= 3;
+	_th			= 3;
 	rect		= Pim::Rect(0,0,3,3);
 	position	= pos;
 	life		= 0.f;
@@ -52,12 +52,8 @@ void LRBullet::update(float dt)
 		{
 			if (c->contact->IsTouching())
 			{
-				b2Fixture *fixA = c->contact->GetFixtureA();
-				b2Fixture *fixB = c->contact->GetFixtureB();
-
 				// Is the bullet touching the ground?
-				if ((fixA->GetFilterData().categoryBits & GROUND) != 0
-				||  (fixB->GetFilterData().categoryBits & GROUND) != 0)
+				if (otherCollidingFixture(c->contact, GROUND))
 				{
 					deleteBody();
 					parent->removeChild(this,true);
@@ -66,17 +62,15 @@ void LRBullet::update(float dt)
 
 				// Is the bullet touching a troll?
 				b2Fixture *trollFix = NULL;
-
-				if ((fixA->GetFilterData().categoryBits & TROLLS) != 0)
-					trollFix = fixA;
-				else if ((fixB->GetFilterData().categoryBits & TROLLS) != 0)
-					trollFix = fixB;
+				trollFix = otherCollidingFixture(c->contact, TROLLS);
 
 				if (trollFix)
 				{
 					Troll *t = (Troll*)trollFix->GetUserData();
 					if (t && !hasDamaged(t))
+					{
 						damageTroll(t);
+					}
 				}
 			}
 		}
@@ -88,8 +82,12 @@ void LRBullet::update(float dt)
 bool LRBullet::hasDamaged(Troll *troll)
 {
 	for each (Troll *t in damagedTrolls)
+	{
 		if (t == troll)
+		{
 			return true;
+		}
+	}
 	return false;
 }
 void LRBullet::damageTroll(Troll *t)

@@ -72,6 +72,7 @@ void GameLayer::loadResources()
 
 	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
 	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.93f));
+	setCastShadows(false);
 	//setSmoothShadows(true);
 
 	actorSheet = new Pim::SpriteBatchNode("res\\player.png");
