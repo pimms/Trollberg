@@ -8,7 +8,7 @@ public:
 
 	void loadResources();
 
-	Pim::Button* createButton();
+	Pim::Button* createButton(int xPos, int yPos);
 
 	void buttonPressed(Pim::Button*);
 

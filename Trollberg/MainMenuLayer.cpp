@@ -15,13 +15,13 @@ void MainMenuLayer::loadResources()
 	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
     addChild(buttonSheet);
 
-	for(int i = 0; i < 10000; i ++)
+	for(int i = 0; i < 4; i ++)
 	{
-		mainButton = createButton();
+		mainButton = createButton(192, 108 - (PTMR*i*3));
 	}
 }
 
-Pim::Button* MainMenuLayer::createButton()
+Pim::Button* MainMenuLayer::createButton(int xPos, int yPos)
 {
     Pim::Sprite *normal = new Pim::Sprite;
     normal->useBatchNode(buttonSheet); 
@@ -40,7 +40,8 @@ Pim::Button* MainMenuLayer::createButton()
     addChild(button);
 
 	//button->position = Pim::Vec2(192, 108);
-	button->position = Pim::Vec2(rand()%384, rand()%216);
+	//button->position = Pim::Vec2(rand()%384, rand()%216);
+	button->position = Pim::Vec2(xPos, yPos);
 
 
 	return button;
