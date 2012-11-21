@@ -28,11 +28,15 @@ typedef std::vector<std::vector<Pim::Vec2>> Polygons;
 // If a troll were to collide with the player and the ground, but not other trolls, it's
 // body should be created as such:
 // createCircularBody(radius, TROLLS, GROUND | PLAYER);
-#define GROUND		1
-#define	PLAYER		2
-#define TROLLS		4
-#define SENSOR		8
-#define LVLEDGE		16
+#define GROUND			1
+#define	PLAYER			2
+#define TROLLS			4
+#define SENSOR			8
+#define LVLEDGE			16
+
+#define SCREENWIDTH		384
+#define SCREENHEIGHT	216
+
 
 
 // Pim::Vec2 to b2Vec2 conversion. PTM-Ratio is taken into account.
