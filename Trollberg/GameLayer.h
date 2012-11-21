@@ -13,6 +13,7 @@ public:
 
 	void draw();
 	void loadResources();
+	void loadLightingSystem();	// Create light sys, reload textures used by the guns
 
 	// Provide the game layer with a batch node (containing the texture), and a 
 	// rectangle which will be rendered from said texture.

@@ -33,16 +33,13 @@ void LightRifle::fire()
 {
 	if (timer >= rof)
 	{
-		LRBullet *b = new LRBullet(this, actorSheet, getLayerPosition(), angle());
-		b->listenFrame();
-		getParentLayer()->addChild(b);
-		bullets.push_back(b);
+		LRBullet *bullet = new LRBullet(this, actorSheet, getLayerPosition(), angle());
+		bullet->listenFrame();
+		getParentLayer()->addChild(bullet);
+		bullets.push_back(bullet);
 
-		Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-		//ld->radius = 200.f;
-		ld->radius = 150.f+( rand() % 150);
-		ld->innerColor.a = 0.7f;
-		getParentLayer()->addLight(b, ld);
+		// The bullet must create it's light AFTER it's been parented.
+		bullet->createLight();
 
 		timer = 0.f;
 	}

@@ -36,6 +36,12 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 
 	vel = b2Vec2( cosf(angle*DEGTORAD)*37, sinf(angle*DEGTORAD)*37);
 }
+void LRBullet::createLight()
+{
+	lightDef = new Pim::PreloadLightDef;
+	lightDef->radius = 40 + rand()%20;
+	getParentLayer()->addLight(this, lightDef, "LRBullet");
+}
 
 void LRBullet::update(float dt)
 {

@@ -69,11 +69,7 @@ void GameLayer::loadResources()
 	listenFrame();
 	listenKeys();
 	Troll::createFont();
-
-	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
-	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.93f));
-	setCastShadows(false);
-	//setSmoothShadows(true);
+	loadLightingSystem();
 
 	actorSheet = new Pim::SpriteBatchNode("res\\player.png");
 	addChild(actorSheet);
@@ -83,6 +79,19 @@ void GameLayer::loadResources()
 	player->createLight();
 
 	trollControl = new TrollControl(actorSheet, this, player, levelWidth, levelNum);
+}
+void GameLayer::loadLightingSystem()
+{
+	// Create the lighting system
+	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
+	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
+	setCastShadows(false);
+
+	// The Lighting Rifle bullet tex
+	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
+	ld->radius = 150.f+( rand() % 150);
+	ld->innerColor.a = 0.7f;
+	preloadLightTexture(ld, "LRBullet");
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)
