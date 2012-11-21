@@ -15,6 +15,8 @@ SlinkerAI::SlinkerAI(Troll *t, Player *p)
 
 void SlinkerAI::update(float dt)
 {
+	stompCheck();
+
 	if (isLeaping || willLeap)
 	{
 		leapUpdate(dt);
@@ -59,10 +61,6 @@ void SlinkerAI::leapUpdate(float dt)
 						player->takeDamage(1);
 						hasDamagedPlayer = true;
 					}
-					else if (troll->isGrounded())
-					{
-						troll->takeDamage(100);
-					}
 				}
 			}
 
@@ -72,6 +70,21 @@ void SlinkerAI::leapUpdate(float dt)
 				isLeaping = false;
 				leapTimer = 0.f;
 				return;
+			}
+		}
+	}
+}
+void SlinkerAI::stompCheck()
+{
+	for (auto c=troll->body->GetContactList(); c; c=c->next)
+	{
+		b2Fixture *playerFix = troll->otherCollidingFixture(c->contact, PLAYER);
+		if (playerFix && troll->isGrounded())
+		{
+			float d = player->position.y - troll->position.y;
+			if (d >= 0.f)
+			{
+				troll->takeDamage(100);
 			}
 		}
 	}

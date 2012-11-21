@@ -8,6 +8,7 @@ public:
 
 	void update(float dt);
 	void leapUpdate(float dt);
+	void stompCheck();
 
 protected:
 	bool willLeap;
