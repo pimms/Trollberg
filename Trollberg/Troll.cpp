@@ -19,7 +19,9 @@ void Troll::createFont()
 void Troll::destroyFont()
 {
 	if (floatFont)
+	{
 		delete floatFont;
+	}
 }
 
 Troll::Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p)

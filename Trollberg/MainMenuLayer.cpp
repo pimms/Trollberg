@@ -6,19 +6,20 @@
 
 MainMenuLayer::MainMenuLayer()
 {
-	mainButton = NULL;
+	mainButton	= NULL;
+	buttonSheet	= NULL;
 }
 
 void MainMenuLayer::loadResources()
 {
-	mainButton = addButton();
-}
-
-Pim::Button* MainMenuLayer::addButton(){
-
-	Pim::SpriteBatchNode *buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
+	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
     addChild(buttonSheet);
 
+	mainButton = createButton();
+}
+
+Pim::Button* MainMenuLayer::createButton()
+{
     Pim::Sprite *normal = new Pim::Sprite;
     normal->useBatchNode(buttonSheet); 
     normal->rect = Pim::Rect(0,0,40,25);
@@ -40,18 +41,7 @@ Pim::Button* MainMenuLayer::addButton(){
 	return button;
 }
 
-
-
 void MainMenuLayer::buttonPressed(Pim::Button*)
 {
 	Pim::GameControl::getSingleton()->setScene(new GameScene(1));
-}
-void MainMenuLayer::buttonReleased(Pim::Button*)
-{
-}
-void MainMenuLayer::buttonHoverBegin(Pim::Button* eventButton)
-{
-}
-void MainMenuLayer::buttonHoverEnd(Pim::Button*)
-{
 }

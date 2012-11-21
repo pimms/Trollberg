@@ -1,24 +1,19 @@
 #pragma once 
 #include "Pim.h"
 
-class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback{
-
-private:
-
-	Pim::Button *mainButton;
-
+class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
+{
 public:
 	MainMenuLayer();
 
 	void loadResources();
 
-	Pim::Button* addButton();
+	Pim::Button* createButton();
 
 	void buttonPressed(Pim::Button*);
-	void buttonReleased(Pim::Button*);
-	void buttonHoverBegin(Pim::Button*);
-	void buttonHoverEnd(Pim::Button*); 
 
+private:
+	Pim::SpriteBatchNode *buttonSheet;
 
-
+	Pim::Button *mainButton;
 };
