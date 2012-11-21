@@ -5,36 +5,24 @@
 
 
 
-MainMenuScene::MainMenuScene(){
-
-	//loadMainMenu();
-	//1
-
+MainMenuScene::MainMenuScene()
+{
 }
 
-void MainMenuScene::loadMainMenu(){
-
-
-
-	//Sleep(2000);
-
-	//startGame();
-
+void MainMenuScene::loadMainMenu()
+{
 }
 
-void MainMenuScene::loadResources(){
-
+void MainMenuScene::loadResources()
+{
 	addLayer(new MainMenuLayer());
 
-	//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
 	loadMainMenu();
-
 }
 
-void MainMenuScene::startGame(){
-
+void MainMenuScene::startGame()
+{
 	Pim::GameControl::getSingleton()->setScene(new GameScene(1));
-
 }
 
 
