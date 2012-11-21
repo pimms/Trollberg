@@ -166,5 +166,5 @@ pip-log.txt
 .DS_Store
 
 # Trollberg project files.
-Trollberg/*.vcxproj
-Trollberg/*.vcxproj.*
+Trollberg/Trollberg.vcxproj
+Trollberg/Trollberg.vcxproj.*
