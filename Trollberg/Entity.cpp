@@ -30,7 +30,7 @@ void Entity::deleteBody()
 
 b2Fixture* Entity::otherCollidingFixture(b2Contact *c, unsigned int catFlags)
 {
-	if (c)
+	if (c && c->IsTouching())
 	{
 		b2Fixture *ret = NULL;
 		if (c->GetFixtureA() != body->GetFixtureList())
