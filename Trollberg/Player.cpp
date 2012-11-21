@@ -34,7 +34,6 @@ void Player::createLight()
 {
 	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
 	ld->radius			= 600;
-	//ld->innerColor.a	= 0.7f;
 	ld->castShadows		= false;
 	getParentLayer()->addLight(this, ld);
 }
@@ -42,15 +41,23 @@ void Player::createLight()
 void Player::keyEvent(Pim::KeyEvent &evt)
 {
 	if (evt.isKeyFresh(Pim::KeyEvent::K_SPACE))
+	{
 		jump();
+	}
 
 	if (evt.isKeyDown(Pim::KeyEvent::K_A))
+	{
 		velX = -500.f;
+	}
 	else if (evt.isKeyDown(Pim::KeyEvent::K_D))
+	{
 		velX = 500.f;
+	}
 	else 
+	{
 		velX = 0.f;
-}
+	}
+} 
 void Player::mouseEvent(Pim::MouseEvent &evt)
 {
 	mEvt = &evt;
@@ -58,8 +65,10 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 	if (evt.isKeyDown(Pim::MouseEvent::MBTN_LEFT))
 		weapon->fire();
 
+	/*
 	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
 		weapon->altFire();
+	*/
 }
 
 void Player::update(float dt)

@@ -89,7 +89,7 @@ void GameLayer::loadLightingSystem()
 
 	// The Lighting Rifle bullet tex
 	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-	ld->radius = 150.f+( rand() % 150);
+	ld->radius = 150.f + rand() % 150;
 	ld->innerColor.a = 0.7f;
 	preloadLightTexture(ld, "LRBullet");
 }

@@ -5,9 +5,9 @@
 #include "Troll.h"
 
 // The maximum lifetime of a bullet
-#define MAXLIFE 2.f
-#define FADEINTIME 0.2f
-#define FADEOUTTIME 0.1f
+#define LBR_MAXLIFE 2.f
+#define LBR_FADEINTIME 0.2f
+#define LBR_FADEOUTTIME 0.1f
 
 LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
@@ -18,7 +18,7 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 	life			= 0.f;
 	lightRifle		= lr;
 	dead			= false;
-	fadeOutTimer	= FADEOUTTIME;
+	fadeOutTimer	= LBR_FADEOUTTIME;
 
 	b2BodyDef bd;
 	bd.type			= b2_dynamicBody;
@@ -55,9 +55,9 @@ void LRBullet::update(float dt)
 {
 	life += dt;
 
-	if (life <= FADEINTIME)
+	if (life <= LBR_FADEINTIME)
 	{
-		lightDef->radius = finalLightRadius * (life/FADEINTIME);
+		lightDef->radius = finalLightRadius * (life/LBR_FADEINTIME);
 	}
 	else
 	{
@@ -66,7 +66,7 @@ void LRBullet::update(float dt)
 		lightDef->radius = finalLightRadius * factor;
 	}
 	
-	if ((life >= MAXLIFE && !dead) || (fadeOutTimer <= 0.f))
+	if ((life >= LBR_MAXLIFE && !dead) || (fadeOutTimer <= 0.f))
 	{
 		deleteBody();
 		parent->removeChild(this, true);
@@ -106,7 +106,7 @@ void LRBullet::update(float dt)
 		fadeOutTimer -= dt;
 
 		// In the range 1.0 - 0.0
-		float factor = (fadeOutTimer/FADEOUTTIME);
+		float factor = (fadeOutTimer/LBR_FADEOUTTIME);
 
 		lightDef->radius = finalLightRadius * factor;
 		scale = Pim::Vec2(1.f, 1.f) * factor;
