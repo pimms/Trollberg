@@ -19,3 +19,8 @@ float TrollAI::trollPlayerXDiff()
 {
 	return player->position.x - troll->position.x;
 }
+
+void TrollAI::damagePlayer()
+{
+	
+}

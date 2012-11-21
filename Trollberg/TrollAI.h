@@ -15,6 +15,8 @@ public:
 	void moveToPlayer();
 	float trollPlayerXDiff();
 
+	void damagePlayer();
+
 protected:
 
 	Troll	*troll;

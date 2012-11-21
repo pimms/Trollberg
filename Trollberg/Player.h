@@ -14,6 +14,8 @@ public:
 	void keyEvent(Pim::KeyEvent &evt);
 	void mouseEvent(Pim::MouseEvent &evt);
 
+	void takeDamage(int damage);
+
 	void update(float dt);	// Handle animation, directional facing, etc
 	void updateWeapon();	// Rotate according to the position of the mouse
 

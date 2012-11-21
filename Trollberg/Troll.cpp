@@ -32,15 +32,15 @@ Troll::Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p)
 	listenFrame();
 }
 
-void Troll::takeDamage(float damage)
+void Troll::takeDamage(int damage)
 {
 	health -= damage;
 	addFloatLabel(damage);
 }
-void Troll::addFloatLabel(float dmg)
+void Troll::addFloatLabel(int damage)
 {
 	std::stringstream ss;
-	ss << (int)dmg;
+	ss << damage;
 
 	FloatLabel *lab = new FloatLabel(floatFont);
 	lab->setText(ss.str());

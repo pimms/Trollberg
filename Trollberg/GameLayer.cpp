@@ -4,19 +4,36 @@
 #include "TrollControl.h"
 #include "Troll.h"
 
+
+GameLayer* GameLayer::singleton = NULL;
+
+GameLayer* GameLayer::getSingleton()
+{
+	return singleton;
+}
+Pim::SpriteBatchNode* GameLayer::getActorSheet()
+{
+	return singleton->actorSheet;
+}
+
 GameLayer::GameLayer(int lvl)
 {
 	levelNum		= lvl;
 	world			= GameScene::getWorld();
 	groundBody		= NULL;
 	trollControl	= NULL;
+	singleton		= this;
 }
 GameLayer::~GameLayer()
 {
 	if (trollControl)
+	{
 		delete trollControl;
+	}
 
 	Troll::destroyFont();
+
+	singleton = NULL;
 }
 
 void GameLayer::draw()

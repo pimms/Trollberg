@@ -15,7 +15,7 @@ void MainMenuLayer::loadResources()
 	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
     addChild(buttonSheet);
 
-	for(int i = 0; i < 10000; i ++)
+	for(int i = 0; i < 1; i ++)
 	{
 		mainButton = createButton();
 	}

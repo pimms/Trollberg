@@ -17,10 +17,12 @@ public:
 	virtual void jump();		// Jump. Returns if Actor is airborne.
 	virtual bool isGrounded();	// Checks whether or not the Actors is in contact with the ground
 
+	virtual void takeDamage(int dmg) = 0;
+
 protected:
 	Pim::SpriteBatchNode	*actorSheet;
 	float		jumpForce;		// The force with which we jump. 60 is a good value.
 
-	float		health;
+	int			health;
 };
 

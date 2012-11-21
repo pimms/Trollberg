@@ -23,8 +23,8 @@ public:
 
 	virtual void update(float dt) = 0;
 	
-	virtual void takeDamage(float dmg);
-	void addFloatLabel(float dmg);
+	virtual void takeDamage(int damage);
+	void addFloatLabel(int damage);
 	void updateFloatLabels(float dt);
 
 protected:

@@ -8,6 +8,9 @@ class TrollControl;
 class GameLayer : public Pim::Layer
 {
 public:
+	static GameLayer* getSingleton();
+	static Pim::SpriteBatchNode* getActorSheet();
+
 	GameLayer(int lvl);
 	virtual ~GameLayer();
 
@@ -29,6 +32,8 @@ public:
 	void keyEvent(Pim::KeyEvent &evt);
 
 private:
+	static GameLayer		*singleton;
+
 	// The troll spawn controller
 	TrollControl			*trollControl;
 
