@@ -4,14 +4,21 @@
 #include "GameScene.h"
 #include "Troll.h"
 
+// The maximum lifetime of a bullet
+#define MAXLIFE 2.f
+#define FADEINTIME 0.2f
+#define FADEOUTTIME 0.1f
+
 LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
-	_tw			= 3;
-	_th			= 3;
-	rect		= Pim::Rect(0,0,3,3);
-	position	= pos;
-	life		= 0.f;
-	lightRifle	= lr;
+	_tw				= 3;
+	_th				= 3;
+	rect			= Pim::Rect(0,0,3,3);
+	position		= pos;
+	life			= 0.f;
+	lightRifle		= lr;
+	dead			= false;
+	fadeOutTimer	= FADEOUTTIME;
 
 	b2BodyDef bd;
 	bd.type			= b2_dynamicBody;
@@ -39,21 +46,35 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 void LRBullet::createLight()
 {
 	lightDef = new Pim::PreloadLightDef;
-	lightDef->radius = 40 + rand()%20;
+	lightDef->radius = 1;
+	finalLightRadius = 100 + rand()%100;
 	getParentLayer()->addLight(this, lightDef, "LRBullet");
 }
 
 void LRBullet::update(float dt)
 {
 	life += dt;
+
+	if (life <= FADEINTIME)
+	{
+		lightDef->radius = finalLightRadius * (life/FADEINTIME);
+	}
+	else
+	{
+		// In the range 0.8-1.0
+		float factor =  (sinf(life*10.f) + 1.f) / 10.f + 0.8f;
+		lightDef->radius = finalLightRadius * factor;
+	}
 	
-	if (life >= 1.f)
+	if ((life >= MAXLIFE && !dead) || (fadeOutTimer <= 0.f))
 	{
 		deleteBody();
 		parent->removeChild(this, true);
 	}
-	else
+	else if (!dead)
 	{
+		body->SetLinearVelocity(vel);
+
 		for (auto c=body->GetContactList(); c; c=c->next)
 		{
 			if (c->contact->IsTouching())
@@ -61,9 +82,8 @@ void LRBullet::update(float dt)
 				// Is the bullet touching the ground?
 				if (otherCollidingFixture(c->contact, GROUND))
 				{
-					deleteBody();
-					parent->removeChild(this,true);
-					return;
+					// The bullet is dead and will fade out
+					dead	= true;
 				}
 
 				// Is the bullet touching a troll?
@@ -80,8 +100,18 @@ void LRBullet::update(float dt)
 				}
 			}
 		}
+	}
+	else
+	{
+		fadeOutTimer -= dt;
 
-		body->SetLinearVelocity(vel);
+		// In the range 1.0 - 0.0
+		float factor = (fadeOutTimer/FADEOUTTIME);
+
+		lightDef->radius = finalLightRadius * factor;
+		scale = Pim::Vec2(1.f, 1.f) * factor;
+
+		body->SetLinearVelocity(b2Vec2_zero);
 	}
 }
 
