@@ -13,6 +13,5 @@ protected:
 	bool willLeap;
 	bool isLeaping;
 	float leapTimer;
-	float leapCooldown;
 };
 

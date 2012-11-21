@@ -7,7 +7,6 @@ SlinkerAI::SlinkerAI(Troll *t, Player *p)
 	troll	= t;
 	player	= p;
 	leapTimer = 0.f;
-	leapCooldown = 0.f;
 
 	isLeaping	= false;
 	willLeap	= false;
@@ -15,8 +14,6 @@ SlinkerAI::SlinkerAI(Troll *t, Player *p)
 
 void SlinkerAI::update(float dt)
 {
-	leapCooldown -= dt;
-
 	if (isLeaping || willLeap)
 	{
 		leapUpdate(dt);
@@ -33,7 +30,6 @@ void SlinkerAI::update(float dt)
 }
 void SlinkerAI::leapUpdate(float dt)
 {
-	leapCooldown = 4.f;
 	leapTimer += dt;
 
 	if (!isLeaping && troll->isGrounded())
@@ -50,10 +46,11 @@ void SlinkerAI::leapUpdate(float dt)
 	{
 		for (auto c=troll->body->GetContactList(); c; c=c->next)
 		{
-			if (c->contact->IsTouching())
+			if (troll->otherCollidingFixture(c->contact, GROUND))
 			{
 				isLeaping = false;
 				leapTimer = 0.f;
+				return;
 			}
 		}
 	}
