@@ -5,7 +5,7 @@
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
-	createCircularBody(6, TROLLS, PLAYER | GROUND | SENSOR);
+	createCircularBody(6, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
 
 	rect		= Pim::Rect(0,20,15,10);
 	ai			= new SlinkerAI(this, pl);
@@ -14,7 +14,10 @@ Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 }
 Slinker::~Slinker(void)
 {
-	if (ai) delete ai;
+	if (ai) 
+	{	
+		delete ai;
+	}
 }
 
 void Slinker::update(float dt)

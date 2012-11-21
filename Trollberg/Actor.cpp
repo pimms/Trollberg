@@ -117,36 +117,12 @@ bool Actor::isGrounded()
 	{
 		for (auto c=sensor->GetContactList(); c; c=c->next)
 		{
-			if (!c->contact->IsTouching())
-				continue;
-
-			//int ABCat;
 			int bodyCat = body->GetFixtureList()->GetFilterData().maskBits;
-			//b2Fixture *fixA = c->contact->GetFixtureA();
-			//b2Fixture *fixB = c->contact->GetFixtureB();
-			
-			if (otherCollidingFixture(c->contact, (LVLEDGE|SENSOR|bodyCat)))
+
+			if (otherCollidingFixture(c->contact, LVLEDGE|SENSOR|bodyCat))
 			{
 				return true;
 			}
-			/*
-			if (fixA->GetBody() != body)
-			{
-				ABCat = fixA->GetFilterData().categoryBits;
-				if (	(ABCat & LVLEDGE) == 0 
-					&&  (ABCat & SENSOR) == 0
-					&&  (ABCat & bodyCat) != 0)
-					return true;
-			}
-			if (fixB->GetBody() != body)
-			{
-				ABCat = fixB->GetFilterData().categoryBits;
-				if (	(ABCat & LVLEDGE) == 0 
-					&&  (ABCat & SENSOR) == 0
-					&&  (ABCat & bodyCat) != 0)
-					return true;
-			}
-			*/
 		}
 	}
 	return false;

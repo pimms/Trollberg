@@ -10,6 +10,7 @@ class FloatLabel : public Pim::Label
 public:
 	FloatLabel(Pim::Font *f) : Pim::Label(f) { lifetime = 0.f; }
 	float lifetime;
+	float initialX;
 };
 
 class Troll : public Actor
@@ -26,6 +27,7 @@ public:
 	virtual void takeDamage(int damage);
 	void addFloatLabel(int damage);
 	void updateFloatLabels(float dt);
+	static float floatLabelScale(FloatLabel *l);
 
 protected:
 	static Pim::Font *floatFont;
