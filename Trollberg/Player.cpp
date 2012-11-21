@@ -24,7 +24,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	addChild(weapon);
 
 	listenFrame();
-	listenInput();	// listenMouse(); listenKeys();
+	listenInput();	// calls listenMouse() listenKeys()
 }
 Player::~Player()
 {

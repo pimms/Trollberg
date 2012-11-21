@@ -4,12 +4,13 @@
 
 SlinkerAI::SlinkerAI(Troll *t, Player *p)
 {
-	troll	= t;
-	player	= p;
-	leapTimer = 0.f;
+	troll				= t;
+	player				= p;
+	leapTimer			= 0.f;
 
-	isLeaping	= false;
-	willLeap	= false;
+	hasDamagedPlayer	= false;
+	isLeaping			= false;
+	willLeap			= false;
 }
 
 void SlinkerAI::update(float dt)
@@ -46,8 +47,28 @@ void SlinkerAI::leapUpdate(float dt)
 	{
 		for (auto c=troll->body->GetContactList(); c; c=c->next)
 		{
+			// Is the troll currently touching the player?
+			if (!hasDamagedPlayer)
+			{
+				b2Fixture *playerFix = troll->otherCollidingFixture(c->contact, PLAYER);
+				if (playerFix)
+				{
+					float d = player->position.y - troll->position.y;
+					if (d <= 0.f)
+					{
+						player->takeDamage(1);
+						hasDamagedPlayer = true;
+					}
+					else if (troll->isGrounded())
+					{
+						troll->takeDamage(100);
+					}
+				}
+			}
+
 			if (troll->otherCollidingFixture(c->contact, GROUND))
 			{
+				hasDamagedPlayer = false;
 				isLeaping = false;
 				leapTimer = 0.f;
 				return;

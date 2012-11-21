@@ -12,6 +12,7 @@ public:
 protected:
 	bool willLeap;
 	bool isLeaping;
+	bool hasDamagedPlayer;		// Has the Slinker damaged the player this leap?
 	float leapTimer;
 };
 
