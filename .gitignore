@@ -41,9 +41,6 @@ local.properties
 *.user
 *.sln.docstates
 
-*.vcxproj.filters
-*.vcxproj
-
 # Build results
 [Dd]ebug/
 [Rr]elease/
@@ -167,5 +164,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
-Trollberg/*vcxproj
-Trollberg/*vcxproj.*
+
+# Trollberg project files.
+Trollberg/*.vcxproj
+Trollberg/*.vcxproj.*
