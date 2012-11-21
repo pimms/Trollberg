@@ -7,6 +7,8 @@ Actor::Actor(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	jumpForce	= 0.f;
 	actorSheet	= node;
 	position	= pos;
+	body		= NULL;
+	sensor		= NULL;
 	useBatchNode(actorSheet);
 }
 Actor::~Actor()
@@ -37,6 +39,8 @@ void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask)
 	body->SetUserData(this);
 
 	body->SetTransform(toB2(position), 0.f);
+
+	createSensor(-dimensions.y/PTMR);
 }
 void Actor::createCircularBody(float radius, int category, int mask)
 {
@@ -63,6 +67,40 @@ void Actor::createCircularBody(float radius, int category, int mask)
 	body->SetUserData(this);
 
 	body->SetTransform(toB2(position), 0.f);
+
+	createSensor(-radius/PTMR);
+}
+void Actor::createSensor(float offsetY)
+{
+	b2BodyDef bd;
+	bd.type					= b2_dynamicBody;
+	bd.allowSleep			= false;
+	bd.position				= body->GetPosition();
+
+	b2PolygonShape shape;
+	shape.SetAsBox(0.5f, 0.25f);
+
+	b2FixtureDef fd;
+	fd.shape				= &shape;
+	fd.restitution			= 0.f;
+	fd.friction				= 0.f;
+	fd.density				= 0.001f;
+	fd.userData				= this;
+	fd.filter.categoryBits	= SENSOR;
+	fd.filter.maskBits		= GROUND;
+	fd.isSensor				= true;
+
+	sensor = world->CreateBody(&bd);
+	sensor->CreateFixture(&fd);
+	sensor->SetUserData(this);
+
+	// Create a joint
+	b2WeldJointDef jd;
+	jd.bodyA = body;
+	jd.bodyB = sensor;
+	jd.localAnchorA = b2Vec2(0.f, offsetY);
+
+	world->CreateJoint(&jd);
 }
 
 void Actor::jump()
@@ -75,18 +113,23 @@ void Actor::jump()
 }
 bool Actor::isGrounded()
 {
-	if (body && body->GetContactList())
+	if (sensor && sensor->GetContactList())
 	{
-		for (auto c=body->GetContactList(); c; c=c->next)
+		for (auto c=sensor->GetContactList(); c; c=c->next)
 		{
 			if (!c->contact->IsTouching())
 				continue;
 
-			int ABCat;
+			//int ABCat;
 			int bodyCat = body->GetFixtureList()->GetFilterData().maskBits;
-			b2Fixture *fixA = c->contact->GetFixtureA();
-			b2Fixture *fixB = c->contact->GetFixtureB();
+			//b2Fixture *fixA = c->contact->GetFixtureA();
+			//b2Fixture *fixB = c->contact->GetFixtureB();
 			
+			if (otherCollidingFixture(c->contact, (LVLEDGE|SENSOR|bodyCat)))
+			{
+				return true;
+			}
+			/*
 			if (fixA->GetBody() != body)
 			{
 				ABCat = fixA->GetFilterData().categoryBits;
@@ -103,6 +146,7 @@ bool Actor::isGrounded()
 					&&  (ABCat & bodyCat) != 0)
 					return true;
 			}
+			*/
 		}
 	}
 	return false;

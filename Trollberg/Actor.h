@@ -20,9 +20,12 @@ public:
 	virtual void takeDamage(int dmg) = 0;
 
 protected:
-	Pim::SpriteBatchNode	*actorSheet;
-	float		jumpForce;		// The force with which we jump. 60 is a good value.
+	void createSensor(float offsetY);
 
-	int			health;
+	b2Body					*sensor;		// The ground sensor
+
+	Pim::SpriteBatchNode	*actorSheet;
+	float					jumpForce;		// 60 is a good value
+	int						health;	
 };
 
