@@ -85,7 +85,7 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
 	{
 		// Fuck this
-		//exit(0);
+		exit(0);
 		//weapon->altFire();
 	}
 	
