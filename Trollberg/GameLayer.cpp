@@ -46,7 +46,7 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	//return;	// Comment the return to enable physics debug-drawing
+	return;	// Comment the return to enable physics debug-drawing
 
 	glPushMatrix();
 	glLoadIdentity();

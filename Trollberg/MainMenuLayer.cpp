@@ -14,6 +14,14 @@ MainMenuLayer::MainMenuLayer()
 	playIntro = true;
 	playOutro = false;
 	startGame = false;
+
+	startLVL = 0;
+}
+
+MainMenuLayer::~MainMenuLayer(){
+
+	delete buttonFonts;
+
 }
 
 void MainMenuLayer::loadResources()
@@ -27,9 +35,12 @@ void MainMenuLayer::loadResources()
 	menyBacground->position = Pim::Vec2((SCREENWIDTH / 2), (SCREENHEIGHT / 2));
 	menyBacground->scale = Pim::Vec2(1.5f, 1.f);
 
+	buttonFonts =  new Pim::Font("res/arial.ttf", 50, true);
 
 
-	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
+
+	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
+	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Exit"};
 
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
 	{
@@ -62,9 +73,7 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
     pressed->rect = Pim::Rect(80,0,40,25);
 	pressed->scale = Pim::Vec2(2.5f, 1.f);
 
-	Pim::Font *fonten =  new Pim::Font("res/arial.ttf", 50, true);
-
-	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, fonten);
+	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, buttonFonts);
 	addChild(menuButton);
 	menuButton->position = Pim::Vec2(192, 108);
 	menuButton->setText(buttonLabel);
@@ -88,14 +97,17 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 	{
 		//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
 		playOutro = true;
+		startLVL = 1;
 	}
-	if(activeButton == menuButtonsArray[3]) //Options
+	if(activeButton == menuButtonsArray[1]) //Options
 	{
-		exit(0);
+		playOutro = true;
+		startLVL = 2;
 	}
-	if(activeButton == menuButtonsArray[3]) //Highscore
+	if(activeButton == menuButtonsArray[2]) //Highscore
 	{
-		exit(0);
+		playOutro = true;
+		startLVL = 3;
 	}
 	if(activeButton == menuButtonsArray[3]) //Exit
 	{
@@ -150,7 +162,7 @@ void MainMenuLayer::update(float dt)
 
 	if(startGame)
 	{
-		Pim::GameControl::getSingleton()->setScene(new GameScene(1));
+		Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
 	}
 
 	//menuButtonsArray[0]->position = Pim::Vec2(rand()%SCREENWIDTH, rand()%SCREENHEIGHT);

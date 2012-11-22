@@ -8,6 +8,7 @@ class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
 {
 public:
 	MainMenuLayer();
+	~MainMenuLayer();
 
 	void loadResources();
 
@@ -21,6 +22,7 @@ private:
 	Pim::SpriteBatchNode *buttonSheet;
 
 	Pim::Button *mainButton;
+	Pim::Font *buttonFonts;
 
 	MenuButton *menuButtonsArray[NUMMENYBUTTONS];
 	float menuButtonsAndPosYArray[NUMMENYBUTTONS];
@@ -30,4 +32,6 @@ private:
 	bool playIntro;
 	bool playOutro;
 	bool startGame;
+
+	int startLVL;
 };
