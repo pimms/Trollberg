@@ -13,6 +13,7 @@ public:
 	virtual void update(float dt) = 0;
 
 	void moveToPlayer();
+	void moveFromPlayer();
 	float trollPlayerXDiff();
 
 	void damagePlayer();

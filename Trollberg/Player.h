@@ -3,6 +3,8 @@
 #include "Animation.h"
 #include "Weapon.h"
 
+// Forward declarations
+
 class Player : public Actor
 {
 public:
@@ -20,12 +22,19 @@ public:
 	void updateWeapon();	// Rotate according to the position of the mouse
 
 private:
+	friend class GameLayer;
+
 	float velX;
+
+	Pim::LightDef			*lightDef;
 
 	Animation				walkAnim;
 	Animation				deathAnim;
 
 	Weapon					*weapon;
 	Pim::MouseEvent			*mEvt;			// Keep a reference to this
+
+	bool					dead;
+	float					deathTimer;
 };
 

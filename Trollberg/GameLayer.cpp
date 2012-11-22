@@ -7,6 +7,7 @@
 
 GameLayer* GameLayer::singleton = NULL;
 
+// STATICS
 GameLayer* GameLayer::getSingleton()
 {
 	return singleton;
@@ -15,6 +16,11 @@ Pim::SpriteBatchNode* GameLayer::getActorSheet()
 {
 	return singleton->actorSheet;
 }
+bool GameLayer::isPlayerDead()
+{
+	return singleton->player->deathTimer >= 0.6f;
+}
+
 
 GameLayer::GameLayer(int lvl)
 {
@@ -40,7 +46,7 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	//return;	// Comment the return to enable physics debug-drawing
+	return;	// Comment the return to enable physics debug-drawing
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -191,6 +197,11 @@ void GameLayer::createLevelEdges()
 
 void GameLayer::update(float dt)
 {
+	if (player->dead)
+	{
+		//scale += Pim::Vec2(dt,dt);
+	}
+
 	followPlayer();
 }
 void GameLayer::followPlayer()

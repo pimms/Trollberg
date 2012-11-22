@@ -2,6 +2,7 @@
 #include "Troll.h"
 #include "Player.h"
 #include "Slinker.h"
+#include "GameLayer.h"
 
 SlinkerAI::SlinkerAI(Slinker *t, Player *p)
 {
@@ -17,6 +18,30 @@ SlinkerAI::SlinkerAI(Slinker *t, Player *p)
 
 void SlinkerAI::update(float dt)
 {
+	if (GameLayer::isPlayerDead())
+	{
+		if (troll->isGrounded())
+		{
+			moveFromPlayer();
+			slinker->rect = slinker->walkAnim.update(dt);
+		}
+		else
+		{
+			slinker->rect = slinker->walkAnim.frameIndex(4);
+		}
+
+		if (trollPlayerXDiff() > 0)
+		{
+			troll->scale.x = 1.f;
+		}
+		else
+		{
+			troll->scale.x = -1.f;
+		}
+
+		return;
+	}
+
 	stompCheck();
 
 	if (isLeaping || willLeap)

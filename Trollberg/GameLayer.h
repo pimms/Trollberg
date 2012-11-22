@@ -10,6 +10,7 @@ class GameLayer : public Pim::Layer
 public:
 	static GameLayer* getSingleton();
 	static Pim::SpriteBatchNode* getActorSheet();
+	static bool isPlayerDead();
 
 	GameLayer(int lvl);
 	virtual ~GameLayer();

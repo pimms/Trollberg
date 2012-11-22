@@ -33,7 +33,7 @@ void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask, 
 	fd.friction				= 0.f;
 	fd.density				= (density)?(density):((dimensions.x/PTMR) * (dimensions.y/PTMR));
 	fd.filter.categoryBits	= category;
-	fd.filter.maskBits		= mask | LVLEDGE;
+	fd.filter.maskBits		= mask;
 
 	body = world->CreateBody(&bd);
 	body->CreateFixture(&fd);
@@ -61,7 +61,7 @@ void Actor::createCircularBody(float radius, int category, int mask, float densi
 	fd.density				= (density)?(density):(pow((radius/PTMR)*M_PI, 2));
 	fd.userData				= this;
 	fd.filter.categoryBits	= category;
-	fd.filter.maskBits		= mask | LVLEDGE;
+	fd.filter.maskBits		= mask;
 
 	body = world->CreateBody(&bd);
 	body->CreateFixture(&fd);
