@@ -1,11 +1,10 @@
 #pragma once 
 #include "Pim.h"
-#include "ParallaxLayer.h"
 #include "MenuButton.h"
 
 // Defines
 #define NUMMENYBUTTONS 4
-#define MENYSPEED 10
+#define MENYSPEED 1
 
 class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
 {
@@ -14,6 +13,8 @@ public:
 	~MainMenuLayer();
 
 	void loadResources();
+	void loadButtons();
+	void loadSprites();
 	void loadParallax();
 
 	MenuButton* createButton(int xPos, int yPos, std::string buttonLabel);
@@ -24,12 +25,12 @@ public:
 	void updateScroll(float dt);
 	void updateButtons(float dt);
 
+	/* DEBUG */
+	void keyEvent(Pim::KeyEvent&);
+
 private:
 	Pim::SpriteBatchNode	*buttonSheet;
 	Pim::SpriteBatchNode	*scrollSheet;
-
-	ParallaxLayer			*background;
-	ParallaxLayer			*foreground;
 
 	Pim::Font				*buttonFont;
 
@@ -38,6 +39,19 @@ private:
 
 	MenuButton				*menuButtonTest;
 
+	// The light we will follow through the forest
+	Pim::GameNode			*light;
+
+	// The destination we're scrolling to
+	bool					isScrolling;
+	float					scrollDest;
+
+	// How many times have we scrolled? 
+	// 1 = show menu
+	// 2 = go to game
+	int						numScrolls;
+
+	// Button dropdown
 	bool					playIntro;
 	bool					playOutro;
 	bool					startGame;

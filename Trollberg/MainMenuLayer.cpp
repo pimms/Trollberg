@@ -1,21 +1,26 @@
 #pragma once 
+#include "Pim.h"
 #include "MenuButton.h"
 #include "MainMenuLayer.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
-#include "Pim.h"
+#include "ParallaxLayer.h"
 
 
 MainMenuLayer::MainMenuLayer()
 {
+	buttonFont	= NULL;
 	buttonSheet	= NULL;
 	scrollSheet = NULL;
-	background	= NULL;
-	foreground	= NULL;
 
 	playIntro	= false;
 	playOutro	= false;
 	startGame	= false;
+	
+	isScrolling = true;
+	position.x  = -2800.f;
+	scrollDest	= -1080.f;
+	numScrolls	= 0;
 
 	startLVL	= 0;
 }
@@ -33,12 +38,37 @@ void MainMenuLayer::loadResources()
 	// Load the button sheet
 	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
     addChild(buttonSheet);
+	loadButtons();
 
 	// Load the scroll sheet
 	scrollSheet = new Pim::SpriteBatchNode("res/mainmenu.png");
 	addChild(scrollSheet);
 	loadParallax();
+
+	// Load the middle layer (this)
+	loadSprites();
+
+	listenFrame();
+	listenKeys();
+}
+void MainMenuLayer::loadButtons()
+{
+	// Create the lighting system
+	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
+	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
+
+	// Setup a light def
+	Pim::FlatLightDef *ld = new Pim::FlatLightDef;
+	ld->radius		= 300;
+	ld->falloff		= 2.f;
+	ld->innerColor  = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	
+	// Create the light
+	light = new Pim::GameNode;
+	addChild(light);
+	addLight(light, ld);
+
+
 	// Load the font
 	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
 
@@ -49,17 +79,66 @@ void MainMenuLayer::loadResources()
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
 	{
 		std::cout << "i: " << i << " verdi: " << menyButtonLabels[i];
-		menuButtons[i]			= createButton(192, SCREENHEIGHT + 30, menyButtonLabels[i]);
+		menuButtons[i]			= createButton(1272, SCREENHEIGHT + 30, menyButtonLabels[i]);
 		buttonYPos[i]			= 108 - (PTMR*i*3), menyButtonLabels[i];
 	}
 
 	menuButtons[0]->setZOrder(1000);
+}
+void MainMenuLayer::loadSprites()
+{
+	for (int i=0; i<6; i++)
+	{
+		int origX = 512+512*(i%3);
+		int origY = 240+240*(i/3);
 
-	listenFrame();
+		Pim::Sprite *sprite = new Pim::Sprite;
+		sprite->anchor		= Pim::Vec2(0.f, 0.f);
+		sprite->position.x	= 512 * i;
+		sprite->rect		= Pim::Rect(origX, origY, 512, 240);
+		sprite->useBatchNode(scrollSheet);
+		addChild(sprite);
+	}
 }
 void MainMenuLayer::loadParallax()
 {
+	// Load the backmost layer (the mountains)
+	ParallaxLayer *back = new ParallaxLayer(this, 0.5f);
+	back->setZOrder(-2);
+	parentScene->addLayer(back);
 
+	for (int i=0; i<3; i++)
+	{
+		Pim::Sprite *sprite = new Pim::Sprite;
+		sprite->anchor		= Pim::Vec2(0.f, 0.f);
+		sprite->position	= Pim::Vec2(512*i+180, 0.f);
+		sprite->rect		= Pim::Rect(512+512*i, 0, 512, 240);
+		sprite->useBatchNode(scrollSheet);
+		back->addChild(sprite);
+	}
+
+	// Load the frontmost laster (the forest)
+	ParallaxLayer *front = new ParallaxLayer(this, 1.5f);
+	front->setZOrder(2);
+	parentScene->addLayer(front);
+
+	for (int i=0; i<8; i++)
+	{
+		Pim::Sprite *sprite = new Pim::Sprite;
+		sprite->anchor		= Pim::Vec2(0.f, 0.0f);
+		sprite->position	= Pim::Vec2(4096.f-512*i, 0.f);
+		sprite->rect		= Pim::Rect(0, 240*i, 512, 240);
+		sprite->useBatchNode(scrollSheet);
+		front->addChild(sprite);
+	}
+
+	// Add the first sprite again to create all black on both extremes
+	Pim::Sprite *sprite = new Pim::Sprite;
+	sprite->anchor		= Pim::Vec2(0.f, 0.f);
+	sprite->position	= Pim::Vec2(0.f, 0.f);
+	sprite->rect		= Pim::Rect(0, 0, 512, 240);
+	sprite->useBatchNode(scrollSheet);
+	front->addChild(sprite);
 }
 
 MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLabel)
@@ -125,6 +204,7 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
+	updateScroll(dt);
 	updateButtons(dt);
 }
 void MainMenuLayer::updateButtons(float dt)
@@ -147,7 +227,6 @@ void MainMenuLayer::updateButtons(float dt)
 
 		if(numRight == NUMMENYBUTTONS)
 		{
-			std::cout << "JAJAJAJA";
 			playIntro = false;
 		}
 
@@ -157,26 +236,82 @@ void MainMenuLayer::updateButtons(float dt)
 	{
 		for(int i = 0; i < NUMMENYBUTTONS; i ++)
 		{
-
-			if(menuButtons[i]->position.x > 0 - 50 && menuButtons[i]->position.x < SCREENWIDTH + 50)
+			if(menuButtons[i]->position.x > -50 && menuButtons[i]->position.x < SCREENWIDTH + 50)
 			{	//2.8f ganer enten -1 erller 1 bassert på index
 				menuButtons[i]->position.x += (3.8f * MENYSPEED) * ( ((i % 2) * 2) -1);
 			}
 			else
-			{ //start game when buttons are offscreen
-				startGame = true;
+			{ 
+				isScrolling = true;
+				scrollDest  = -20.f;
 			}
 
 		}
 
 	}
 
+	/*
 	if(startGame)
 	{
 		Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
 	}
+	*/
 }
 void MainMenuLayer::updateScroll(float dt)
 {
+	// STARTPOS: -2800, 0
+	// MENUPOS: -1080, 0
+	// ENDPOS: -20, 0
 
+	if (isScrolling)
+	{
+		float d = pow(scrollDest - position.x,2.f) / 10.f;
+
+		if (d > 700.f)
+		{
+			d = 700.f;
+		}
+		else if (d < 20.f)
+		{
+			d = 20.f;
+		}
+
+		position.x += d*dt;
+		light->position = Pim::Vec2(192.f-position.x, 108 - 50.f * sinf(position.x/100.f));
+
+		if (position.x > scrollDest)
+		{
+			position.x	= scrollDest;
+			isScrolling = false;
+			numScrolls++;
+
+			if (numScrolls == 1)
+			{
+				// Scroll down the buttons
+				playIntro = true;
+			}
+			else
+			{
+				// Go to game
+				Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
+			}
+		}
+	}
+}
+
+/* DEBUG */
+void MainMenuLayer::keyEvent(Pim::KeyEvent &evt)
+{
+	if (evt.isKeyDown(Pim::KeyEvent::K_D))
+	{
+		position.x -= 20;
+	}
+	if (evt.isKeyDown(Pim::KeyEvent::K_A))
+	{
+		position.x += 20;
+	}
+	if (evt.isKeyFresh(Pim::KeyEvent::K_P))
+	{
+		printf("MLPOS: %0.1f, %0.1f\n", position.x, position.y);
+	}
 }
