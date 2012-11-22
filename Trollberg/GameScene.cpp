@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "LevelParser.h"
+#include "PauseLayer.h"
 #include "ParallaxLayer.h"
 #include "GameLayer.h"
 #include "HUDLayer.h"
@@ -40,6 +41,11 @@ GameScene::~GameScene()
 
 		delete world;
 	}
+}
+
+Pim::Layer* GameScene::pauseLayer()
+{
+	return new PauseLayer;
 }
 
 void GameScene::loadResources()

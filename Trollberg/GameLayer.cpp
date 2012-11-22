@@ -223,4 +223,8 @@ void GameLayer::followPlayer()
 
 void GameLayer::keyEvent(Pim::KeyEvent &evt)
 {
+	if (evt.isKeyFresh(Pim::KeyEvent::K_ESC))
+	{
+		Pim::GameControl::getSingleton()->pause();
+	}
 }

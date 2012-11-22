@@ -15,6 +15,8 @@ public:
 	GameScene(int levelNumber);
 	~GameScene();
 
+	Pim::Layer* pauseLayer();
+
 	void loadResources();
 	void loadLevelData();
 	void loadLayers();
