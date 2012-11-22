@@ -17,7 +17,10 @@ public:
 protected:
 	friend class SlinkerAI;
 
-	Animation				walkAnim;
-	Animation				deathAnim;
+	Animation	walkAnim;
+	Animation	deathAnim;
+
+	float		deathTimer;
+	bool		dead;
 };
 

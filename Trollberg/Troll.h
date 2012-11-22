@@ -12,12 +12,12 @@ public:
 	FloatLabel(Pim::Font *f) : Pim::Label(f) { lifetime = 0.f; }
 	float lifetime;
 	float initialX;
+	float initialLayerX;
 };
 
 class Troll : public Actor
 {
 public:
-	static void setHUDLayer(HUDLayer *hud);
 	static void createFont();
 	static void destroyFont();
 
@@ -27,18 +27,13 @@ public:
 	
 	virtual void takeDamage(int damage);
 	void addFloatLabel(int damage);
-	void updateFloatLabels(float dt);
-	static float floatLabelScale(FloatLabel *l);
 
 protected:
 	static Pim::Font *floatFont;
-	static HUDLayer *hudLayer;
 
 	friend class TrollAI;
 	TrollAI						*ai;
 
 	float						walkSpeed;
-
-	std::vector<FloatLabel*>	labels;
 };
 

@@ -2,6 +2,8 @@
 #include "SlinkerAI.h"
 #include "Animation.h"
 
+#define SL_TIMETODIE 0.7f
+
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
@@ -15,6 +17,16 @@ Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	walkAnim.totalFrames		= 5;
 	walkAnim.framesInAnimation  = 4;
 
+	deathAnim.firstFramePos		= Pim::Vec2(100.f, 14.f);
+	deathAnim.frameWidth		= 20;
+	deathAnim.frameHeight		= 20;
+	deathAnim.frameTime			= 0.1f;
+	deathAnim.horizontalFrames	= 7;
+	deathAnim.totalFrames		= 7;
+	deathAnim.framesInAnimation = 7;
+
+	deathTimer	= 0.f;
+	dead		= false;
 	rect		= Pim::Rect(0,14,20,20);
 	ai			= new SlinkerAI(this, pl);
 	walkSpeed	= 8.f;
@@ -30,16 +42,38 @@ Slinker::~Slinker(void)
 
 void Slinker::update(float dt)
 {
-	updateFloatLabels(dt);
-	ai->update(dt);
+	if (!dead)
+	{
+		ai->update(dt);
+	}
+	else
+	{
+		rect		= deathAnim.update(dt);
+		deathTimer += dt;
+
+		if (deathTimer >= SL_TIMETODIE)
+		{
+			deleteBody();
+			parent->removeChild(this, true);
+		}
+	}
 }
 void Slinker::takeDamage(int damage)
 {
-	Troll::takeDamage(damage);
-
-	if (health <= 0)
+	if (!dead)
 	{
-		deleteBody();
-		parent->removeChild(this, true);
+		Troll::takeDamage(damage);
+
+		if (health <= 0)
+		{
+			// Flag as dead
+			dead = true;
+
+			// Set the collision filter to only collide with the ground
+			b2Filter filter;
+			filter.categoryBits = TROLLS;
+			filter.maskBits = GROUND;
+			body->GetFixtureList()->SetFilterData(filter);
+		}
 	}
 }

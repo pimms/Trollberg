@@ -11,14 +11,13 @@
 
 LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
-	_tw				= 3;
-	_th				= 3;
-	rect			= Pim::Rect(0,0,3,3);
 	position		= pos;
 	life			= 0.f;
 	lightRifle		= lr;
 	dead			= false;
 	fadeOutTimer	= LBR_FADEOUTTIME;
+	rect			= Pim::Rect(136,0,5,5);
+	useBatchNode(actorSheet);
 
 	b2BodyDef bd;
 	bd.type			= b2_dynamicBody;
@@ -94,6 +93,7 @@ void LRBullet::update(float dt)
 				if (t && !hasDamaged(t))
 				{
 					damageTroll(t);
+					return;
 				}
 			}
 		} 

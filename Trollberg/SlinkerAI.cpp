@@ -120,6 +120,7 @@ void SlinkerAI::stompCheck()
 			if (d >= 0.f)
 			{
 				troll->takeDamage(100);
+				return;
 			}
 		}
 	}
