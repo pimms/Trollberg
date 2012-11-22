@@ -88,7 +88,7 @@ void GameLayer::loadResources()
 	Troll::createFont();
 	loadLightingSystem();
 
-	actorSheet = new Pim::SpriteBatchNode("res\\player.png");
+	actorSheet = new Pim::SpriteBatchNode("res\\actor.png");
 	addChild(actorSheet);
 
 	player = new Player(actorSheet, Pim::Vec2(1070.f, 60.f));

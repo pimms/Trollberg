@@ -29,7 +29,7 @@ void HUDLayer::loadResources()
 	{
 		hearts[i] = new Pim::Sprite;
 		hearts[i]->useBatchNode(actor);
-		hearts[i]->rect = Pim::Rect(60,20,10,10);
+		hearts[i]->rect = Pim::Rect(126,0,9,9);
 		hearts[i]->position = Pim::Vec2(20+(14*i), 196);
 		addChild(hearts[i]);
 	}

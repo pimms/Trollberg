@@ -9,7 +9,7 @@ public:
 	void setPosition(Pim::Vec2);
 	void setPosition(b2Vec2);
 
-	void deleteBody();
+	virtual void deleteBody();
 
 	// Returns the fixture in a TOUCHING collision which is not the fixture of the body-member.
 	// If wanted, you may provide a category filter - the function will then only

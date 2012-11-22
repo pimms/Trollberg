@@ -22,9 +22,10 @@ public:
 private:
 	float velX;
 
-	Animation				anim;
-	Weapon					*weapon;
+	Animation				walkAnim;
+	Animation				deathAnim;
 
+	Weapon					*weapon;
 	Pim::MouseEvent			*mEvt;			// Keep a reference to this
 };
 

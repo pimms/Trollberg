@@ -77,29 +77,26 @@ void LRBullet::update(float dt)
 
 		for (auto c=body->GetContactList(); c; c=c->next)
 		{
-			if (c->contact->IsTouching())
+			// Is the bullet touching the ground?
+			if (otherCollidingFixture(c->contact, GROUND))
 			{
-				// Is the bullet touching the ground?
-				if (otherCollidingFixture(c->contact, GROUND))
-				{
-					// The bullet is dead and will fade out
-					dead	= true;
-				}
+				// The bullet is dead and will fade out
+				dead	= true;
+			}
 
-				// Is the bullet touching a troll?
-				b2Fixture *trollFix = NULL;
-				trollFix = otherCollidingFixture(c->contact, TROLLS);
+			// Is the bullet touching a troll?
+			b2Fixture *trollFix = NULL;
+			trollFix = otherCollidingFixture(c->contact, TROLLS);
 
-				if (trollFix)
+			if (trollFix)
+			{
+				Troll *t = (Troll*)trollFix->GetUserData();
+				if (t && !hasDamaged(t))
 				{
-					Troll *t = (Troll*)trollFix->GetUserData();
-					if (t && !hasDamaged(t))
-					{
-						damageTroll(t);
-					}
+					damageTroll(t);
 				}
 			}
-		}
+		} 
 	}
 	else
 	{

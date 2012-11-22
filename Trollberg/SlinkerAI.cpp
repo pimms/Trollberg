@@ -1,10 +1,12 @@
 #include "SlinkerAI.h"
 #include "Troll.h"
 #include "Player.h"
+#include "Slinker.h"
 
-SlinkerAI::SlinkerAI(Troll *t, Player *p)
+SlinkerAI::SlinkerAI(Slinker *t, Player *p)
 {
 	troll				= t;
+	slinker				= t;
 	player				= p;
 	leapTimer			= 0.f;
 
@@ -20,15 +22,44 @@ void SlinkerAI::update(float dt)
 	if (isLeaping || willLeap)
 	{
 		leapUpdate(dt);
+		slinker->walkAnim.reset();
+
+		if (troll->isGrounded())
+		{
+			slinker->rect = slinker->walkAnim.frameIndex(0);
+		}
+		else
+		{
+			slinker->rect = slinker->walkAnim.frameIndex(4);
+		}
 	}
-	else if (abs(trollPlayerXDiff()) >= 100.f)
+	else if (abs(trollPlayerXDiff()) >= 60 + rand()%81)
 	{
 		moveToPlayer();
+		slinker->rect = slinker->walkAnim.update(dt);
+		
+		if (trollPlayerXDiff() > 0)
+		{
+			troll->scale.x = -1.f;
+		}
+		else
+		{
+			troll->scale.x = 1.f;
+		}
 	}
 	else
 	{
 		willLeap = true;
 		troll->body->SetLinearVelocity(b2Vec2_zero);
+
+		if (trollPlayerXDiff() > 0)
+		{
+			troll->scale.x = -1.f;
+		}
+		else
+		{
+			troll->scale.x = 1.f;
+		}
 	}
 }
 void SlinkerAI::leapUpdate(float dt)
@@ -40,8 +71,12 @@ void SlinkerAI::leapUpdate(float dt)
 		willLeap = false;
 		isLeaping = true;
 
-		b2Vec2 force(trollPlayerXDiff()/2.f, 50);
-		if (force.y < 10) force.y = 10;
+		// Calculate a force for the X axis
+		float xForce = trollPlayerXDiff() / 2.f;
+		int ran = rand() % abs((int)trollPlayerXDiff());
+		xForce += ran * (xForce > 0) ? (1.f) : (-1.f);
+
+		b2Vec2 force = b2Vec2(xForce, 50 + rand() % 45);
 
 		troll->body->ApplyLinearImpulse(force, troll->body->GetPosition());
 	}

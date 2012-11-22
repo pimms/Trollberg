@@ -1,4 +1,5 @@
 #include "Actor.h"
+#include "TrollAI.h"
 
 
 Actor::Actor(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
@@ -15,7 +16,7 @@ Actor::~Actor()
 {
 }
 
-void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask)
+void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask, float density)
 {
 	b2BodyDef bd;
 	bd.type					= b2_dynamicBody;
@@ -30,7 +31,7 @@ void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask)
 	fd.shape				= &shape;
 	fd.restitution			= 0.f;
 	fd.friction				= 0.f;
-	fd.density				= (dimensions.x/PTMR) * (dimensions.y/PTMR);
+	fd.density				= (density)?(density):((dimensions.x/PTMR) * (dimensions.y/PTMR));
 	fd.filter.categoryBits	= category;
 	fd.filter.maskBits		= mask | LVLEDGE;
 
@@ -42,7 +43,7 @@ void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask)
 
 	createSensor(-dimensions.y/PTMR);
 }
-void Actor::createCircularBody(float radius, int category, int mask)
+void Actor::createCircularBody(float radius, int category, int mask, float density)
 {
 	b2BodyDef bd;
 	bd.type					= b2_dynamicBody;
@@ -57,7 +58,7 @@ void Actor::createCircularBody(float radius, int category, int mask)
 	fd.shape				= &shape;
 	fd.restitution			= 0.f;
 	fd.friction				= 0.f;
-	fd.density				= pow((radius/PTMR)*M_PI, 2);
+	fd.density				= (density)?(density):(pow((radius/PTMR)*M_PI, 2));
 	fd.userData				= this;
 	fd.filter.categoryBits	= category;
 	fd.filter.maskBits		= mask | LVLEDGE;
@@ -85,14 +86,14 @@ void Actor::createSensor(float offsetY)
 	fd.restitution			= 0.f;
 	fd.friction				= 0.f;
 	fd.density				= 0.001f;
-	fd.userData				= this;
+	//fd.userData				= this;
 	fd.filter.categoryBits	= SENSOR;
 	fd.filter.maskBits		= GROUND;
 	fd.isSensor				= true;
 
 	sensor = world->CreateBody(&bd);
 	sensor->CreateFixture(&fd);
-	sensor->SetUserData(this);
+	//sensor->SetUserData(this); Leave uncommented. Causes funky bugs.
 
 	// Create a joint
 	b2WeldJointDef jd;
@@ -100,7 +101,7 @@ void Actor::createSensor(float offsetY)
 	jd.bodyB = sensor;
 	jd.localAnchorA = b2Vec2(0.f, offsetY);
 
-	world->CreateJoint(&jd);
+	joint = world->CreateJoint(&jd);
 }
 
 void Actor::jump()
@@ -126,4 +127,23 @@ bool Actor::isGrounded()
 		}
 	}
 	return false;
+}
+
+void Actor::deleteBody()
+{
+	Entity::deleteBody();
+
+	if (sensor)
+	{
+		world->DestroyBody(sensor);
+		sensor	= NULL;
+		joint	= NULL;
+	}
+	/*
+	if (joint)
+	{
+		world->DestroyJoint(joint);
+		joint = NULL;
+	}
+	*/
 }

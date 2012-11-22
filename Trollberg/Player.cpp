@@ -5,18 +5,18 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	: Actor(node, pos)
 {
 	// Prepare the animation object
-	anim.frameWidth			= 14;
-	anim.frameHeight		= 14;
-	anim.firstFramePos		= Pim::Vec2(0,0);
-	anim.framesInAnimation	= 4;
-	anim.totalFrames		= 5;
-	anim.horizontalFrames	= 5;
-	rect					= anim.frameIndex(0);
+	walkAnim.frameWidth			= 14;
+	walkAnim.frameHeight		= 14;
+	walkAnim.firstFramePos		= Pim::Vec2(69,0);
+	walkAnim.framesInAnimation	= 4;
+	walkAnim.totalFrames		= 5;
+	walkAnim.horizontalFrames	= 5;
+	rect						= walkAnim.frameIndex(0);
 	
-	health					= 3;
-	jumpForce				= 70.f;
-	velX					= 0.;
-	mEvt					= NULL;
+	health						= 3;
+	jumpForce					= 70.f;
+	velX						= 0.;
+	mEvt						= NULL;
 
 	createCircularBody(6.f, PLAYER, GROUND | TROLLS);
 
@@ -97,14 +97,14 @@ void Player::update(float dt)
 	if (isGrounded())
 	{
 		if (velX != 0.f)
-			rect = anim.update(dt);
+			rect = walkAnim.update(dt);
 		else 
-			rect = anim.reset();
+			rect = walkAnim.reset();
 	}
 	else
 	{
-		anim.reset();
-		rect = anim.frameIndex(4);
+		walkAnim.reset();
+		rect = walkAnim.frameIndex(2);
 	}
 }
 void Player::updateWeapon()

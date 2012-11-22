@@ -3,6 +3,7 @@
 
 // Forward declarations
 class TrollAI;
+class SlinkerAI;
 class HUDLayer;
 
 class FloatLabel : public Pim::Label
@@ -34,10 +35,10 @@ protected:
 	static HUDLayer *hudLayer;
 
 	friend class TrollAI;
-	TrollAI		*ai;
+	TrollAI						*ai;
 
-	float		walkSpeed;
+	float						walkSpeed;
 
-	std::vector<FloatLabel*> labels;
+	std::vector<FloatLabel*>	labels;
 };
 
