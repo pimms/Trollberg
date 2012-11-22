@@ -16,13 +16,13 @@ public:
 
 	void buttonPressed(Pim::Button*);
 
-	void MainMenuLayer::update(float dt);
+	void update(float dt);
+	void updateButtons(float dt);
 
 private:
 	Pim::SpriteBatchNode *buttonSheet;
 
-	Pim::Button *mainButton;
-	Pim::Font *buttonFonts;
+	Pim::Font *buttonFont;
 
 	MenuButton *menuButtonsArray[NUMMENYBUTTONS];
 	float menuButtonsAndPosYArray[NUMMENYBUTTONS];

@@ -8,20 +8,21 @@
 
 MainMenuLayer::MainMenuLayer()
 {
-	mainButton	= NULL;
 	buttonSheet	= NULL;
 
-	playIntro = true;
+	playIntro = false;
 	playOutro = false;
 	startGame = false;
 
 	startLVL = 0;
 }
 
-MainMenuLayer::~MainMenuLayer(){
-
-	delete buttonFonts;
-
+MainMenuLayer::~MainMenuLayer()
+{
+	if (buttonFont)
+	{
+		delete buttonFont;
+	}
 }
 
 void MainMenuLayer::loadResources()
@@ -29,15 +30,7 @@ void MainMenuLayer::loadResources()
 	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
     addChild(buttonSheet);
 	
-
-	Pim::Sprite *menyBacground = new Pim::Sprite("res/menyBG.png");
-	addChild(menyBacground);
-	menyBacground->position = Pim::Vec2((SCREENWIDTH / 2), (SCREENHEIGHT / 2));
-	menyBacground->scale = Pim::Vec2(1.5f, 1.f);
-
-	buttonFonts =  new Pim::Font("res/arial.ttf", 50, true);
-
-
+	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
 
 	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
 	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Exit"};
@@ -50,7 +43,6 @@ void MainMenuLayer::loadResources()
 	}
 
 	menuButtonsArray[0]->setZOrder(1000);
-	menyBacground->setZOrder(10);
 
 	listenFrame();
 
@@ -73,7 +65,7 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
     pressed->rect = Pim::Rect(80,0,40,25);
 	pressed->scale = Pim::Vec2(2.5f, 1.f);
 
-	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, buttonFonts);
+	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, buttonFont);
 	addChild(menuButton);
 	menuButton->position = Pim::Vec2(192, 108);
 	menuButton->setText(buttonLabel);
@@ -119,7 +111,10 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
-
+	updateButtons(dt);
+}
+void MainMenuLayer::updateButtons(float dt)
+{
 	if(playIntro)
 	{
 		int numRight = 0;
@@ -143,8 +138,8 @@ void MainMenuLayer::update(float dt)
 
 	}
 	
-	if(playOutro){
-
+	if(playOutro)
+	{
 		for(int i = 0; i < NUMMENYBUTTONS; i ++)
 		{
 
@@ -164,7 +159,4 @@ void MainMenuLayer::update(float dt)
 	{
 		Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
 	}
-
-	//menuButtonsArray[0]->position = Pim::Vec2(rand()%SCREENWIDTH, rand()%SCREENHEIGHT);
-
 }
