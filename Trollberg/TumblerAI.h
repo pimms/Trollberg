@@ -14,5 +14,10 @@ public:
 
 private:
 	Tumbler		*tumbler;
+
+	bool		isThrowing;
+	bool		hasThrown;
+	float		throwTimer;
+	float		throwCooldown;
 };
 

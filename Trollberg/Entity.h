@@ -9,6 +9,14 @@ public:
 	void setPosition(Pim::Vec2);
 	void setPosition(b2Vec2);
 
+	// Create a box body.
+	virtual void createRectangularBody(Pim::Vec2 pixelDimensions, int category, 
+									   int mask, float density=0.f);
+
+	// Create a circular body.
+	virtual void createCircularBody(float pixelRadius, int category, 
+									int mask, float density=0.f);
+
 	virtual void deleteBody();
 
 	// Returns the fixture in a TOUCHING collision which is not the fixture of the body-member.

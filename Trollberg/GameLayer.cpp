@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "TrollControl.h"
 #include "Troll.h"
+#include "Rock.h"
 
 
 GameLayer* GameLayer::singleton = NULL;
@@ -46,7 +47,7 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	//return;	// Comment the return to enable physics debug-drawing
+	return;	// Comment the return to enable physics debug-drawing
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -197,11 +198,6 @@ void GameLayer::createLevelEdges()
 
 void GameLayer::update(float dt)
 {
-	if (player->dead)
-	{
-		//scale += Pim::Vec2(dt,dt);
-	}
-
 	followPlayer();
 }
 void GameLayer::followPlayer()

@@ -2,6 +2,7 @@
 #include "Trollberg.h"
 
 // Forward declarations
+class Rock;
 class Player;
 class TrollControl;
 

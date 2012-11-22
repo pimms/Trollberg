@@ -12,8 +12,8 @@ public:
 	TrollAI();
 	virtual void update(float dt) = 0;
 
-	void moveToPlayer();
-	void moveFromPlayer();
+	virtual void moveToPlayer();
+	virtual void moveFromPlayer();
 
 	void facePlayer();
 	void faceAwayPlayer();
