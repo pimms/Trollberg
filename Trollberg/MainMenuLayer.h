@@ -1,6 +1,9 @@
 #pragma once 
 #include "Pim.h"
+#include "ParallaxLayer.h"
 #include "MenuButton.h"
+
+// Defines
 #define NUMMENYBUTTONS 4
 #define MENYSPEED 10
 
@@ -11,27 +14,33 @@ public:
 	~MainMenuLayer();
 
 	void loadResources();
+	void loadParallax();
 
 	MenuButton* createButton(int xPos, int yPos, std::string buttonLabel);
 
 	void buttonPressed(Pim::Button*);
 
 	void update(float dt);
+	void updateScroll(float dt);
 	void updateButtons(float dt);
 
 private:
-	Pim::SpriteBatchNode *buttonSheet;
+	Pim::SpriteBatchNode	*buttonSheet;
+	Pim::SpriteBatchNode	*scrollSheet;
 
-	Pim::Font *buttonFont;
+	ParallaxLayer			*background;
+	ParallaxLayer			*foreground;
 
-	MenuButton *menuButtonsArray[NUMMENYBUTTONS];
-	float menuButtonsAndPosYArray[NUMMENYBUTTONS];
+	Pim::Font				*buttonFont;
 
-	MenuButton *menuButtonTest;
+	MenuButton				*menuButtons[NUMMENYBUTTONS];
+	float					buttonYPos[NUMMENYBUTTONS];
 
-	bool playIntro;
-	bool playOutro;
-	bool startGame;
+	MenuButton				*menuButtonTest;
 
-	int startLVL;
+	bool					playIntro;
+	bool					playOutro;
+	bool					startGame;
+
+	int						startLVL;
 };
