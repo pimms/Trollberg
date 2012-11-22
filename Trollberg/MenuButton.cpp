@@ -11,6 +11,7 @@ MenuButton::MenuButton(Pim::Sprite *norm, Pim::Sprite *hover, Pim::Sprite *press
 	label->position = Pim::Vec2(0.f, 6.f);
 	label->scale = Pim::Vec2(0.2f, 0.2f);
 	addChild(label);
+
 }
 
 void MenuButton::setText(std::string txt)
