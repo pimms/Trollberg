@@ -41,7 +41,7 @@ void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask, 
 
 	body->SetTransform(toB2(position), 0.f);
 
-	createSensor(-dimensions.y/PTMR);
+	createSensor(-dimensions.y/PTMR/2.f);
 }
 void Actor::createCircularBody(float radius, int category, int mask, float density)
 {

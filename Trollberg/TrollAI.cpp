@@ -14,6 +14,8 @@ void TrollAI::moveToPlayer()
 	
 	b2Vec2 vel(f*troll->walkSpeed, troll->body->GetLinearVelocity().y);
 	troll->body->SetLinearVelocity(vel);
+
+
 }
 void TrollAI::moveFromPlayer()
 {
@@ -22,6 +24,30 @@ void TrollAI::moveFromPlayer()
 	b2Vec2 vel(f*troll->walkSpeed, troll->body->GetLinearVelocity().y);
 	troll->body->SetLinearVelocity(vel);
 }
+
+void TrollAI::facePlayer()
+{
+	if (trollPlayerXDiff() > 0)
+	{
+		troll->scale.x = -1.f;
+	}
+	else
+	{
+		troll->scale.x = 1.f;
+	}
+}
+void TrollAI::faceAwayPlayer()
+{
+	if (trollPlayerXDiff() > 0)
+	{
+		troll->scale.x = 1.f;
+	}
+	else
+	{
+		troll->scale.x = -1.f;
+	}
+}
+
 float TrollAI::trollPlayerXDiff()
 {
 	return player->position.x - troll->position.x;

@@ -30,14 +30,7 @@ void SlinkerAI::update(float dt)
 			slinker->rect = slinker->walkAnim.frameIndex(4);
 		}
 
-		if (trollPlayerXDiff() > 0)
-		{
-			troll->scale.x = 1.f;
-		}
-		else
-		{
-			troll->scale.x = -1.f;
-		}
+		faceAwayPlayer();
 
 		return;
 	}
@@ -61,30 +54,16 @@ void SlinkerAI::update(float dt)
 	else if (abs(trollPlayerXDiff()) >= 60 + rand()%81)
 	{
 		moveToPlayer();
+		facePlayer();
+
 		slinker->rect = slinker->walkAnim.update(dt);
-		
-		if (trollPlayerXDiff() > 0)
-		{
-			troll->scale.x = -1.f;
-		}
-		else
-		{
-			troll->scale.x = 1.f;
-		}
 	}
 	else
 	{
 		willLeap = true;
 		troll->body->SetLinearVelocity(b2Vec2_zero);
 
-		if (trollPlayerXDiff() > 0)
-		{
-			troll->scale.x = -1.f;
-		}
-		else
-		{
-			troll->scale.x = 1.f;
-		}
+		facePlayer();
 	}
 }
 void SlinkerAI::leapUpdate(float dt)

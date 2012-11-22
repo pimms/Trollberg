@@ -14,6 +14,10 @@ public:
 
 	void moveToPlayer();
 	void moveFromPlayer();
+
+	void facePlayer();
+	void faceAwayPlayer();
+
 	float trollPlayerXDiff();
 
 	void damagePlayer();

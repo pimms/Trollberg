@@ -27,10 +27,11 @@ Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 
 	deathTimer	= 0.f;
 	dead		= false;
-	rect		= Pim::Rect(0,14,20,20);
 	ai			= new SlinkerAI(this, pl);
 	walkSpeed	= 8.f;
 	health		= 60.f;
+
+	rect		= walkAnim.frameIndex(0);
 }
 Slinker::~Slinker(void)
 {
