@@ -265,18 +265,18 @@ void MainMenuLayer::updateScroll(float dt)
 
 	if (isScrolling)
 	{
-		float d = pow(scrollDest - position.x,2.f) / 10.f;
+		float diff = log((x+1)/10.f) * 100.f;
 
-		if (d > 700.f)
+		if (diff > 700.f)
 		{
-			d = 700.f;
+			diff = 700.f;
 		}
 		else if (d < 20.f)
 		{
-			d = 20.f;
+			diff = 20.f;
 		}
 
-		position.x += d*dt;
+		position.x += diff*dt;
 		light->position = Pim::Vec2(192.f-position.x, 108 - 50.f * sinf(position.x/100.f));
 
 		if (position.x > scrollDest)
