@@ -30,6 +30,10 @@ void HUDLayer::loadResources()
 
 	Pim::SpriteBatchNode *actor = GameLayer::getActorSheet();
 
+	Pim::Sprite *hud = new Pim::Sprite("res\\UI.png");
+	hud->anchor = Pim::Vec2(0.f, 0.f);
+	addChild(hud);
+
 	for (int i=0; i<3; i++)
 	{
 		hearts[i] = new Pim::Sprite;
@@ -79,6 +83,6 @@ void HUDLayer::setPlayerHealth(int health)
 {
 	for (int i=0; i<3; i++)
 	{
-		//hearts[i]->hidden = (i >= health);
+		hearts[i]->hidden = (i >= health);
 	}
 }

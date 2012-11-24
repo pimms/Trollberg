@@ -31,6 +31,11 @@ MainMenuLayer::~MainMenuLayer()
 	{
 		delete buttonFont;
 	}
+
+	if (music)
+	{
+		delete music;
+	}
 }
 
 void MainMenuLayer::loadResources()
@@ -47,6 +52,10 @@ void MainMenuLayer::loadResources()
 
 	// Load the middle layer (this)
 	loadSprites();
+
+	// Load the music file
+	music = new Pim::Sound("songz\\MENU.ogg");
+	music->loop();
 
 	listenFrame();
 	listenKeys();
