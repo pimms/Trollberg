@@ -1,7 +1,10 @@
 #include "Colossus.h"
 #include "ColossusAI.h"
 #include "Player.h"
+#include "TrollControl.h"
 
+#define C_TIMETODIE 2.f
+#define C_FADETIME 7.f
 
 Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	: Troll(b, p)
@@ -24,10 +27,10 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	crushAnim.horizontalFrames		= 5;
 	crushAnim.totalFrames			= 5;
 
-	deathAnim.firstFramePos			= Pim::Vec2(160.f, 64.f);
+	deathAnim.firstFramePos			= Pim::Vec2(0.f, 104.f);
 	deathAnim.frameWidth			= 40;
 	deathAnim.frameHeight			= 40;
-	deathAnim.frameTime				= 0.3f;
+	deathAnim.frameTime				= 0.25f;
 	deathAnim.framesInAnimation		= 8;
 	deathAnim.horizontalFrames		= 8;
 	deathAnim.totalFrames			= 8;
@@ -35,12 +38,13 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	rect							= walkAnim.frameIndex(0);
 
 	crushSensor						= NULL;
-	health							= 200.f;
+	health							= 200;
 	deathTimer						= 0.f;
 	dead							= false;
 	b2offset						= Pim::Vec2(0.f, 10.f);
 	ai								= new ColossusAI(this, pl);
 	walkSpeed						= 4.f;
+	isFading						= false;
 }
 Colossus::~Colossus()
 {
@@ -98,9 +102,51 @@ void Colossus::destroyCrushSensor()
 
 void Colossus::update(float dt)
 {
-	ai->update(dt);
-	
-	b2offset.x = -10 * scale.x;
+	if (!dead)
+	{
+		ai->update(dt);
+		b2offset.x = -10 * scale.x;
+	}
+	else
+	{
+		rect		= deathAnim.update(dt);
+		deathTimer += dt;
+
+		if (!isFading)
+		{
+			if (deathTimer >= C_TIMETODIE)
+			{
+				deleteBody();
+				parent->removeChild(this, true);
+			}
+		}
+		else
+		{
+
+		}
+	}
+}
+
+void Colossus::takeDamage(int damage)
+{
+	if (!dead)
+	{
+		Troll::takeDamage(damage);
+
+		if (health <= 0)
+		{
+			// Flag as dead
+			dead = true;
+
+			//tell troll controll i'm dead
+			TrollControl::getSingleton()->trollKilled();
+			// Set the collision filter to only collide with the ground
+			b2Filter filter;
+			filter.categoryBits = TROLLS;
+			filter.maskBits = GROUND;
+			body->GetFixtureList()->SetFilterData(filter);
+		}
+	}
 }
 
 void Colossus::deleteBody()

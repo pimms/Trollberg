@@ -142,9 +142,10 @@ void GameLayer::loadLightingSystem()
 	preloadLightTexture(sld, "LRBullet");
 
 	// Preoad the Colossus crush light
-	Pim::FlatLightDef *fld = new Pim::FlatLightDef;
+	Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
 	fld->radius = 150;
 	fld->falloff = 0.5f;
+	
 	preloadLightTexture(fld, "CCrush");
 }
 

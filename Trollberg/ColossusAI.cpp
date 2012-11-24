@@ -68,7 +68,7 @@ void ColossusAI::updateCrush(float dt)
 
 		// Update the light
 		float x = crushTimer - 0.4f;
-		colossus->pld->radius = cosf((x-0.05f)*30.f);
+		colossus->pld->radius = cosf((x-0.05f)*30.f) * 200.f;
 
 		colossus->lightPosition = Pim::Vec2(colossus->scale.x*-14.f, -5.f);
 
@@ -79,7 +79,8 @@ void ColossusAI::updateCrush(float dt)
 			isCrushing = false;
 			hasDamaged = false;
 			crushTimer = 0.f;
-
+			colossus->pld->radius = 0;
+			
 			colossus->rect = colossus->crushAnim.reset();
 		}
 	}

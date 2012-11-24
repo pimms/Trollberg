@@ -80,16 +80,9 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 	mEvt = &evt;
 
 	if (evt.isKeyDown(Pim::MouseEvent::MBTN_LEFT))
-		weapon->fire();
-
-	
-	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
 	{
-		// Fuck this
-		exit(0);
-		//weapon->altFire();
+		weapon->fire();
 	}
-	
 }
 
 void Player::takeDamage(int damage)

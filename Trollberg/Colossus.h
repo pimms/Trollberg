@@ -19,6 +19,8 @@ public:
 
 	void update(float dt);
 
+	void takeDamage(int damage);
+
 	void deleteBody();
 
 private:
@@ -35,5 +37,6 @@ private:
 
 	float					deathTimer;
 	bool					dead;
+	bool					isFading;
 };
 

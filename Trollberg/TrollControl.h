@@ -19,9 +19,10 @@ public:
 	void update(float dt);
 	void trollKilled();
 
+	void spawnTroll();
+
 private:
 	friend class Weapon;
-
 	static TrollControl		*singleton;
 
 	std::vector<Troll*>		trolls;
@@ -34,19 +35,16 @@ private:
 
 	Player					*pl;
 
-	float trollSpawnTimer;
-	int trollsToSpawn;
-	int trollsOnScreen;
-	int maxTrollsOnScreen;
-	float trollTimeBetweenSpawn;
+	float					trollSpawnTimer;
+	int						trollsToSpawn;
+	int						trollsOnScreen;
+	int						maxTrollsOnScreen;
+	float					trollTimeBetweenSpawn;
 
-	float ranDirr;
-	float spawnX;
+	float					ranDirr;
+	float					spawnX;
 
-	int trollSpawnChance[4][4];
-	float trollSpawnDelay[4][4];
-
-	void spawnTroll();
-
+	int						trollSpawnChance[4][4];
+	float					trollSpawnDelay[4][4];
 };
 

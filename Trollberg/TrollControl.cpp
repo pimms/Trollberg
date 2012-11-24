@@ -33,22 +33,10 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 	maxTrollsOnScreen = 10;
 	trollTimeBetweenSpawn = 0.05f;
 
-	//for (int i=0; i<5; i++)
-	//{
-	//	Tumbler *tl = new Tumbler(pl, actorSheet, Pim::Vec2(500+50*i, 150.f));
-	//	layer->addChild(tl);
-	//}
-
-	printf("haha");
-
-	// pos 0 i emthy;
-	//in first arr pos: 1 = lvl 1, 2 = lvl 2, 3 = lvl 3
-	//in sec arr pos:  1 = stinker, 2 = tumbler, 3 = colossus
-
 	//lvl 1
 	trollSpawnChance[1][1] = 60;
-	trollSpawnChance[1][2] = 35;
-	trollSpawnChance[1][3] = 5;
+	trollSpawnChance[1][2] = 30;
+	trollSpawnChance[1][3] = 10;
 
 	//lvl 2
 	trollSpawnChance[2][1] = 40;
@@ -85,45 +73,33 @@ void TrollControl::update(float dt){
 
 	if(trollSpawnTimer > trollTimeBetweenSpawn && trollsOnScreen < maxTrollsOnScreen)
 	{
-
 		if(trollsToSpawn > 0)
 		{
 			spawnTroll();
 		}
 		else
 		{
-			printf("Du er ferdig");
+			printf("Du er ferdig\n");
 			trollSpawnTimer = 0.f;
 		}
-
-		
-
 	}
 	else
 	{
 		trollSpawnTimer += dt;
 	}
-	
-
 }
 
 void TrollControl::spawnTroll(){
 
-	//do{
-		//randum nomber, -1 or 1:
-		ranDirr = ((rand() % 2) * 2) -1;
-		//get spawn x ca 60 pc offscreen to the player at a random direction:
+	do{
+		//randum number, -1 or 1:
+		ranDirr = ((rand() % 2) * 2) - 1; 
+		// get spawn x ca 60 pc offscreen to the player at a random direction:
 		spawnX = (pl->position.x) + ((SCREENWIDTH + 50 + rand() % 40) * ranDirr);
-	//}
-	//while(spawnX < 0 || spawnX > GameScene::getSingleton()->levelWidth);
+	}
+	while(spawnX < 0 || spawnX > GameScene::getSingleton()->levelWidth);
 
-	//std::cout << ranDirr << "|" << ((SCREENWIDTH + 50 + rand() % 40)) << "\n";
-	//std::cout <<  pl->position.x << "|"  << (pl->position.x - SCREENWIDTH) << "|" << (pl->position.x - SCREENWIDTH - 20 - rand()%15) << std::endl;
-
-	//int randen = (levelNum == 1) ? 30 : (levelNum == 2) ? 40 : (levelNum == 3) ? 60 : 0;
-
-	int randNum = rand() % 101;
-	std::cout << randNum << "<=" << trollSpawnChance[levelNum][1] << "\n";
+	int randNum = rand() % 100 + 1;
 	if(randNum <= trollSpawnChance[levelNum][1])
 	{
 
@@ -157,8 +133,7 @@ void TrollControl::spawnTroll(){
 
 }
 
-void TrollControl::trollKilled(){
-
+void TrollControl::trollKilled()
+{
 	trollsOnScreen --;
-
 }
