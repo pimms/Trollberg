@@ -1,9 +1,11 @@
+#pragma once
 #include "Tumbler.h"
 #include "TumblerAI.h"
 #include "Player.h"
 #include "Animation.h"
 #include "GameLayer.h"
 #include "Rock.h"
+#include "TrollControl.h"
 
 #define TL_TIMETODIE 1.4f
 
@@ -125,6 +127,9 @@ void Tumbler::takeDamage(int damage)
 		{
 			// Flag as dead
 			dead = true;
+
+			//tell troll controll i'm dead
+			TrollControl::getSingleton()->trollKilled();
 
 			// Set the collision filter to only collide with the ground
 			b2Filter filter;

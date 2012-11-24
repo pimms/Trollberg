@@ -20,6 +20,8 @@ GameScene::GameScene(int levelNumber)
 
 	batch = NULL;
 	world = NULL;
+
+	levelWidth = 0;
 }
 GameScene::~GameScene()
 {
@@ -62,6 +64,8 @@ void GameScene::loadLevelData()
 	LevelParser parser;
 	levelData = parser.parseTrollbergLevel(levelFile);
 	color = levelData.color;
+
+	levelWidth = levelData.playfield.width;
 
 	batch = new Pim::SpriteBatchNode(levelData.batchFile);
 }

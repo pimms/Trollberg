@@ -9,7 +9,7 @@ class Troll;
 class TrollControl
 {
 public:
-	static TrollControl* getSingleton();
+	static TrollControl* getSingleton(){ return singleton; };
 
 	TrollControl(Pim::SpriteBatchNode *batch, GameLayer *layer, 
 				Player *pl, float lvlWidth, int lvl);
@@ -17,6 +17,7 @@ public:
 
 	// Called from the GameLayer
 	void update(float dt);
+	void trollKilled();
 
 private:
 	friend class Weapon;
@@ -30,5 +31,22 @@ private:
 	GameLayer				*layer;
 	float					levelWidth;
 	int						levelNum;
+
+	Player					*pl;
+
+	float trollSpawnTimer;
+	int trollsToSpawn;
+	int trollsOnScreen;
+	int maxTrollsOnScreen;
+	float trollTimeBetweenSpawn;
+
+	float ranDirr;
+	float spawnX;
+
+	int trollSpawnChance[4][4];
+	float trollSpawnDelay[4][4];
+
+	void spawnTroll();
+
 };
 

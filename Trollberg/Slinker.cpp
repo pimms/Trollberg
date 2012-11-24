@@ -1,6 +1,8 @@
+#pragma once
 #include "Slinker.h"
 #include "SlinkerAI.h"
 #include "Animation.h"
+#include "TrollControl.h"
 
 #define SL_TIMETODIE 0.7f
 
@@ -70,6 +72,8 @@ void Slinker::takeDamage(int damage)
 			// Flag as dead
 			dead = true;
 
+			//tell troll controll i'm dead
+			TrollControl::getSingleton()->trollKilled();
 			// Set the collision filter to only collide with the ground
 			b2Filter filter;
 			filter.categoryBits = TROLLS;
