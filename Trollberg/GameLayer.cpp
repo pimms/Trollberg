@@ -47,7 +47,7 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	return;	// Comment the return to enable physics debug-drawing
+	//return;	// Comment the return to enable physics debug-drawing
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -66,18 +66,42 @@ void GameLayer::draw()
 	{
 		for (auto f=b->GetFixtureList(); f; f=f->GetNext())
 		{
-			b2PolygonShape *shape = dynamic_cast<b2PolygonShape*>(f->GetShape());
-			if (shape)
+			// Is the body a polygon shape?
+			b2PolygonShape *poly = dynamic_cast<b2PolygonShape*>(f->GetShape());
+			if (poly)
 			{
 				glPushMatrix();
 				glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
 				glRotatef(b->GetAngle()*RADTODEG, 0.f, 0.f, 1.f);
 
 				glBegin(GL_POLYGON);
-				for (int i=0; i<shape->GetVertexCount(); i++)
-				{
-					glVertex2f(shape->GetVertex(i).x, shape->GetVertex(i).y);
-				}
+					for (int i=0; i<poly->GetVertexCount(); i++)
+					{
+						glVertex2f(poly->GetVertex(i).x, poly->GetVertex(i).y);
+					}
+				glEnd();
+
+				glPopMatrix();
+			}
+
+			// Is the body a circular shape?
+			b2CircleShape *circle = dynamic_cast<b2CircleShape*>(f->GetShape());
+			if (circle)
+			{
+				glPushMatrix();
+				glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
+				
+				float rad = circle->m_radius;
+
+				glBegin(GL_TRIANGLE_FAN);
+					glVertex2f(0.f, 0.f);
+
+					for (float a=0.f; a<2*M_PI; a+=(2*M_PI)/32.f)
+					{
+						glVertex2f( rad*cosf(a), rad*sinf(a) );
+					}
+
+					glVertex2f( rad*cosf(0.f), rad*sinf(0.f) );
 				glEnd();
 
 				glPopMatrix();

@@ -45,7 +45,9 @@ GameScene::~GameScene()
 
 Pim::Layer* GameScene::pauseLayer()
 {
-	return new PauseLayer;
+	PauseLayer *pl = new PauseLayer;
+	pl->setZOrder(1000);
+	return pl;
 }
 
 void GameScene::loadResources()
@@ -56,6 +58,8 @@ void GameScene::loadResources()
 	// Load stuff
 	loadLevelData();
 	loadLayers();
+
+	Pim::GameControl::getSingleton()->limitFrame(2);
 }
 void GameScene::loadLevelData()
 {
@@ -137,8 +141,12 @@ void GameScene::update(float dt)
 			if (ud)
 			{
 				Entity *ent = static_cast<Entity*>(ud);
-				ent->position = toPim( ent->body->GetPosition() );
-				ent->rotation = ent->body->GetAngle() * RADTODEG;
+
+				if (ent->body == it)
+				{
+					ent->position = toPim( ent->body->GetPosition() );
+					ent->rotation = ent->body->GetAngle() * RADTODEG;
+				}
 			}
 		}
 	}

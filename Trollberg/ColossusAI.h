@@ -1,10 +1,19 @@
 #pragma once
 #include "trollai.h"
 
+// Forward declarations
+class Colossus;
+
 class ColossusAI : public TrollAI
 {
 public:
-	ColossusAI(void);
-	~ColossusAI(void);
+	ColossusAI(Colossus *troll, Player *pl);
+	~ColossusAI();
+
+	void update(float dt);
+	void updateCrush(float dt);
+
+private:
+	Colossus		*colossus;
 };
 

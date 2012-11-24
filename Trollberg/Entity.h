@@ -9,12 +9,15 @@ public:
 	void setPosition(Pim::Vec2);
 	void setPosition(b2Vec2);
 
+	// Overriden so the b2offset can be taken into account
+	void draw();
+
 	// Create a box body.
-	virtual void createRectangularBody(Pim::Vec2 pixelDimensions, int category, 
+	virtual b2Body* createRectangularBody(Pim::Vec2 pixelDimensions, int category, 
 									   int mask, float density=0.f);
 
 	// Create a circular body.
-	virtual void createCircularBody(float pixelRadius, int category, 
+	virtual b2Body* createCircularBody(float pixelRadius, int category, 
 									int mask, float density=0.f);
 
 	virtual void deleteBody();
@@ -26,6 +29,9 @@ public:
 
 	// The physics body
 	b2Body		*body;
+
+	// The offset (in pixels) of the box2d body
+	Pim::Vec2	b2offset;
 
 protected:
 	// Keep a reference to the world

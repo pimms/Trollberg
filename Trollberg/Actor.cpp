@@ -16,19 +16,7 @@ Actor::~Actor()
 {
 }
 
-void Actor::createRectangularBody(Pim::Vec2 dimensions, int category, int mask, float density)
-{
-	Entity::createRectangularBody(dimensions, category, mask, density);
-
-	createSensor(-dimensions.y/PTMR/2.f);
-}
-void Actor::createCircularBody(float radius, int category, int mask, float density)
-{
-	Entity::createCircularBody(radius, category, mask, density);
-
-	createSensor(-radius/PTMR);
-}
-void Actor::createSensor(float offsetY)
+b2Body* Actor::createSensor(b2Body *attachBody, float offsetY)
 {
 	b2BodyDef bd;
 	bd.type					= b2_dynamicBody;
@@ -48,17 +36,18 @@ void Actor::createSensor(float offsetY)
 	fd.filter.maskBits		= GROUND;
 	fd.isSensor				= true;
 
-	sensor = world->CreateBody(&bd);
-	sensor->CreateFixture(&fd);
-	//sensor->SetUserData(this); Leave uncommented. Causes funky bugs.
+	b2Body *retSensor = world->CreateBody(&bd);
+	retSensor->CreateFixture(&fd);
 
 	// Create a joint
 	b2WeldJointDef jd;
-	jd.bodyA = body;
-	jd.bodyB = sensor;
+	jd.bodyA = attachBody;
+	jd.bodyB = retSensor;
 	jd.localAnchorA = b2Vec2(0.f, offsetY);
 
 	joint = world->CreateJoint(&jd);
+
+	return retSensor;
 }
 
 void Actor::jump()

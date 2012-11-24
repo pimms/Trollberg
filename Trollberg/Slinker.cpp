@@ -7,7 +7,8 @@
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
-	createCircularBody(10, TROLLS, TROLLS | PLAYER | GROUND | SENSOR, 1.13f);
+	body = createCircularBody(10, TROLLS, TROLLS | PLAYER | GROUND | SENSOR, 1.13f);
+	sensor = createSensor(body, -7.f/PTMR);
 
 	walkAnim.firstFramePos		= Pim::Vec2(0.f, 14.f);
 	walkAnim.frameWidth			= 20;

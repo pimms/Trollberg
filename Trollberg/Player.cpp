@@ -32,7 +32,8 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	dead						= false;
 	deathTimer					= 0.f;
 
-	createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
+	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
+	sensor = createSensor(body, -4.f/PTMR);
 
 	weapon = Weapon::createWeapon(actorSheet, LIGHT_RIFLE);
 	addChild(weapon);
@@ -116,7 +117,8 @@ void Player::update(float dt)
 		updateWeapon();					
 
 		// Face the aimed direction
-		scale.x = weapon->scale.y;		
+		scale.x = weapon->scale.y;	
+		b2offset.x = 2*scale.x;
 
 		// Update the velocity of the player's body
 		b2Vec2 vel(velX*dt, body->GetLinearVelocity().y);
@@ -168,10 +170,13 @@ void Player::updateWeapon()
 {
 	if (mEvt)
 	{
-		Pim::Vec2 p = position + parent->position;	// Screen coord of player
-		Pim::Vec2 d = p - mEvt->getPosition();		// difference
-		weapon->rotation = -d.angleBetween360(Pim::Vec2(-1.f, 0.f));
+		// Screen coord of player
+		Pim::Vec2 p = position + parent->position;
+		
+		// difference
+		Pim::Vec2 d = p - mEvt->getPosition();		
 
+		weapon->rotation = -d.angleBetween360(Pim::Vec2(-1.f, 0.f));
 		weapon->setMirrored(p.x > mEvt->getPosition().x);
 	}
 }

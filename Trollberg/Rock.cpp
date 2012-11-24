@@ -12,7 +12,7 @@ Rock::Rock(Pim::SpriteBatchNode *actorSheet, Tumbler *tumbler, float dist, Playe
 
 	useBatchNode(actorSheet);
 	
-	createCircularBody(4, TROLLS, PLAYER | GROUND);
+	body = createCircularBody(4, TROLLS, PLAYER | GROUND);
 
 	// Set the position of the rock
 	b2Vec2 origin = tumbler->body->GetPosition();
@@ -27,7 +27,7 @@ Rock::Rock(Pim::SpriteBatchNode *actorSheet, Tumbler *tumbler, float dist, Playe
 	body->ApplyForce(force, tumbler->body->GetPosition());
 }
 
-void Rock::createCircularBody(float radius, int category, int mask, float density)
+b2Body* Rock::createCircularBody(float radius, int category, int mask, float density)
 {
 	b2BodyDef bd;
 	bd.type					= b2_dynamicBody;
@@ -47,11 +47,13 @@ void Rock::createCircularBody(float radius, int category, int mask, float densit
 	fd.filter.categoryBits	= category;
 	fd.filter.maskBits		= mask;
 
-	body = world->CreateBody(&bd);
-	body->CreateFixture(&fd);
-	body->SetUserData(this);
+	b2Body *retBody = world->CreateBody(&bd);
+	retBody->CreateFixture(&fd);
+	retBody->SetUserData(this);
 
-	body->SetTransform(toB2(position), 0.f);
+	retBody->SetTransform(toB2(position), 0.f);
+
+	return retBody;
 }
 
 void Rock::update(float dt)

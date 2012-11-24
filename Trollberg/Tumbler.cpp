@@ -10,7 +10,7 @@
 Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	: Troll(b, p)
 {
-	createCircularBody(7, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	createPhysics();
 
 	throwAnim.firstFramePos		= Pim::Vec2(0.f, 34.f);
 	throwAnim.frameWidth		= 30;
@@ -53,42 +53,24 @@ Tumbler::~Tumbler(void)
 	}
 }
 
-void Tumbler::createCircularBody(float radius, int category, int mask, float density)
+void Tumbler::createPhysics()
 {
-	// Create the lower body
-	Actor::createCircularBody(radius, category, mask, density);
+	body = createCircularBody(7, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	sensor = createSensor(body, -8.f/PTMR);
 
-	// Create the upper body
-	b2BodyDef bd;
-	bd.type					= b2_dynamicBody;
-	bd.fixedRotation		= true;
-	bd.allowSleep			= false;
-	bd.position				= toB2(position);
-	
-	b2CircleShape shape;
-	shape.m_radius			= radius / PTMR;
+	body2 = createCircularBody(7, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
 
-	b2FixtureDef fd;
-	fd.shape				= &shape;
-	fd.restitution			= 0.f;
-	fd.friction				= 0.f;
-	fd.density				= (density)?(density):(pow((radius/PTMR)*M_PI, 2));
-	fd.userData				= this;
-	fd.filter.categoryBits	= category;
-	fd.filter.maskBits		= mask;
+	// Joint the two bodies together. WeldJoint didn't work. WHAT THE FLYING FUCK.
+	// Using a revolute joint instead, turning off rotation.
+	b2RevoluteJointDef jd;
+	jd.Initialize(body, body2, body->GetPosition());
+	jd.localAnchorB = b2Vec2(0,-0.7);
+	jd.collideConnected = false;
+	jd.lowerAngle = 0.f;
+	jd.upperAngle = 0.f;
 
-	body2 = world->CreateBody(&bd);
-	body2->CreateFixture(&fd);
-	body2->SetUserData(this);
-
-	// Joint the two bodies together
-	b2WeldJointDef jd;
-	jd.bodyA = body;
-	jd.bodyB = body2;
-
-	jd.localAnchorB = b2Vec2(0, -radius*2);
 	world->CreateJoint(&jd);
-}
+} 
 
 void Tumbler::update(float dt)
 {
@@ -138,7 +120,7 @@ void Tumbler::takeDamage(int damage)
 void Tumbler::deleteBody()
 {
 	Actor::deleteBody();
-
+	
 	if (body2)
 	{
 		world->DestroyBody(body2);

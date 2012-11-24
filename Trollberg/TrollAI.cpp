@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Troll.h"
 
+
 TrollAI::TrollAI()
 {
 	troll		= NULL;
@@ -14,8 +15,6 @@ void TrollAI::moveToPlayer()
 	
 	b2Vec2 vel(f*troll->walkSpeed, troll->body->GetLinearVelocity().y);
 	troll->body->SetLinearVelocity(vel);
-
-
 }
 void TrollAI::moveFromPlayer()
 {
@@ -47,7 +46,6 @@ void TrollAI::faceAwayPlayer()
 		troll->scale.x = -1.f;
 	}
 }
-
 float TrollAI::trollPlayerXDiff()
 {
 	return player->position.x - troll->position.x;

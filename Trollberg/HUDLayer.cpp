@@ -60,7 +60,7 @@ void HUDLayer::updateLabels(float dt)
 
 		//labels[i]->position		= position + getParentLayer()->position;
 		labels[i]->position.x	 = labels[i]->initialX + GameLayer::getSingleton()->position.x;
-		labels[i]->position.y	+= dt * labels[i]->lifetime * 40.f;
+		labels[i]->position.y	+= dt * 60.f;
 
 		if (labels[i]->lifetime >= FL_LIFETIME)
 		{

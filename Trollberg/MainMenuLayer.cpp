@@ -204,8 +204,8 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
-	updateScroll(dt);
 	updateButtons(dt);
+	updateScroll(dt);
 }
 void MainMenuLayer::updateButtons(float dt)
 {
@@ -229,7 +229,6 @@ void MainMenuLayer::updateButtons(float dt)
 		{
 			playIntro = false;
 		}
-
 	}
 	
 	if(playOutro)

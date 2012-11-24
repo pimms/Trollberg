@@ -11,7 +11,7 @@ public:
 	Rock(Pim::SpriteBatchNode *actorSheet, Tumbler *tumbler, float dist, Player *p);
 
 	// Create a circular body with custom physics attributes
-	void createCircularBody(float pixelRadius, int category, int mask, float density=0.f);
+	b2Body* createCircularBody(float pixelRadius, int category, int mask, float density=0.f);
 
 	void update(float dt);
 

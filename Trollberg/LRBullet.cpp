@@ -26,7 +26,7 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 	bd.bullet		= true;
 
 	b2CircleShape shape;
-	shape.m_radius	= 1.f/PTMR;
+	shape.m_radius	= 0.2f;;
 
 	b2FixtureDef fd;
 	fd.restitution	= 1.f;

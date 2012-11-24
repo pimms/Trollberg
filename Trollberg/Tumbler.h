@@ -11,8 +11,7 @@ public:
 	Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p);
 	~Tumbler(void);
 
-	// Overriden to create TWO circular bodies, and attach a sensor to the bottom one.
-	void createCircularBody(float pixelRadius, int category, int mask, float density=0.f);
+	void createPhysics();
 
 	void update(float dt);
 
