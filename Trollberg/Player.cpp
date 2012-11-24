@@ -94,7 +94,6 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 
 void Player::takeDamage(int damage)
 {
-	return; // stopper spillerdød!
 	if (!dead)
 	{
 		health -= damage;
