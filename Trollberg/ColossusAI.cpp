@@ -59,7 +59,7 @@ void ColossusAI::updateCrush(float dt)
 	colossus->body->SetLinearVelocity(b2Vec2_zero);
 
 	colossus->walkAnim.reset();
-	colossus->rect = colossus->crushAnim.update(dt);
+	colossus->rect = colossus->attackAnim.update(dt);
 
 	if (crushTimer > 0.4f)
 	{
@@ -81,7 +81,7 @@ void ColossusAI::updateCrush(float dt)
 			crushTimer = 0.f;
 			colossus->pld->radius = 0;
 			
-			colossus->rect = colossus->crushAnim.reset();
+			colossus->rect = colossus->attackAnim.reset();
 		}
 	}
 }

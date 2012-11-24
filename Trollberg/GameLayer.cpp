@@ -47,7 +47,7 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	//return;	// Comment the return to enable physics debug-drawing
+	return;	// Comment the return to enable physics debug-drawing
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -139,13 +139,12 @@ void GameLayer::loadLightingSystem()
 	Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
 	sld->radius = 250;
 	sld->innerColor.a = 0.7f;
-	preloadLightTexture(sld, "LRBullet");
+	preloadLightTexture(sld, "Bullet");
 
 	// Preoad the Colossus crush light
 	Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
 	fld->radius = 150;
 	fld->falloff = 0.5f;
-	
 	preloadLightTexture(fld, "CCrush");
 }
 

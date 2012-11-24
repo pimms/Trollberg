@@ -8,19 +8,20 @@
 #include "TrollControl.h"
 
 #define TL_TIMETODIE 1.4f
+#define TL_FADETIME 6.f
 
 Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	: Troll(b, p)
 {
 	createPhysics();
 
-	throwAnim.firstFramePos		= Pim::Vec2(0.f, 34.f);
-	throwAnim.frameWidth		= 30;
-	throwAnim.frameHeight		= 30;
-	throwAnim.frameTime			= 0.25f;
-	throwAnim.horizontalFrames	= 4;
-	throwAnim.framesInAnimation = 4;
-	throwAnim.totalFrames		= 4;
+	attackAnim.firstFramePos	= Pim::Vec2(0.f, 34.f);
+	attackAnim.frameWidth		= 30;
+	attackAnim.frameHeight		= 30;
+	attackAnim.frameTime		= 0.25f;
+	attackAnim.horizontalFrames	= 4;
+	attackAnim.framesInAnimation = 4;
+	attackAnim.totalFrames		= 4;
 
 	walkAnim.firstFramePos		= Pim::Vec2(120.f, 34.f);
 	walkAnim.frameWidth			= 30;
@@ -41,18 +42,12 @@ Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	player						= pl;
 	walkSpeed					= 5.f;
 	health						= 100;
-	dead						= false;
-	deathTimer					= 0.f;
 	ai							= new TumblerAI(this, player);
+	b2offset					= Pim::Vec2(0.f, 4.f);
+
+	timeToDie					= 1.4f;
 
 	rect						= walkAnim.frameIndex(0);
-}
-Tumbler::~Tumbler(void)
-{
-	if (ai)
-	{
-		delete ai;
-	}
 }
 
 void Tumbler::createPhysics()
@@ -74,61 +69,8 @@ void Tumbler::createPhysics()
 	world->CreateJoint(&jd);
 } 
 
-void Tumbler::update(float dt)
-{
-	if (!dead)
-	{
-		ai->update(dt);
-	}
-	else
-	{
-		rect		= deathAnim.update(dt);
-		deathTimer += dt;
-
-		if (deathTimer >= TL_TIMETODIE)
-		{
-			deleteBody();
-			parent->removeChild(this, true);
-		}
-	}
-}
-
 void Tumbler::throwRock()
 {
 	Rock *rock = new Rock(actorSheet, this, ai->trollPlayerXDiff(), player);
 	GameLayer::getSingleton()->addChild(rock);
-}
-
-void Tumbler::takeDamage(int damage)
-{
-	if (!dead)
-	{
-		Troll::takeDamage(damage);
-
-		if (health <= 0)
-		{
-			// Flag as dead
-			dead = true;
-
-			//tell troll controll i'm dead
-			TrollControl::getSingleton()->trollKilled();
-
-			// Set the collision filter to only collide with the ground
-			b2Filter filter;
-			filter.categoryBits = TROLLS;
-			filter.maskBits = GROUND;
-			body->GetFixtureList()->SetFilterData(filter);
-		}
-	}
-}
-
-void Tumbler::deleteBody()
-{
-	Actor::deleteBody();
-	
-	if (body2)
-	{
-		world->DestroyBody(body2);
-		body2 = NULL;
-	}
 }

@@ -9,7 +9,6 @@ class Colossus : public Troll
 {
 public:
 	Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p);
-	~Colossus();
 
 	void createPhysics();
 	void createLight();
@@ -17,26 +16,13 @@ public:
 	void createCrushSensor();
 	void destroyCrushSensor();
 
-	void update(float dt);
-
-	void takeDamage(int damage);
-
 	void deleteBody();
 
 private:
 	friend class ColossusAI;
 
-	b2Body					*body2;
 	b2Body					*crushSensor;
 
 	Pim::PreloadLightDef	*pld;
-
-	Animation				walkAnim;
-	Animation				crushAnim;
-	Animation				deathAnim;
-
-	float					deathTimer;
-	bool					dead;
-	bool					isFading;
 };
 

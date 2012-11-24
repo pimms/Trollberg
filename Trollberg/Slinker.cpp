@@ -5,12 +5,13 @@
 #include "TrollControl.h"
 
 #define SL_TIMETODIE 0.7f
+#define SL_FADETIME 6.f
 
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
 	body = createCircularBody(10, TROLLS, TROLLS | PLAYER | GROUND | SENSOR, 1.13f);
-	sensor = createSensor(body, -7.f/PTMR);
+	sensor = createSensor(body, -8.f/PTMR);
 
 	walkAnim.firstFramePos		= Pim::Vec2(0.f, 14.f);
 	walkAnim.frameWidth			= 20;
@@ -34,52 +35,7 @@ Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	walkSpeed	= 8.f;
 	health		= 60.f;
 
+	timeToDie	= 1.4f;
+
 	rect		= walkAnim.frameIndex(0);
-}
-Slinker::~Slinker(void)
-{
-	if (ai) 
-	{	
-		delete ai;
-	}
-}
-
-void Slinker::update(float dt)
-{
-	if (!dead)
-	{
-		ai->update(dt);
-	}
-	else
-	{
-		rect		= deathAnim.update(dt);
-		deathTimer += dt;
-
-		if (deathTimer >= SL_TIMETODIE)
-		{
-			deleteBody();
-			parent->removeChild(this, true);
-		}
-	}
-}
-void Slinker::takeDamage(int damage)
-{
-	if (!dead)
-	{
-		Troll::takeDamage(damage);
-
-		if (health <= 0)
-		{
-			// Flag as dead
-			dead = true;
-
-			//tell troll controll i'm dead
-			TrollControl::getSingleton()->trollKilled();
-			// Set the collision filter to only collide with the ground
-			b2Filter filter;
-			filter.categoryBits = TROLLS;
-			filter.maskBits = GROUND;
-			body->GetFixtureList()->SetFilterData(filter);
-		}
-	}
 }

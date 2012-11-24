@@ -10,6 +10,7 @@ class TrollAI
 {
 public:
 	TrollAI();
+
 	virtual void update(float dt) = 0;
 
 	virtual void moveToPlayer();
@@ -23,7 +24,6 @@ public:
 	void damagePlayer();
 
 protected:
-
 	Troll	*troll;
 	Player	*player;
 };

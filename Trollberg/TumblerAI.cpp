@@ -47,13 +47,13 @@ void TumblerAI::update(float dt)
 	// The throwing animation is running
 	if (isThrowing)
 	{
-		tumbler->rect = tumbler->throwAnim.update(dt);
+		tumbler->rect = tumbler->attackAnim.update(dt);
 		throwTimer += dt;
 
 		// Are we at the throw time? 
 		if (throwTimer >= TL_THROWTIME)
 		{
-			tumbler->rect = tumbler->throwAnim.update(dt);
+			tumbler->rect = tumbler->attackAnim.update(dt);
 
 			// Has the rock been thrown yet?
 			if (!hasThrown)
@@ -79,7 +79,7 @@ void TumblerAI::update(float dt)
 		if (troll->isGrounded())
 		{
 			// Move closer if required
-			if (abs(trollPlayerXDiff() > 150))
+			if (abs(trollPlayerXDiff() > 180))
 			{
 				tumbler->rect = tumbler->walkAnim.update(dt);
 
@@ -90,9 +90,9 @@ void TumblerAI::update(float dt)
 			// Hurl that boulder!
 			else if (throwCooldown <= 0.f)
 			{
-				tumbler->rect = tumbler->throwAnim.reset();
+				tumbler->rect = tumbler->attackAnim.reset();
 
-				throwCooldown	= 3.f;
+				throwCooldown	= 0.f;
 				throwTimer		= 0.f;
 				isThrowing		= true;
 
@@ -100,17 +100,26 @@ void TumblerAI::update(float dt)
 			}
 
 			// He's got a towel! Run away!
-			else
+			else if (trollPlayerXDiff() < 40.f)
 			{
 				moveFromPlayer();
 				faceAwayPlayer();
+			}
+
+			// stand completely still
+			else
+			{
+				troll->body->SetLinearVelocity(b2Vec2_zero);
+
+				tumbler->rect = tumbler->walkAnim.frameIndex(0);
+				tumbler->walkAnim.reset();
 			}
 		}
 
 		// Wait for the troll to land
 		else
 		{
-			tumbler->rect = tumbler->throwAnim.frameIndex(3);
+			tumbler->rect = tumbler->attackAnim.frameIndex(3);
 			tumbler->walkAnim.reset();
 		}
 	}

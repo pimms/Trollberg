@@ -35,7 +35,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
 	sensor = createSensor(body, -4.f/PTMR);
 
-	weapon = Weapon::createWeapon(actorSheet, LIGHT_RIFLE);
+	weapon = Weapon::createWeapon(actorSheet, SHOTGUN);
 	addChild(weapon);
 
 	listenFrame();
@@ -79,7 +79,7 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 {
 	mEvt = &evt;
 
-	if (evt.isKeyDown(Pim::MouseEvent::MBTN_LEFT))
+	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
 		weapon->fire();
 	}
@@ -94,6 +94,8 @@ void Player::takeDamage(int damage)
 
 		if (health <= 0)
 		{
+			weapon->hidden = true;
+
 			dead = true;
 			deathTimer = 0.f;
 
