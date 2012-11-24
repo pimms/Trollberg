@@ -7,10 +7,10 @@
 Revolver::Revolver(Pim::SpriteBatchNode *b)
 	: Weapon(b, Pim::Rect(150,0,10,5))
 {
-	minDamage	= 20;
-	maxDamage	= 30;
+	minDamage	= 15;
+	maxDamage	= 25;
 	accuracy	= 5.f;
-	rof			= 0.4f;
+	rof			= 0.f;
 	rofAlt		= 1.f;
 
 	position	= Pim::Vec2(-2.f, 1.f);
@@ -31,6 +31,7 @@ void Revolver::fire()
 
 		// The bullet must create it's light AFTER it's been parented.
 		bullet->createLight();
+		bullet->scale *= 0.5f;
 
 		timer = 0.f;
 	}

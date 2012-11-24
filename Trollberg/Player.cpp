@@ -35,7 +35,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
 	sensor = createSensor(body, -4.f/PTMR);
 
-	weapon = Weapon::createWeapon(actorSheet, SHOTGUN);
+	weapon = Weapon::createWeapon(actorSheet, SNIPER);
 	addChild(weapon);
 
 	listenFrame();
@@ -73,6 +73,19 @@ void Player::keyEvent(Pim::KeyEvent &evt)
 	else 
 	{
 		velX = 0.f;
+	}
+
+	if (evt.isKeyFresh(Pim::KeyEvent::K_1))
+	{
+		setActiveWeapon(REVOLVER);
+	}
+	if (evt.isKeyFresh(Pim::KeyEvent::K_2))
+	{
+		setActiveWeapon(SHOTGUN);
+	}
+	if (evt.isKeyFresh(Pim::KeyEvent::K_3))
+	{
+		setActiveWeapon(SNIPER);
 	}
 } 
 void Player::mouseEvent(Pim::MouseEvent &evt)
@@ -174,4 +187,11 @@ void Player::updateWeapon()
 		weapon->rotation = -d.angleBetween360(Pim::Vec2(-1.f, 0.f));
 		weapon->setMirrored(p.x > mEvt->getPosition().x);
 	}
+}
+
+void Player::setActiveWeapon(WeaponID wep)
+{
+	weapon->getParent()->removeChild(weapon, true);
+	weapon = Weapon::createWeapon(actorSheet, wep);
+	addChild(weapon);
 }

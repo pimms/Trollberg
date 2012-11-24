@@ -59,16 +59,8 @@ void Shotgun::setMirrored(bool flag)
 }
 Pim::Vec2 Shotgun::muzzlePoint()
 {
-	if (scale.y > 0.f)
-	{
-		float a = rotation * DEGTORAD;
-		return getLayerPosition() + Pim::Vec2(13*cosf(a), 13*sinf(a));
-	}
-	else
-	{
-		float a = rotation * DEGTORAD;
-		return getLayerPosition() + Pim::Vec2(13*cosf(a), 13*sinf(a));
-	}
+	float a = rotation * DEGTORAD;
+	return getLayerPosition() + Pim::Vec2(13*cosf(a), 13*sinf(a));
 }
 
 float Shotgun::damage(Bullet *b)

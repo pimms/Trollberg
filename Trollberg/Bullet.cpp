@@ -11,6 +11,8 @@
 
 Bullet::Bullet(Weapon *w, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
+	ignoreb2Rotation = true;
+	rotation		= angle;
 	position		= pos;
 	life			= 0.f;
 	weapon			= w;
@@ -24,6 +26,7 @@ Bullet::Bullet(Weapon *w, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float
 	bd.allowSleep	= false;
 	bd.position		= toB2(pos);
 	bd.bullet		= true;
+	bd.fixedRotation = false;
 
 	b2CircleShape shape;
 	shape.m_radius	= 0.2f;;

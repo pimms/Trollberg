@@ -4,6 +4,7 @@
 
 #include "Revolver.h"
 #include "Shotgun.h"
+#include "Sniper.h"
 
 Weapon* Weapon::createWeapon(Pim::SpriteBatchNode *b, WeaponID wid)
 {
@@ -14,6 +15,9 @@ Weapon* Weapon::createWeapon(Pim::SpriteBatchNode *b, WeaponID wid)
 
 		case SHOTGUN:
 			return new Shotgun(b);
+
+		case SNIPER:
+			return new Sniper(b);	
 	}
 
 	return NULL;
@@ -35,7 +39,7 @@ float Weapon::damage(Bullet *bullet)
 {
 	// Get a random number between 0 and 1
 	float r = (float)rand()/(float)RAND_MAX;
-	return minDamage + r*(maxDamage-minDamage);
+	return minDamage + r*(maxDamage-minDamage+1);
 }
 float Weapon::angle()
 {
