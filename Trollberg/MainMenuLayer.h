@@ -4,7 +4,7 @@
 
 // Defines
 #define NUMMENYBUTTONS 4
-#define MENYSPEED 1
+#define MENYSPEED 10
 
 class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
 {

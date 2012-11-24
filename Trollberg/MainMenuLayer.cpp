@@ -36,7 +36,7 @@ MainMenuLayer::~MainMenuLayer()
 void MainMenuLayer::loadResources()
 {
 	// Load the button sheet
-	buttonSheet = new Pim::SpriteBatchNode("res/buttonsMainMenu.png");
+	buttonSheet = new Pim::SpriteBatchNode("res/mainMenuButtons.png");
     addChild(buttonSheet);
 	loadButtons();
 
@@ -78,7 +78,6 @@ void MainMenuLayer::loadButtons()
 	// Create the buttons
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
 	{
-		std::cout << "i: " << i << " verdi: " << menyButtonLabels[i];
 		menuButtons[i]			= createButton(1272, SCREENHEIGHT + 30, menyButtonLabels[i]);
 		buttonYPos[i]			= 108 - (PTMR*i*3), menyButtonLabels[i];
 	}
@@ -143,20 +142,25 @@ void MainMenuLayer::loadParallax()
 
 MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLabel)
 {
+
+	float scaleX = 1.0f;
+	float scaleY = 0.7f;
+
+
     Pim::Sprite *normal = new Pim::Sprite;
     normal->useBatchNode(buttonSheet) ; 
-    normal->rect = Pim::Rect(0,0,40,25);
-	normal->scale = Pim::Vec2(2.5f, 1.f);
+    normal->rect = Pim::Rect(0,0,150,35);
+	normal->scale = Pim::Vec2(scaleX, scaleY);
 
     Pim::Sprite *hovered = new Pim::Sprite;
     hovered->useBatchNode(buttonSheet);
-    hovered->rect = Pim::Rect(40,0,40,25);
-	hovered->scale = Pim::Vec2(2.5f, 1.f);
+    hovered->rect = Pim::Rect(0,34,150,35);
+	hovered->scale = Pim::Vec2(scaleX, scaleY);
 
     Pim::Sprite *pressed = new Pim::Sprite;
     pressed->useBatchNode(buttonSheet); 
-    pressed->rect = Pim::Rect(80,0,40,25);
-	pressed->scale = Pim::Vec2(2.5f, 1.f);
+    pressed->rect = Pim::Rect(0,69,150,40);
+	pressed->scale = Pim::Vec2(scaleX, scaleY);
 
 	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, buttonFont);
 	addChild(menuButton);
@@ -177,7 +181,6 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
 
 void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 {
-
 	if(activeButton == menuButtons[0]) //start
 	{
 		//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
@@ -277,7 +280,7 @@ void MainMenuLayer::updateScroll(float dt)
 			diff = 15.f;
 		}
 
-		position.x += diff*dt;
+		position.x += diff*dt*MENYSPEED;
 		light->position = Pim::Vec2(192.f-position.x, 108 - 50.f * sinf(position.x/100.f));
 
 		if (position.x > scrollDest)

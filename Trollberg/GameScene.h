@@ -11,6 +11,7 @@ class GameScene : public Pim::Scene
 public:
 	// Returns the Box2D world
 	static b2World* getWorld() { return singleton->world; }
+	static GameScene* getSingleton() { return singleton; }
 
 	GameScene(int levelNumber);
 	~GameScene();
@@ -23,12 +24,14 @@ public:
 
 	void update(float dt);
 
-private:
-	static GameScene* singleton;
+	float					levelWidth;
 
-	std::string levelFile;
-	LevelData	levelData;
-	int			levelNum;
+private:
+	static GameScene*		singleton;
+
+	std::string				levelFile;
+	LevelData				levelData;
+	int						levelNum;
 
 	// The batch object containing the texture used for all
 	// the custom layers in the scene

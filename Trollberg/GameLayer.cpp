@@ -229,6 +229,7 @@ void GameLayer::createLevelEdges()
 void GameLayer::update(float dt)
 {
 	followPlayer();
+	trollControl->update(dt);
 }
 void GameLayer::followPlayer()
 {
