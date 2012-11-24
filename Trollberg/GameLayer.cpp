@@ -135,11 +135,17 @@ void GameLayer::loadLightingSystem()
 	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
 	setCastShadows(false);
 
-	// The Lighting Rifle bullet tex
-	Pim::SmoothLightDef *ld = new Pim::SmoothLightDef;
-	ld->radius = 150.f + rand() % 150;
-	ld->innerColor.a = 0.7f;
-	preloadLightTexture(ld, "LRBullet");
+	// Preload the Lighting Rifle bullet tex
+	Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
+	sld->radius = 250;
+	sld->innerColor.a = 0.7f;
+	preloadLightTexture(sld, "LRBullet");
+
+	// Preoad the Colossus crush light
+	Pim::FlatLightDef *fld = new Pim::FlatLightDef;
+	fld->radius = 150;
+	fld->falloff = 0.5f;
+	preloadLightTexture(fld, "CCrush");
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)

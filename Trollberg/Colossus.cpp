@@ -19,7 +19,7 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	crushAnim.firstFramePos			= Pim::Vec2(160.f, 64.f);
 	crushAnim.frameWidth			= 40;
 	crushAnim.frameHeight			= 40;
-	crushAnim.frameTime				= 0.2f;
+	crushAnim.frameTime				= 0.1f;
 	crushAnim.framesInAnimation		= 5;
 	crushAnim.horizontalFrames		= 5;
 	crushAnim.totalFrames			= 5;
@@ -34,6 +34,7 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 
 	rect							= walkAnim.frameIndex(0);
 
+	crushSensor						= NULL;
 	health							= 200.f;
 	deathTimer						= 0.f;
 	dead							= false;
@@ -43,6 +44,10 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 }
 Colossus::~Colossus()
 {
+	if (ai)
+	{
+		delete ai;
+	}
 }
 
 void Colossus::createPhysics()
@@ -63,10 +68,50 @@ void Colossus::createPhysics()
 
 	world->CreateJoint(&jd);
 }
+void Colossus::createLight()
+{
+	pld = new Pim::PreloadLightDef;
+	pld->radius = 0;
+	
+	getParentLayer()->addLight(this, pld, "CCrush");
+}
+
+void Colossus::createCrushSensor()
+{
+	if (!crushSensor)
+	{
+		crushSensor = createRectangularBody(Pim::Vec2(15.f, 10.f), TROLLS, PLAYER, 0.f);
+		crushSensor->GetFixtureList()->SetSensor(true);
+
+		b2Vec2 offset((scale.x*-14)/PTMR, -5/PTMR);
+		crushSensor->SetTransform(crushSensor->GetPosition()+offset, 0.f);
+	}
+}
+void Colossus::destroyCrushSensor()
+{
+	if (crushSensor)
+	{
+		world->DestroyBody(crushSensor);
+		crushSensor = NULL;
+	}
+}
 
 void Colossus::update(float dt)
 {
 	ai->update(dt);
 	
 	b2offset.x = -10 * scale.x;
+}
+
+void Colossus::deleteBody()
+{
+	Troll::deleteBody();
+
+	destroyCrushSensor();
+
+	if (body2)
+	{
+		world->DestroyBody(body2);
+		body2 = NULL;
+	}
 }

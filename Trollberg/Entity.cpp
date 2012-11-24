@@ -178,3 +178,30 @@ b2Fixture* Entity::otherCollidingFixture(b2Contact *c, unsigned int catFlags)
 
 	return NULL;
 }
+b2Fixture* Entity::otherCollidingFixture(b2Body *b, unsigned int catFlags, bool isSensor)
+{
+	for (auto ce=b->GetContactList(); ce; ce=ce->next)
+	{
+		b2Contact *c = ce->contact;
+
+		if (c && (c->IsTouching() || isSensor))
+		{
+			b2Fixture *ret = NULL;
+			if (c->GetFixtureA() != b->GetFixtureList())
+			{
+				ret = c->GetFixtureA();
+			}
+			else
+			{
+				ret = c->GetFixtureB();
+			}
+
+			if ((ret->GetFilterData().categoryBits & catFlags) != 0)
+			{
+				return ret;
+			}
+		}
+	}
+
+	return NULL;
+}

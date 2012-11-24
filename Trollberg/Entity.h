@@ -27,6 +27,9 @@ public:
 	// return the other fixture if the category of that fixture matches the flag.
 	b2Fixture* otherCollidingFixture(b2Contact *c, unsigned int catFlags = ~0);
 
+	// Checks whether a specified body is touching anything of the passed flags.
+	b2Fixture* otherCollidingFixture(b2Body *b, unsigned int catFlags = ~0, bool isSensor=false);
+
 	// The physics body
 	b2Body		*body;
 

@@ -13,7 +13,13 @@ public:
 	void update(float dt);
 	void updateCrush(float dt);
 
+	void crushCheck();
+
 private:
-	Colossus		*colossus;
+	Colossus				*colossus;
+
+	bool					hasDamaged;
+	bool					isCrushing;
+	float					crushTimer;
 };
 

@@ -12,19 +12,28 @@ public:
 	~Colossus();
 
 	void createPhysics();
+	void createLight();
+
+	void createCrushSensor();
+	void destroyCrushSensor();
 
 	void update(float dt);
+
+	void deleteBody();
 
 private:
 	friend class ColossusAI;
 
-	b2Body		*body2;
+	b2Body					*body2;
+	b2Body					*crushSensor;
 
-	Animation	walkAnim;
-	Animation	crushAnim;
-	Animation	deathAnim;
+	Pim::PreloadLightDef	*pld;
 
-	float		deathTimer;
-	bool		dead;
+	Animation				walkAnim;
+	Animation				crushAnim;
+	Animation				deathAnim;
+
+	float					deathTimer;
+	bool					dead;
 };
 
