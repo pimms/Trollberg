@@ -265,15 +265,17 @@ void MainMenuLayer::updateScroll(float dt)
 
 	if (isScrolling)
 	{
-		float diff = log((x+1)/10.f) * 100.f;
+		//float diff = pow(position.x + scrollDest,2);
+		float x = abs(position.x - scrollDest);
+		float diff = log((x+1)/10.f) * 150.f;
 
 		if (diff > 700.f)
 		{
 			diff = 700.f;
 		}
-		else if (d < 20.f)
+		else if (diff < 15.f)
 		{
-			diff = 20.f;
+			diff = 15.f;
 		}
 
 		position.x += diff*dt;
