@@ -109,13 +109,14 @@ void TrollControl::update(float dt){
 
 void TrollControl::spawnTroll(){
 
-	do{
+	//do{
 		//randum nomber, -1 or 1:
 		ranDirr = ((rand() % 2) * 2) -1;
 		//get spawn x ca 60 pc offscreen to the player at a random direction:
 		spawnX = (pl->position.x) + ((SCREENWIDTH + 50 + rand() % 40) * ranDirr);
-	}
-	while(spawnX < 0 || spawnX > GameScene::getSingleton()->levelWidth);
+	//}
+	//while(spawnX < 0 || spawnX > GameScene::getSingleton()->levelWidth);
+
 	//std::cout << ranDirr << "|" << ((SCREENWIDTH + 50 + rand() % 40)) << "\n";
 	//std::cout <<  pl->position.x << "|"  << (pl->position.x - SCREENWIDTH) << "|" << (pl->position.x - SCREENWIDTH - 20 - rand()%15) << std::endl;
 
@@ -141,10 +142,10 @@ void TrollControl::spawnTroll(){
 	}
 	else if(randNum <= trollSpawnChance[levelNum][1]+trollSpawnChance[levelNum][2]+trollSpawnChance[levelNum][3])
 	{
-		printf("tre|");
-		trollSpawnTimer = -trollSpawnDelay[levelNum][1];;
-		return;
-		//kommer
+		Colossus *c = new Colossus(pl, actorSheet, Pim::Vec2(spawnX, 150.f));
+		layer->addChild(c);
+		c->createLight();
+		trollSpawnTimer = -trollSpawnDelay[levelNum][3];
 	}
 	else
 	{
