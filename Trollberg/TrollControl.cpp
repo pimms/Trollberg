@@ -30,8 +30,8 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 	trollSpawnTimer = 0.f;
 	trollsToSpawn = 100000;
 	trollsOnScreen = 0;
-	maxTrollsOnScreen = 10;
-	trollTimeBetweenSpawn = 0.05f;
+	maxTrollsOnScreen = 500;
+	trollTimeBetweenSpawn = 0.005f;
 
 	//lvl 1
 	trollSpawnChance[1][1] = 60;
@@ -51,8 +51,8 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 	//extra delay when spawning one type of troll:
 	//lvl 1
 	trollSpawnDelay[1][1] = 0.f;
-	trollSpawnDelay[1][2] = 1.f;
-	trollSpawnDelay[1][3] = 2.f;
+	trollSpawnDelay[1][2] = 0.f;
+	trollSpawnDelay[1][3] = 0.f;
 
 	//lvl 2
 	trollSpawnDelay[2][1] = 0.f;
@@ -71,7 +71,15 @@ TrollControl::~TrollControl(void)
 
 void TrollControl::update(float dt){
 
-	if(trollSpawnTimer > trollTimeBetweenSpawn && trollsOnScreen < maxTrollsOnScreen)
+	if(trollsToSpawn == 0 && trollsOnScreen == 0){
+
+		std::cout << "LVL FERDIG!\n";
+		//Pim::GameControl::getSingleton()->setScene(new GameScene(2));
+		return;
+
+	}
+
+	if(trollSpawnTimer > trollTimeBetweenSpawn && trollsOnScreen < maxTrollsOnScreen && trollsToSpawn != 0)
 	{
 		if(trollsToSpawn > 0)
 		{
@@ -79,7 +87,6 @@ void TrollControl::update(float dt){
 		}
 		else
 		{
-			printf("Du er ferdig\n");
 			trollSpawnTimer = 0.f;
 		}
 	}

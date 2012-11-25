@@ -21,8 +21,8 @@ void MainMenuScene::loadResources()
 	loadMainMenu();
 
 	// Maximize the window
-	HWND hwnd = Pim::GameControl::getSingleton()->getRenderWindow()->getHwnd();
-	SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	//HWND hwnd = Pim::GameControl::getSingleton()->getRenderWindow()->getHwnd();
+	//SendMessage(hwnd, WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 }
 
 void MainMenuScene::startGame()
