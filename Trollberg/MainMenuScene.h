@@ -11,7 +11,6 @@ public:
 
 	MainMenuScene();
 
-//public:
 	void loadMainMenu();
 	void loadResources();
 	void startGame();

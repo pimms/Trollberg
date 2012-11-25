@@ -22,6 +22,8 @@ public:
 	bool			dead;			// Triggered when the bullet hits the ground
 	float			fadeOutTimer;	// Track the time to fade the bullet's size to 0
 
+	float			angle;
+
 	float			life;			// The current lifetime (in seconds) of the bullet
 	float			maxLife;		// The maximally allowed lifetime
 	b2Vec2			vel;			// The constant velocity of the bullet when alive

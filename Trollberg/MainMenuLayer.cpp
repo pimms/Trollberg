@@ -5,17 +5,22 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "ParallaxLayer.h"
-
+#include "CreditsObject.h"
+#include "MenuButton.h"
 
 MainMenuLayer::MainMenuLayer()
 {
 	buttonFont	= NULL;
 	buttonSheet	= NULL;
 	scrollSheet = NULL;
+	creditsObject = NULL;
 
 	playIntro	= false;
 	playOutro	= false;
 	startGame	= false;
+
+	playCredits = false;
+	//removeCredits = false;
 	
 	isScrolling = true;
 	position.x  = -2800.f;
@@ -82,7 +87,7 @@ void MainMenuLayer::loadButtons()
 	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
 
 	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
-	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Exit"};
+	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Credits"};
 
 	// Create the buttons
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
@@ -180,8 +185,6 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
 
     menuButton->setCallback(this);
 
-	//button->position = Pim::Vec2(192, 108);
-	//button->position = Pim::Vec2(rand()%384, rand()%216);
 	menuButton->position = Pim::Vec2(xPos, yPos);
 
 
@@ -190,6 +193,12 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
 
 void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 {
+
+	if(playCredits)
+	{
+		return;
+	}
+
 	if(activeButton == menuButtons[0]) //start
 	{
 		//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
@@ -206,7 +215,12 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 		playOutro = true;
 		startLVL = 3;
 	}
-	if(activeButton == menuButtons[3]) //Exit
+	if(activeButton == menuButtons[3]) //Credits
+	{
+		playCredits = true;
+		startLVL = 3;
+	}
+	if(activeButton == menuButtons[4]) //Exit
 	{
 		exit(0);
 	}
@@ -214,8 +228,39 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 	//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
 }
 
+//void MainMenuLayer::killTheCredits()
+//{
+//
+//	playCredits = false;
+//	delete creditsObject;
+//	std::cout << "Barnet mitt er drept!";
+//	for(int i = 0; i < NUMMENYBUTTONS; i ++)
+//	{
+//		menuButtons[i]->activated = true;
+//	}
+//
+//
+//}
+
 void MainMenuLayer::update(float dt)
 {
+	//if(playCredits)
+	//{
+
+	//	if(creditsObject == NULL)
+	//	{
+	//		creditsObject = new CreditsObject(this);
+	//		for(int i = 0; i < NUMMENYBUTTONS; i ++)
+	//		{
+	//			menuButtons[i]->activated = false;
+	//		}
+	//	}
+	//	
+
+	//	return;
+	//	
+	//}
+
 	updateButtons(dt);
 	updateScroll(dt);
 }
