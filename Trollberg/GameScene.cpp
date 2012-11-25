@@ -11,6 +11,8 @@ GameScene* GameScene::singleton = NULL;
 
 GameScene::GameScene(int levelNumber)
 {
+	srand((unsigned int)time(0));
+
 	singleton = this;
 	levelNum  = levelNumber;
 
@@ -60,8 +62,6 @@ void GameScene::loadResources()
 	// Load stuff
 	loadLevelData();
 	loadLayers();
-
-	Pim::GameControl::getSingleton()->limitFrame(2);
 }
 void GameScene::loadLevelData()
 {

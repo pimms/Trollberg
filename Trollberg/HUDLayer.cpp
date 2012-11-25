@@ -18,6 +18,9 @@ HUDLayer::HUDLayer()
 {
 	singleton = this;
 	immovable = true;
+
+	isFading  = true;
+	fadeTimer = 0.f;
 }
 HUDLayer::~HUDLayer()
 {
@@ -30,9 +33,6 @@ void HUDLayer::loadResources()
 
 	Pim::SpriteBatchNode *actor = GameLayer::getActorSheet();
 
-	Pim::Sprite *hud = new Pim::Sprite("res\\UI.png");
-	hud->anchor = Pim::Vec2(0.f, 0.f);
-	addChild(hud);
 
 	for (int i=0; i<3; i++)
 	{
@@ -42,11 +42,45 @@ void HUDLayer::loadResources()
 		hearts[i]->position = Pim::Vec2(20+(14*i), 196);
 		addChild(hearts[i]);
 	}
+
+	// Load the fade sprite
+	fadeSprite = new Pim::Sprite;
+	fadeSprite->useBatchNode(actor);
+	fadeSprite->scale = Pim::Vec2(384.f, 216.f);
+	fadeSprite->anchor = Pim::Vec2(0.f,0.f);
+	fadeSprite->rect = Pim::Rect(3,4,1,1);
+	addChild(fadeSprite);
+
+
+	FPSLabel = new Pim::Label(Troll::getFont());
+	FPSLabel->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
+	FPSLabel->setTextAlignment(Pim::Label::TEXT_RIGHT);
+	FPSLabel->position = Pim::Vec2(384.f, 20.f);
+	FPSLabel->scale = Pim::Vec2(0.2f, 0.2f);
+	addChild(FPSLabel);
 }
 
 void HUDLayer::update(float dt)
 {
 	updateLabels(dt);
+
+	if (isFading)
+	{
+		fadeTimer += dt;
+		fadeSprite->color.a = 1.f - fadeTimer / 2.f;
+
+		if (fadeTimer >= 2.f)
+		{
+			isFading = false;
+			fadeTimer = 0.f;
+
+			removeChild(fadeSprite, true);
+		}
+	}
+
+	std::stringstream ss;
+	ss << 1.f/dt;
+	FPSLabel->setTextWithFormat("FPS: %0.1f\n", 1.f/dt);
 }
 
 void HUDLayer::updateLabels(float dt)

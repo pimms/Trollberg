@@ -77,6 +77,11 @@ void SlinkerAI::leapUpdate(float dt)
 
 		// Calculate a force for the X axis
 		float xForce = trollPlayerXDiff() / 2.f;
+		//FIX, divided by zero patch
+		if((int)trollPlayerXDiff() == 0)
+		{
+			return;
+		}
 		int ran = rand() % abs((int)trollPlayerXDiff());
 		xForce += ran * (xForce > 0) ? (1.f) : (-1.f);
 

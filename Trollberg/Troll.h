@@ -19,6 +19,7 @@ class Troll : public Actor
 {
 public:
 	static void createFont();
+	static Pim::Font* getFont();
 	static void destroyFont();
 
 	Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p);

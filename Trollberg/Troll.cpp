@@ -12,6 +12,10 @@ void Troll::createFont()
 		floatFont = new Pim::Font("res\\arial.ttf", 40, false);
 	}
 }
+Pim::Font* Troll::getFont()
+{
+	return floatFont;
+}
 void Troll::destroyFont()
 {
 	if (floatFont)

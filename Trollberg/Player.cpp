@@ -57,6 +57,10 @@ void Player::createLight()
 
 void Player::keyEvent(Pim::KeyEvent &evt)
 {
+	if (evt.isKeyFresh(Pim::KeyEvent::K_Q))
+	{
+		exit(0);
+	}
 	if (evt.isKeyFresh(Pim::KeyEvent::K_SPACE))
 	{
 		jump();
@@ -96,10 +100,16 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 	{
 		weapon->fire();
 	}
+	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
+	{
+		weapon->fire();
+	}
 }
 
 void Player::takeDamage(int damage)
 {
+	//FUCK DAMAGE!
+	return;
 	if (!dead)
 	{
 		health -= damage;
