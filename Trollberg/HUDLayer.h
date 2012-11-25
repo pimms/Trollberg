@@ -1,5 +1,5 @@
 #pragma once
-#include "PimLayer.h"
+#include "Pim.h"
 
 // Forward declarations
 class FloatLabel;	// Declared in Troll.h
@@ -27,5 +27,11 @@ private:
 	Pim::Sprite		*hearts[3];
 
 	std::vector<FloatLabel*>	labels;
+
+	Pim::Sprite		*fadeSprite;
+	bool			isFading;
+	float			fadeTimer;
+
+	Pim::Label		*FPSLabel;
 };
 

@@ -11,6 +11,8 @@ GameScene* GameScene::singleton = NULL;
 
 GameScene::GameScene(int levelNumber)
 {
+	srand((unsigned int)time(0));
+
 	singleton = this;
 	levelNum  = levelNumber;
 

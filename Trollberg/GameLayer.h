@@ -6,6 +6,7 @@ class Rock;
 class Player;
 class TrollControl;
 
+
 class GameLayer : public Pim::Layer
 {
 public:
@@ -19,6 +20,7 @@ public:
 	void draw();
 	void loadResources();
 	void loadLightingSystem();	// Create light sys, reload textures used by the guns
+	void loadRain();
 
 	// Provide the game layer with a batch node (containing the texture), and a 
 	// rectangle which will be rendered from said texture.
@@ -29,36 +31,40 @@ public:
 	void createLevelEdges();
 
 	void update(float dt);
+	void updateRain(float dt);
 	void followPlayer();
 
 	void keyEvent(Pim::KeyEvent &evt);
 
 private:
-	static GameLayer		*singleton;
+	static GameLayer			*singleton;
 
 	// The troll spawn controller
-	TrollControl			*trollControl;
+	TrollControl				*trollControl;
 
 	// The ground sprite. 
-	Pim::Sprite				*ground;
+	Pim::Sprite					*ground;
+
+	// The rain droplets
+	std::vector<Pim::Sprite*>	rain;
 
 	// The Player object. Playaaaa!
-	Player					*player;
+	Player						*player;
 
 	// The actor sheet. 
-	Pim::SpriteBatchNode	*actorSheet;
+	Pim::SpriteBatchNode		*actorSheet;
 
 	// The Box2D world. The GameScene is the owner of the world, this class
 	// is only keeping a reference to it.
-	b2World					*world;
+	b2World						*world;
 
 	// The body of the ground, created via the "createGroundBody(...)" function.
-	b2Body					*groundBody;
+	b2Body						*groundBody;
 
 	// The width of the level in pixels
-	float					levelWidth;
+	float						levelWidth;
 
 	// The number of the current level (1-3)
-	int						levelNum;
+	int							levelNum;
 };
 
