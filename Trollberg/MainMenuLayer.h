@@ -6,7 +6,6 @@
 #define MENYSPEED 10
 
 // Forward declaratins
-class CreditsObject;
 class MenuButton;
 
 class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
@@ -32,8 +31,6 @@ public:
 
 	/* DEBUG */
 	void keyEvent(Pim::KeyEvent&);
-
-	CreditsObject			*creditsObject;
 
 private:
 	Pim::SpriteBatchNode	*buttonSheet;
@@ -66,9 +63,6 @@ private:
 	bool					playIntro;
 	bool					playOutro;
 	bool					startGame;
-
-	bool					playCredits;
-	//bool					removeCredits;
 
 	int						startLVL;
 };

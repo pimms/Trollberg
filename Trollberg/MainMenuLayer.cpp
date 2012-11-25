@@ -1,7 +1,7 @@
 #pragma once 
 #include "Pim.h"
-#include "MenuButton.h"
 #include "MainMenuLayer.h"
+#include "MenuButton.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "ParallaxLayer.h"
@@ -12,14 +12,10 @@ MainMenuLayer::MainMenuLayer()
 	buttonFont	= NULL;
 	buttonSheet	= NULL;
 	scrollSheet = NULL;
-	creditsObject = NULL;
 
 	playIntro	= false;
 	playOutro	= false;
 	startGame	= false;
-
-	playCredits = false;
-	//removeCredits = false;
 	
 	isScrolling = true;
 	position.x  = -2800.f;
@@ -86,22 +82,19 @@ void MainMenuLayer::loadButtons()
 	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
 
 	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
-<<<<<<< HEAD
 	std::string menyButtonLabels[NUMMENYBUTTONS]  = {
 		"Start lvl1", 
 		"Start lvl2", 
 		"Start lvl3", 
 		"Credits"
 	};
-=======
-	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Credits"};
->>>>>>> 3372c9b022de4166e260256455cd80bfd5200cbf
+
 
 	// Create the buttons
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
 	{
-		menuButtons[i]			= createButton(1272, SCREENHEIGHT + 30, menyButtonLabels[i]);
-		buttonYPos[i]			= 108 - (PTMR*i*3), menyButtonLabels[i];
+		menuButtons[i]			= createButton(1272, 384 + 30, menyButtonLabels[i]);
+		buttonYPos[i]			= 108 - (i*30), menyButtonLabels[i];
 	}
 
 	menuButtons[0]->setZOrder(1000);
@@ -168,7 +161,6 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
 	float scaleX = 1.0f;
 	float scaleY = 0.7f;
 
-
     Pim::Sprite *normal = new Pim::Sprite;
     normal->useBatchNode(buttonSheet) ; 
     normal->rect = Pim::Rect(0,0,150,35);
@@ -201,12 +193,6 @@ MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLa
 
 void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 {
-
-	if(playCredits)
-	{
-		return;
-	}
-
 	if(activeButton == menuButtons[0]) //start
 	{
 		//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
@@ -225,50 +211,16 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 	}
 	if(activeButton == menuButtons[3]) //Credits
 	{
-		playCredits = true;
 		startLVL = 3;
 	}
 	if(activeButton == menuButtons[4]) //Exit
 	{
 		exit(0);
 	}
-	
-	//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
 }
-
-//void MainMenuLayer::killTheCredits()
-//{
-//
-//	playCredits = false;
-//	delete creditsObject;
-//	std::cout << "Barnet mitt er drept!";
-//	for(int i = 0; i < NUMMENYBUTTONS; i ++)
-//	{
-//		menuButtons[i]->activated = true;
-//	}
-//
-//
-//}
 
 void MainMenuLayer::update(float dt)
 {
-	//if(playCredits)
-	//{
-
-	//	if(creditsObject == NULL)
-	//	{
-	//		creditsObject = new CreditsObject(this);
-	//		for(int i = 0; i < NUMMENYBUTTONS; i ++)
-	//		{
-	//			menuButtons[i]->activated = false;
-	//		}
-	//	}
-	//	
-
-	//	return;
-	//	
-	//}
-
 	updateButtons(dt);
 	updateScroll(dt);
 }
@@ -313,13 +265,6 @@ void MainMenuLayer::updateButtons(float dt)
 		}
 
 	}
-
-	/*
-	if(startGame)
-	{
-		Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
-	}
-	*/
 }
 void MainMenuLayer::updateScroll(float dt)
 {

@@ -34,9 +34,16 @@ private:
 	Animation				walkAnim;
 	Animation				deathAnim;
 
+	// Keep all weapons instantiated at all times
+	Weapon					*allWeapons[3];	
+	
+	// The currently active weapon
 	Weapon					*weapon;
-	Pim::MouseEvent			*mEvt;			// Keep a reference to this
 
+	// We're handling mouse events in update(), and must thus keep a ref.
+	Pim::MouseEvent			*mEvt;
+
+	// Are we dead?
 	bool					dead;
 	float					deathTimer;
 };

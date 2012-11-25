@@ -6,6 +6,14 @@ class Weapon;
 class Player;
 class Troll;
 
+enum TrollID 
+{
+	SLINKER,
+	TUMBLER,
+	COLOSSUS,
+	NONE,
+};
+
 class TrollControl
 {
 public:
@@ -17,34 +25,34 @@ public:
 
 	// Called from the GameLayer
 	void update(float dt);
-	void trollKilled();
 
 	void spawnTroll();
 
-private:
-	friend class Weapon;
-	static TrollControl		*singleton;
+	TrollID getNextTrollType();
+	float getTrollSpawnX();
 
-	std::vector<Troll*>		trolls;
+	void addSlinker();
+	void addTumbler();
+	void addColossus();
+
+	void trollKilled();
+
+private:
+	static TrollControl		*singleton;
 
 	Pim::SpriteBatchNode	*actorSheet;
 	Player					*player;
-	GameLayer				*layer;
+	GameLayer				*gameLayer;
+
 	float					levelWidth;
-	int						levelNum;
+	int						levelIdx;
 
-	Player					*pl;
-
+	TrollID					nextTroll;
 	float					trollSpawnTimer;
-	int						trollsToSpawn;
-	int						trollsOnScreen;
-	int						maxTrollsOnScreen;
-	float					trollTimeBetweenSpawn;
+	int						trollsAlive;
+	int						maxTrollsAlive;
 
-	float					ranDirr;
-	float					spawnX;
-
-	int						trollSpawnChance[4][4];
-	float					trollSpawnDelay[4][4];
+	int						trollSpawnChance[3];
+	float					trollSpawnCost[3];
 };
 

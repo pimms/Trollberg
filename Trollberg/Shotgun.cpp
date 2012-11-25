@@ -34,8 +34,6 @@ void Shotgun::fire()
 			r /= 3.f;
 			bullet->vel *= (0.7f + r);
 
-			printf("%0.1f\n", r);
-
 			timer = 0.f;
 		}
 	}

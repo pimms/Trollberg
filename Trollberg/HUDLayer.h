@@ -13,6 +13,11 @@ public:
 	~HUDLayer();
 
 	void loadResources();
+	void loadHelperSprites();		// Loads the esc-menu and sound indicator
+	void loadWeaponCogs();			// Loads the weapon cogs
+	void loadPowerCogs();			// Loads the cogs spinning near the power-bar
+	void loadPowerBar();			// Loads the power bar and it's background
+	void loadHearts();				// Loads the hearts
 
 	void update(float dt);
 
@@ -24,14 +29,27 @@ public:
 private:
 	static HUDLayer	*singleton;
 
-	Pim::Sprite		*hearts[3];
-
 	std::vector<FloatLabel*>	labels;
 
-	Pim::Sprite		*fadeSprite;
-	bool			isFading;
-	float			fadeTimer;
+	Pim::SpriteBatchNode *actorSheet;
+
+	Pim::Sprite		*fadeSprite;	// Fade the HUD from black
+	bool			isFading;		// Done fading?
+	float			fadeTimer;		// Keep track of fading
 
 	Pim::Label		*FPSLabel;
+
+	// The hearts
+	Pim::Sprite		*hearts[3];
+
+	// The various cogs in the HUD
+	Pim::Sprite		*weaponCog;
+	Pim::Sprite		*weapons[3];
+	Pim::Sprite		*arrowCog;
+
+	Pim::Sprite		*powerCogs[3];
+
+	// The mute / unmute indicator
+	Pim::Sprite		*soundInd;
 };
 
