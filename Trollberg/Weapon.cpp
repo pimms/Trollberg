@@ -1,14 +1,23 @@
 #include "Weapon.h"
 #include "GameScene.h"
+#include "Bullet.h"
 
-#include "LightRifle.h"
+#include "Revolver.h"
+#include "Shotgun.h"
+#include "Sniper.h"
 
 Weapon* Weapon::createWeapon(Pim::SpriteBatchNode *b, WeaponID wid)
 {
 	switch (wid)
 	{
-		case LIGHT_RIFLE:
-			return new LightRifle(b);
+		case REVOLVER:
+			return new Revolver(b);
+
+		case SHOTGUN:
+			return new Shotgun(b);
+
+		case SNIPER:
+			return new Sniper(b);	
 	}
 
 	return NULL;
@@ -26,11 +35,11 @@ Weapon::Weapon(Pim::SpriteBatchNode *b, Pim::Rect r)
 	useBatchNode(actorSheet);
 }
 
-float Weapon::damage()
+float Weapon::damage(Bullet *bullet)
 {
 	// Get a random number between 0 and 1
 	float r = (float)rand()/(float)RAND_MAX;
-	return minDamage + r*(maxDamage-minDamage);
+	return minDamage + r*(maxDamage-minDamage+1);
 }
 float Weapon::angle()
 {
@@ -42,5 +51,4 @@ float Weapon::angle()
 void Weapon::update(float dt)
 {
 	timer += dt;
-	timerAlt += dt;
 }

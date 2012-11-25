@@ -122,6 +122,8 @@ void GameLayer::loadResources()
 	actorSheet = new Pim::SpriteBatchNode("res\\actor.png");
 	addChild(actorSheet);
 
+	loadRain();
+
 	player = new Player(actorSheet, Pim::Vec2(1070.f, 60.f));
 	addChild(player);
 	player->createLight();
@@ -139,14 +141,26 @@ void GameLayer::loadLightingSystem()
 	Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
 	sld->radius = 250;
 	sld->innerColor.a = 0.7f;
-	preloadLightTexture(sld, "LRBullet");
+	preloadLightTexture(sld, "Bullet");
 
 	// Preoad the Colossus crush light
 	Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
 	fld->radius = 150;
 	fld->falloff = 0.5f;
-	
 	preloadLightTexture(fld, "CCrush");
+}
+void GameLayer::loadRain()
+{
+	for (int i=0; i<1000; i++)
+	{
+		Pim::Sprite *r = new Pim::Sprite;
+		r->position = Pim::Vec2(-position.x-50+rand()%435, rand()%230);
+		r->rect = Pim::Rect(220+rand()%4,0,1,8);
+		r->useBatchNode(actorSheet);
+		actorSheet->addChild(r);
+
+		rain.push_back(r);
+	}
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)
@@ -230,7 +244,24 @@ void GameLayer::createLevelEdges()
 void GameLayer::update(float dt)
 {
 	followPlayer();
+	updateRain(dt);
 	trollControl->update(dt);
+}
+void GameLayer::updateRain(float dt)
+{
+	float d = 0.f;
+
+	for each (Pim::Sprite *r in rain)
+	{
+		d = r->position.x + position.x;
+		r->position.y -= 180 * dt;
+
+		if (r->position.y < 0.f)
+		{
+			r->position.y += 230.f;
+			r->position.x = -position.x - 50 + rand()%435;
+		}
+	}
 }
 void GameLayer::followPlayer()
 {

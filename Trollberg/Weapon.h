@@ -5,20 +5,26 @@
 
 enum WeaponID
 {
-	LIGHT_RIFLE,
+	REVOLVER,
+	SHOTGUN,
+	SNIPER,
 };
+
+// Forward declarations
+class Bullet;
 
 class Weapon : public Pim::Sprite
 {
 public:
 	static Weapon* createWeapon(Pim::SpriteBatchNode *b, WeaponID);
 
-	virtual float damage();		// Returns a calculated damage value
+	virtual float damage(Bullet*);		// Returns a calculated damage value
 	virtual float angle();		// Returns a calculated fire angle
 
 	virtual void fire() = 0;	// Fire the bullet. 
 	virtual void altFire() = 0;	// Fire the bullet. 
 	virtual void setMirrored(bool flag) = 0;
+	virtual Pim::Vec2 muzzlePoint() = 0;
 
 protected:
 	// Private constructors for the sake of fuck you.

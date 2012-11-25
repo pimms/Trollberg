@@ -4,7 +4,7 @@
 #include "TrollControl.h"
 
 #define C_TIMETODIE 2.f
-#define C_FADETIME 7.f
+#define C_FADETIME 6.f
 
 Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	: Troll(b, p)
@@ -19,13 +19,13 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	walkAnim.horizontalFrames		= 4;
 	walkAnim.totalFrames			= 4;
 
-	crushAnim.firstFramePos			= Pim::Vec2(160.f, 64.f);
-	crushAnim.frameWidth			= 40;
-	crushAnim.frameHeight			= 40;
-	crushAnim.frameTime				= 0.1f;
-	crushAnim.framesInAnimation		= 5;
-	crushAnim.horizontalFrames		= 5;
-	crushAnim.totalFrames			= 5;
+	attackAnim.firstFramePos		= Pim::Vec2(160.f, 64.f);
+	attackAnim.frameWidth			= 40;
+	attackAnim.frameHeight			= 40;
+	attackAnim.frameTime			= 0.1f;
+	attackAnim.framesInAnimation	= 5;
+	attackAnim.horizontalFrames		= 5;
+	attackAnim.totalFrames			= 5;
 
 	deathAnim.firstFramePos			= Pim::Vec2(0.f, 104.f);
 	deathAnim.frameWidth			= 40;
@@ -39,19 +39,9 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 
 	crushSensor						= NULL;
 	health							= 200;
-	deathTimer						= 0.f;
-	dead							= false;
-	b2offset						= Pim::Vec2(0.f, 10.f);
+	b2offset						= Pim::Vec2(0.f, 12.f);
 	ai								= new ColossusAI(this, pl);
 	walkSpeed						= 4.f;
-	isFading						= false;
-}
-Colossus::~Colossus()
-{
-	if (ai)
-	{
-		delete ai;
-	}
 }
 
 void Colossus::createPhysics()
@@ -100,64 +90,8 @@ void Colossus::destroyCrushSensor()
 	}
 }
 
-void Colossus::update(float dt)
-{
-	if (!dead)
-	{
-		ai->update(dt);
-		b2offset.x = -10 * scale.x;
-	}
-	else
-	{
-		rect		= deathAnim.update(dt);
-		deathTimer += dt;
-
-		if (!isFading)
-		{
-			if (deathTimer >= C_TIMETODIE)
-			{
-				deleteBody();
-				parent->removeChild(this, true);
-			}
-		}
-		else
-		{
-
-		}
-	}
-}
-
-void Colossus::takeDamage(int damage)
-{
-	if (!dead)
-	{
-		Troll::takeDamage(damage);
-
-		if (health <= 0)
-		{
-			// Flag as dead
-			dead = true;
-
-			//tell troll controll i'm dead
-			TrollControl::getSingleton()->trollKilled();
-			// Set the collision filter to only collide with the ground
-			b2Filter filter;
-			filter.categoryBits = TROLLS;
-			filter.maskBits = GROUND;
-			body->GetFixtureList()->SetFilterData(filter);
-		}
-	}
-}
-
 void Colossus::deleteBody()
 {
 	Troll::deleteBody();
-
 	destroyCrushSensor();
-
-	if (body2)
-	{
-		world->DestroyBody(body2);
-		body2 = NULL;
-	}
 }

@@ -11,6 +11,8 @@ GameScene* GameScene::singleton = NULL;
 
 GameScene::GameScene(int levelNumber)
 {
+	srand((unsigned int)time(0));
+
 	singleton = this;
 	levelNum  = levelNumber;
 
@@ -149,7 +151,11 @@ void GameScene::update(float dt)
 				if (ent->body == it)
 				{
 					ent->position = toPim( ent->body->GetPosition() );
-					ent->rotation = ent->body->GetAngle() * RADTODEG;
+
+					if (!ent->ignoreb2Rotation)
+					{
+						ent->rotation = ent->body->GetAngle() * RADTODEG;
+					}
 				}
 			}
 		}

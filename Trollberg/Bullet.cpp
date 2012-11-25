@@ -1,6 +1,6 @@
 #include "Trollberg.h"
-#include "LRBullet.h"
-#include "LightRifle.h"
+#include "Bullet.h"
+#include "Weapon.h"
 #include "GameScene.h"
 #include "Troll.h"
 
@@ -9,11 +9,13 @@
 #define LBR_FADEINTIME 0.2f
 #define LBR_FADEOUTTIME 0.1f
 
-LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
+Bullet::Bullet(Weapon *w, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float angle)
 {
+	ignoreb2Rotation = true;
+	rotation		= angle;
 	position		= pos;
 	life			= 0.f;
-	lightRifle		= lr;
+	weapon			= w;
 	dead			= false;
 	fadeOutTimer	= LBR_FADEOUTTIME;
 	rect			= Pim::Rect(136,0,5,5);
@@ -24,6 +26,7 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 	bd.allowSleep	= false;
 	bd.position		= toB2(pos);
 	bd.bullet		= true;
+	bd.fixedRotation = false;
 
 	b2CircleShape shape;
 	shape.m_radius	= 0.2f;;
@@ -40,17 +43,21 @@ LRBullet::LRBullet(LightRifle *lr, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 p
 	body->CreateFixture(&fd);
 	body->SetUserData(this);
 
-	vel = b2Vec2( cosf(angle*DEGTORAD)*37, sinf(angle*DEGTORAD)*37);
+	vel		= b2Vec2( cosf(angle*DEGTORAD)*37, sinf(angle*DEGTORAD)*37);
+
+	maxLife = 2.f;		// Default value
+
+	listenFrame();
 }
-void LRBullet::createLight()
+void Bullet::createLight()
 {
 	lightDef = new Pim::PreloadLightDef;
 	lightDef->radius = 1;
 	finalLightRadius = 100 + rand()%100;
-	getParentLayer()->addLight(this, lightDef, "LRBullet");
+	getParentLayer()->addLight(this, lightDef, "Bullet");
 }
 
-void LRBullet::update(float dt)
+void Bullet::update(float dt)
 {
 	life += dt;
 
@@ -112,7 +119,7 @@ void LRBullet::update(float dt)
 	}
 }
 
-bool LRBullet::hasDamaged(Troll *troll)
+bool Bullet::hasDamaged(Troll *troll)
 {
 	for each (Troll *t in damagedTrolls)
 	{
@@ -123,8 +130,8 @@ bool LRBullet::hasDamaged(Troll *troll)
 	}
 	return false;
 }
-void LRBullet::damageTroll(Troll *t)
+void Bullet::damageTroll(Troll *t)
 {
-	t->takeDamage(lightRifle->damage());
+	t->takeDamage(weapon->damage(this));
 	damagedTrolls.push_back(t);
 }

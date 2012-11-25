@@ -39,6 +39,8 @@ private:
 	Pim::SpriteBatchNode	*buttonSheet;
 	Pim::SpriteBatchNode	*scrollSheet;
 
+	Pim::Sound				*music;
+
 	Pim::Font				*buttonFont;
 
 	MenuButton				*menuButtons[NUMMENYBUTTONS];

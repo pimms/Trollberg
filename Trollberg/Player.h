@@ -21,6 +21,9 @@ public:
 	void update(float dt);	// Handle animation, directional facing, etc
 	void updateWeapon();	// Rotate according to the position of the mouse
 
+	// In the range 0-2
+	void setActiveWeapon(WeaponID wep); 
+
 private:
 	friend class GameLayer;
 

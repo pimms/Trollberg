@@ -36,6 +36,9 @@ public:
 	// The offset (in pixels) of the box2d body
 	Pim::Vec2	b2offset;
 
+	// Ignore the rotation of the body
+	bool		ignoreb2Rotation;
+
 protected:
 	// Keep a reference to the world
 	b2World		*world;

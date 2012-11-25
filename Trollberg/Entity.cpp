@@ -6,6 +6,7 @@ Entity::Entity(void)
 {
 	body = NULL;
 	world = GameScene::getWorld();
+	ignoreb2Rotation = false;
 }
 
 void Entity::draw()
