@@ -86,12 +86,16 @@ void MainMenuLayer::loadButtons()
 	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
 
 	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
+<<<<<<< HEAD
 	std::string menyButtonLabels[NUMMENYBUTTONS]  = {
 		"Start lvl1", 
 		"Start lvl2", 
 		"Start lvl3", 
 		"Credits"
 	};
+=======
+	std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start lvl1", "Start lvl2", "Start lvl3", "Credits"};
+>>>>>>> 3372c9b022de4166e260256455cd80bfd5200cbf
 
 	// Create the buttons
 	for(int i = 0; i < NUMMENYBUTTONS; i ++)
