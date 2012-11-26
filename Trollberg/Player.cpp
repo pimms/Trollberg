@@ -33,7 +33,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	deathTimer					= 0.f;
 
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
-	sensor = createSensor(body, -4.f/PTMR);
+	sensor = createSensor(body, -4.f/PTMR, TROLLS);
 
 	// Create all the weapons
 	allWeapons[0]				= Weapon::createWeapon(actorSheet, REVOLVER);

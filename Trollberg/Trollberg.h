@@ -30,9 +30,12 @@ typedef std::vector<std::vector<Pim::Vec2>> Polygons;
 // createCircularBody(radius, TROLLS, GROUND | PLAYER);
 #define GROUND			1
 #define	PLAYER			2
-#define TROLLS			4
 #define SENSOR			8
 #define LVLEDGE			16
+#define TROLLS_SL		(32  )
+#define TROLLS_TL		(64	 )
+#define TROLLS_C		(128 )
+#define TROLLS			(TROLLS_SL|TROLLS_TL|TROLLS_C)
 
 #define SCREENWIDTH		384
 #define SCREENHEIGHT	216

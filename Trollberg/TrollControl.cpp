@@ -34,9 +34,9 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 
 	if (levelIdx == 0)
 	{
-		trollSpawnChance[0] = 100;
-		trollSpawnChance[1] = 00;
-		trollSpawnChance[2] = 00;
+		trollSpawnChance[0] = 60;
+		trollSpawnChance[1] = 30;
+		trollSpawnChance[2] = 10;
 
 		trollSpawnCost[0]	= 0.5f;
 		trollSpawnCost[1]	= 0.5f;

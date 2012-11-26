@@ -40,17 +40,17 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	scoreValue						= 100;
 	crushSensor						= NULL;
 	health							= 200;
-	b2offset						= Pim::Vec2(0.f, 12.f);
+	b2offset						= Pim::Vec2(0.f, 10.f);
 	ai								= new ColossusAI(this, pl);
 	walkSpeed						= 4.f;
 }
 
 void Colossus::createPhysics()
 {
-	body = createCircularBody(9, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	body = createCircularBody(9, TROLLS_C, TROLLS_C | PLAYER | GROUND | SENSOR);
 	sensor = createSensor(body, -8.f/PTMR);
 
-	body2 = createCircularBody(8, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	body2 = createCircularBody(8, TROLLS_C, TROLLS_C | PLAYER | GROUND | SENSOR);
 
 	// Joint the two bodies together. WeldJoint didn't work. WHAT THE FLYING FUCK.
 	// Using a revolute joint instead, turning off rotation.

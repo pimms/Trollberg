@@ -52,6 +52,8 @@ void Troll::update(float dt)
 			{
 				if (isGrounded())
 				{
+					deleteBody();
+
 					isFading	= true;
 					deathTimer	= 0.f;
 					
@@ -60,12 +62,7 @@ void Troll::update(float dt)
 			}
 			else if (isGrounded())
 			{
-				body->SetLinearVelocity(b2Vec2_zero);
-
-				if (body2)
-				{
-					body2->SetLinearVelocity(b2Vec2_zero);
-				}
+				deleteBody();
 			}
 		}
 		else
