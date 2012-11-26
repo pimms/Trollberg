@@ -8,22 +8,51 @@
 
 
 HUDLayer* HUDLayer::singleton = NULL;
+Pim::Font* HUDLayer::arial40 = NULL;
+
 
 HUDLayer* HUDLayer::getSingleton()
 {
 	return singleton;
 }
 
+void HUDLayer::createFont()
+{
+	if (!arial40)
+	{
+		arial40 = new Pim::Font("res\\arial.ttf", 40, false);
+	}
+}
+Pim::Font* HUDLayer::getFont()
+{
+	return arial40;
+}
+void HUDLayer::destroyFont()
+{
+	if (arial40)
+	{
+		delete arial40;
+	}
+}
+
 HUDLayer::HUDLayer()
 {
+	createFont();
+
 	singleton = this;
 	immovable = true;
 
 	isFading  = true;
 	fadeTimer = 0.f;
+
+	curWeapon	  = 0;
+	weaponRotDest = 60.f;
+	weaponRotDir  = 1;
 }
 HUDLayer::~HUDLayer()
 {
+	destroyFont();
+
 	singleton = NULL;
 }
 
@@ -47,8 +76,7 @@ void HUDLayer::loadResources()
 	fadeSprite->rect = Pim::Rect(3,4,1,1);
 	addChild(fadeSprite);
 
-
-	FPSLabel = new Pim::Label(Troll::getFont());
+	FPSLabel = new Pim::Label(arial40);
 	FPSLabel->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	FPSLabel->setTextAlignment(Pim::Label::TEXT_RIGHT);
 	FPSLabel->position = Pim::Vec2(384.f, 20.f);
@@ -167,15 +195,15 @@ void HUDLayer::loadHearts()
 void HUDLayer::update(float dt)
 {
 	updateLabels(dt);
-
-	weaponCog->rotation += dt * 70.f;
-	arrowCog->rotation -= dt * 70.f;
+	updateWeaponCog(dt);
 
 	powerCogs[0]->rotation += dt * 70.f;
 	powerCogs[1]->rotation -= dt * 70.f;
 	powerCogs[2]->rotation += dt * 70.f;
 
-	if (isFading)
+	FPSLabel->setTextWithFormat("FPS: %0.0f\n", 1.f/dt);
+
+	if (isFading)	// Only occurs for the first 0.5 seconds of the game
 	{
 		fadeTimer += dt;
 		fadeSprite->color.a = 1.f - fadeTimer / 2.f;
@@ -188,10 +216,35 @@ void HUDLayer::update(float dt)
 			removeChild(fadeSprite, true);
 		}
 	}
+}
+void HUDLayer::updateWeaponCog(float dt)
+{
+	if (weaponRotDir > 0)
+	{
+		weaponCog->rotation += dt * 250.f;
 
-	std::stringstream ss;
-	ss << 1.f/dt;
-	FPSLabel->setTextWithFormat("FPS: %0.1f\n", 1.f/dt);
+		weaponCog->rotation = normDeg(weaponCog->rotation);
+
+		if (weaponCog->rotation >= weaponRotDest && weaponCog->rotation-weaponRotDest < 180.f)
+		{
+			weaponCog->rotation = weaponRotDest;
+			weaponRotDir = 0;
+		}
+	}
+	else if (weaponRotDir < 0)
+	{
+		weaponCog->rotation -= dt * 250.f;
+
+		weaponCog->rotation = normDeg(weaponCog->rotation);
+
+		if (weaponCog->rotation <= weaponRotDest && weaponRotDest-weaponCog->rotation < 180.f)
+		{
+			weaponCog->rotation = weaponRotDest;
+			weaponRotDir = 0;
+		}
+	}
+
+	arrowCog->rotation = normDeg(-weaponCog->rotation);
 }
 
 void HUDLayer::updateLabels(float dt)
@@ -203,8 +256,8 @@ void HUDLayer::updateLabels(float dt)
 
 		// f(x) = 2*pow((x-0.1),3) + 0.2*sin((x+0.1)*6)
 		// http://www.abhortsoft.hu/functionvisualizer/functionvisualizer.html
-		float x = labels[i]->lifetime;
-		float fx = 2.f*pow((x-0.1f),3.f) + 0.2f*sinf((x+0.1f)*6.f);
+		float *x = &labels[i]->lifetime;
+		float fx = 2.f*pow((*x-0.1f),3.f) + 0.2f*sinf((*x+0.1f)*6.f);
 		labels[i]->scale = Pim::Vec2(1.f, 1.f) * fx;
 
 		//labels[i]->position		= position + getParentLayer()->position;
@@ -218,8 +271,15 @@ void HUDLayer::updateLabels(float dt)
 		}
 	}
 }
-void HUDLayer::addFloatLabel(FloatLabel *lab)
+void HUDLayer::addDamageLabel(Troll *t, int damage)
 {
+	DamageLabel *lab = new DamageLabel(arial40);
+	lab->setTextWithFormat("%d\n", damage);
+	lab->scale = Pim::Vec2(0.1f, 0.1f);
+	lab->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
+	lab->position = t->position + t->getParentLayer()->position + Pim::Vec2(0.f, 15.f);
+	lab->initialX = t->position.x;
+
 	addChild(lab);
 	labels.push_back(lab);
 }
@@ -233,4 +293,19 @@ void HUDLayer::setPlayerHealth(int health)
 			hearts[i]->rect.x = 42;
 		}
 	}
+}
+void HUDLayer::setSelectedWeapon(int wep)
+{
+	if (abs(wep-curWeapon) == 2)
+	{
+		weaponRotDir = curWeapon - wep;
+		weaponRotDest = 60 + 120*wep;
+	}
+	else
+	{
+		weaponRotDir = wep - curWeapon;
+		weaponRotDest = 60 + 120*wep;
+	}
+
+	curWeapon = wep;
 }

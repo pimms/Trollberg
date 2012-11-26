@@ -38,8 +38,6 @@ GameLayer::~GameLayer()
 		delete trollControl;
 	}
 
-	Troll::destroyFont();
-
 	singleton = NULL;
 }
 
@@ -116,7 +114,6 @@ void GameLayer::loadResources()
 {
 	listenFrame();
 	listenKeys();
-	Troll::createFont();
 	loadLightingSystem();
 
 	actorSheet = new Pim::SpriteBatchNode("res\\actor.png");

@@ -40,10 +40,31 @@ typedef std::vector<std::vector<Pim::Vec2>> Polygons;
 
 
 // Pim::Vec2 to b2Vec2 conversion. PTM-Ratio is taken into account.
-b2Vec2 toB2(const Pim::Vec2 &v);
+inline b2Vec2 toB2(const Pim::Vec2 &v)
+{
+	return b2Vec2(v.x / PTMR, v.y / PTMR);
+}
 
 // b2Vec2 to Pim::Vec2 conversion. PTM-Ratio is taken into account.
-Pim::Vec2 toPim(const b2Vec2 &v);
+inline Pim::Vec2 toPim(const b2Vec2 &v)
+{
+	return Pim::Vec2(v.x * PTMR, v.y * PTMR);
+}
+
+// Takes any value, and makes sure it's within the 0-360 range
+inline float normDeg(float deg)
+{
+	while (deg < 0.f)
+	{
+		deg += 360.f;
+	}
+	while (deg > 360.f)
+	{
+		deg -= 360.f;
+	}
+
+	return deg;
+}
 
 // Something went horribly wrong. Display an error message and exit the game completely.
 void TrollbergExit(std::string s);

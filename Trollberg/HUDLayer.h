@@ -2,12 +2,17 @@
 #include "Pim.h"
 
 // Forward declarations
-class FloatLabel;	// Declared in Troll.h
+class Troll;
+class DamageLabel;
 
 class HUDLayer : public Pim::Layer
 {
 public:
 	static HUDLayer* getSingleton();
+
+	static void createFont();
+	static Pim::Font* getFont();
+	static void destroyFont();
 
 	HUDLayer();
 	~HUDLayer();
@@ -20,24 +25,29 @@ public:
 	void loadHearts();				// Loads the hearts
 
 	void update(float dt);
+	void updateWeaponCog(float dt);
 
 	void updateLabels(float dt);
-	void addFloatLabel(FloatLabel *lab);
+	void addDamageLabel(Troll *t, int damage);
 
 	void setPlayerHealth(int health);
+	void setSelectedWeapon(int wep);
 
 private:
 	static HUDLayer	*singleton;
-
-	std::vector<FloatLabel*>	labels;
+	static Pim::Font *arial40;
 
 	Pim::SpriteBatchNode *actorSheet;
+
+	Pim::Label		*FPSLabel;
 
 	Pim::Sprite		*fadeSprite;	// Fade the HUD from black
 	bool			isFading;		// Done fading?
 	float			fadeTimer;		// Keep track of fading
 
-	Pim::Label		*FPSLabel;
+	int				curWeapon;		// The currently selected weapon
+	int				weaponRotDir;	// Rotation direction of the weapon cog
+	float			weaponRotDest;	// The angle the weapon cog is rotation towards
 
 	// The hearts
 	Pim::Sprite		*hearts[3];
@@ -51,5 +61,17 @@ private:
 
 	// The mute / unmute indicator
 	Pim::Sprite		*soundInd;
+
+	// Indicated that a troll has been hit
+	class DamageLabel : public Pim::Label
+	{
+	public:
+		DamageLabel(Pim::Font *f) : Pim::Label(f) { lifetime = 0.f; }
+		float lifetime;
+		float initialX;
+		float initialLayerX;
+	};
+
+	std::vector<DamageLabel*>	labels;
 };
 

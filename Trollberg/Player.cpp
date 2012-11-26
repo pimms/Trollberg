@@ -45,7 +45,11 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	addChild(allWeapons[1]);
 	addChild(allWeapons[2]);
 
-	setActiveWeapon(REVOLVER);
+	// Hide weapons 1 and 2
+	allWeapons[1]->hidden = true;
+	allWeapons[2]->hidden = true;
+	
+	weapon = allWeapons[0];
 
 	listenFrame();
 	listenInput();	// calls listenMouse() listenKeys()
@@ -117,6 +121,7 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 
 void Player::takeDamage(int damage)
 {
+	return;
 	if (!dead)
 	{
 		health -= damage;
@@ -218,6 +223,8 @@ void Player::setActiveWeapon(WeaponID wep)
 		{
 			allWeapons[i]->hidden = false;
 			weapon = allWeapons[i];
+
+			HUDLayer::getSingleton()->setSelectedWeapon(i);
 		}
 	}
 }
