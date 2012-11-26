@@ -37,6 +37,7 @@ Colossus::Colossus(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 
 	rect							= walkAnim.frameIndex(0);
 
+	scoreValue						= 100;
 	crushSensor						= NULL;
 	health							= 200;
 	b2offset						= Pim::Vec2(0.f, 12.f);

@@ -19,6 +19,8 @@ Troll::Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p)
 	timeToDie	= 2.f;
 	fadeTime	= 6.f;
 
+	scoreValue  = 0;
+
 	listenFrame();
 }
 Troll::~Troll()
@@ -92,8 +94,12 @@ void Troll::takeDamage(int damage)
 			// Flag as dead
 			dead = true;
 
-			//tell troll controll i'm dead
+			// Notify TrollControl of my unfortunate and permanent departure
 			TrollControl::getSingleton()->trollKilled();
+
+			// Create a score label
+			HUDLayer::getSingleton()->addScoreLabel(this, scoreValue);
+
 			// Set the collision filter to only collide with the ground
 			b2Filter filter;
 			filter.categoryBits = TROLLS;

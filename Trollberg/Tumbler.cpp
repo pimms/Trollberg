@@ -39,6 +39,7 @@ Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	deathAnim.framesInAnimation = 7;
 	deathAnim.totalFrames		= 7;
 
+	scoreValue					= 75;
 	player						= pl;
 	walkSpeed					= 5.f;
 	health						= 100;

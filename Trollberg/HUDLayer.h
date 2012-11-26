@@ -29,6 +29,7 @@ public:
 
 	void updateLabels(float dt);
 	void addDamageLabel(Troll *t, int damage);
+	void addScoreLabel(Troll *t, int score);
 
 	void setPlayerHealth(int health);
 	void setSelectedWeapon(int wep);
@@ -40,6 +41,12 @@ private:
 	Pim::SpriteBatchNode *actorSheet;
 
 	Pim::Label		*FPSLabel;
+
+	// Keeps track of the current score
+	Pim::Label		*scoreLabel;
+	int				score;
+	float			displayScore;
+	float			scoreToDisplay;
 
 	Pim::Sprite		*fadeSprite;	// Fade the HUD from black
 	bool			isFading;		// Done fading?
@@ -62,7 +69,7 @@ private:
 	// The mute / unmute indicator
 	Pim::Sprite		*soundInd;
 
-	// Indicated that a troll has been hit
+	// Indicator label that a troll has been hit
 	class DamageLabel : public Pim::Label
 	{
 	public:
@@ -72,6 +79,18 @@ private:
 		float initialLayerX;
 	};
 
-	std::vector<DamageLabel*>	labels;
+	class ScoreLabel : public Pim::Label
+	{
+	public:
+		ScoreLabel(Pim::Font *f) : Pim::Label(f) { lifetime = 0.000001f; }
+		float lifetime;
+		float moveDuration;
+		int score;
+		Pim::Vec2 initialPos;
+		Pim::Vec2 moveVector;
+	};
+
+	std::vector<DamageLabel*>	dmgLabels;
+	std::vector<ScoreLabel*>	scoreLabels;
 };
 

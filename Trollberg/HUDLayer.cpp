@@ -3,7 +3,7 @@
 #include "GameLayer.h"
 
 
-// The lifetime of the floating labels
+// The lifetime of the floating dmgLabels
 #define FL_LIFETIME 0.5f
 
 
@@ -39,15 +39,20 @@ HUDLayer::HUDLayer()
 {
 	createFont();
 
-	singleton = this;
-	immovable = true;
+	singleton		= this;
+	immovable		= true;
 
-	isFading  = true;
-	fadeTimer = 0.f;
+	isFading		= true;
+	fadeTimer		= 0.f;
 
-	curWeapon	  = 0;
-	weaponRotDest = 60.f;
-	weaponRotDir  = 1;
+	score			= 0;
+	scoreLabel		= NULL;
+	displayScore	= 0;
+	scoreToDisplay	= 0;
+
+	curWeapon		= 0;
+	weaponRotDest	= 60.f;
+	weaponRotDir	= 1;
 }
 HUDLayer::~HUDLayer()
 {
@@ -76,6 +81,15 @@ void HUDLayer::loadResources()
 	fadeSprite->rect = Pim::Rect(3,4,1,1);
 	addChild(fadeSprite);
 
+	// Load the score label
+	scoreLabel = new Pim::Label(arial40);
+	scoreLabel->color = Pim::Color(1.f, 0.8f, 0.f, 1.f);
+	scoreLabel->position = Pim::Vec2(108.f, 205.f);
+	scoreLabel->scale *= 0.3f;
+	scoreLabel->setText("0");
+	addChild(scoreLabel);
+
+	// Load the FPS label
 	FPSLabel = new Pim::Label(arial40);
 	FPSLabel->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	FPSLabel->setTextAlignment(Pim::Label::TEXT_RIGHT);
@@ -203,6 +217,18 @@ void HUDLayer::update(float dt)
 
 	FPSLabel->setTextWithFormat("FPS: %0.0f\n", 1.f/dt);
 
+	// Update the score label
+	float scoreAppend = dt * (10.f * scoreToDisplay);
+	if (scoreAppend > scoreToDisplay)
+	{
+		scoreAppend = scoreToDisplay;
+	}
+
+	scoreToDisplay -=  scoreAppend;
+	displayScore += scoreAppend;
+	scoreLabel->setTextWithFormat("%0.0f\n", displayScore);
+
+
 	if (isFading)	// Only occurs for the first 0.5 seconds of the game
 	{
 		fadeTimer += dt;
@@ -249,25 +275,48 @@ void HUDLayer::updateWeaponCog(float dt)
 
 void HUDLayer::updateLabels(float dt)
 {
-	for (unsigned int i=0; i<labels.size(); i++)
+	for (unsigned int i=0; i<dmgLabels.size(); i++)
 	{
-		labels[i]->lifetime		+= dt;
-		labels[i]->color.a		-= dt / FL_LIFETIME;
+		dmgLabels[i]->lifetime		+= dt;
+		dmgLabels[i]->color.a		-= dt / FL_LIFETIME;
 
 		// f(x) = 2*pow((x-0.1),3) + 0.2*sin((x+0.1)*6)
 		// http://www.abhortsoft.hu/functionvisualizer/functionvisualizer.html
-		float *x = &labels[i]->lifetime;
+		float *x = &dmgLabels[i]->lifetime;
 		float fx = 2.f*pow((*x-0.1f),3.f) + 0.2f*sinf((*x+0.1f)*6.f);
-		labels[i]->scale = Pim::Vec2(1.f, 1.f) * fx;
+		dmgLabels[i]->scale = Pim::Vec2(1.f, 1.f) * fx;
 
-		//labels[i]->position		= position + getParentLayer()->position;
-		labels[i]->position.x	 = labels[i]->initialX + GameLayer::getSingleton()->position.x;
-		labels[i]->position.y	+= dt * 60.f;
+		dmgLabels[i]->position.x	 = dmgLabels[i]->initialX + GameLayer::getSingleton()->position.x;
+		dmgLabels[i]->position.y	+= dt * 60.f;
 
-		if (labels[i]->lifetime >= FL_LIFETIME)
+		if (dmgLabels[i]->lifetime >= FL_LIFETIME)
 		{
-			removeChild(labels[i], true);
-			labels.erase(labels.begin() + i);
+			removeChild(dmgLabels[i], true);
+			dmgLabels.erase(dmgLabels.begin() + i);
+		}
+	}
+
+	for (unsigned int i=0; i<scoreLabels.size(); i++)
+	{
+		scoreLabels[i]->lifetime += dt;
+
+		// Update the position
+		float lifeFac = scoreLabels[i]->lifetime / scoreLabels[i]->moveDuration;
+		scoreLabels[i]->position = scoreLabels[i]->initialPos + scoreLabels[i]->moveVector*lifeFac;
+
+		// Update the scale
+		// f(x) = 2*pow(((x/2)-0.1),3) + 0.4*sin(((x/2)+0.1)*6)+1
+		// http://www.abhortsoft.hu/functionvisualizer/functionvisualizer.html
+		float *x = &lifeFac;
+		float fx = 2.f*pow(((*x/2.f)-0.1f),3.f) + 0.4f*sinf(((*x/2.f)+0.1f)*6.f)+0.1f;
+		scoreLabels[i]->scale = Pim::Vec2(0.4f, 0.4f) * fx;
+
+		if (scoreLabels[i]->lifetime > scoreLabels[i]->moveDuration)
+		{
+			scoreToDisplay += scoreLabels[i]->score;
+
+			removeChild(scoreLabels[i], true);
+			scoreLabels.erase(scoreLabels.begin() + i);
 		}
 	}
 }
@@ -281,7 +330,26 @@ void HUDLayer::addDamageLabel(Troll *t, int damage)
 	lab->initialX = t->position.x;
 
 	addChild(lab);
-	labels.push_back(lab);
+	dmgLabels.push_back(lab);
+}
+void HUDLayer::addScoreLabel(Troll *t, int s)
+{
+	// Increase the score, but don't show it until the label reaches the score label
+	score += s;
+
+	ScoreLabel *lab = new ScoreLabel(arial40);
+	lab->setTextWithFormat("%d\n", s);
+	lab->scale = Pim::Vec2(0.1f, 0.1f);
+	lab->color = Pim::Color(1.f, 0.8f, 0.f, 1.f);
+	lab->position = t->position + t->getParentLayer()->position;
+	lab->initialPos = lab->position;
+	lab->score = s;
+
+	lab->moveVector = scoreLabel->position-lab->position;
+	lab->moveDuration = log(lab->moveVector.length()) / 10.f;
+	
+	addChild(lab);
+	scoreLabels.push_back(lab);
 }
 
 void HUDLayer::setPlayerHealth(int health)

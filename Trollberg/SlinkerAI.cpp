@@ -128,6 +128,7 @@ void SlinkerAI::stompCheck()
 			float d = player->position.y - troll->position.y;
 			if (d >= 0.f)
 			{
+				slinker->scoreValue = 200;		// Increase score for being stomped
 				troll->takeDamage(100);
 				return;
 			}

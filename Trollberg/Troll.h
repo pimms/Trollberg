@@ -30,6 +30,8 @@ protected:
 	Animation					attackAnim;
 	Animation					deathAnim;
 
+	int							scoreValue;		// The score gained from killing this troll
+
 	float						walkSpeed;
 
 	float						timeToDie;
