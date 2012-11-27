@@ -7,19 +7,32 @@
 #include "ParallaxLayer.h"
 #include "MenuButton.h"
 
+/*
+	Two ButtonScrollers are utilized - mainScroller and playScroller. Once a button in
+	either of them has been clicked the scrollID value is set to corespond to the function
+	of the button, and once the buttonScroller has scrolled to the top, the scrollID's value
+	is used to determine what action will be taken next.
+*/
+
 MainMenuLayer::MainMenuLayer()
 {
-	buttonSheet	= NULL;
-	scrollSheet = NULL;
+	music				= NULL;
 
-	startGame	= false;
+	buttonSheet			= NULL;
+	scrollSheet			= NULL;
+
+	startGame			= false;
 	
-	isScrolling = true;
-	position.x  = -2800.f;
-	scrollDest	= -1080.f;
-	numScrolls	= 0;
+	isScrolling			= true;
+	position.x			= -2800.f;
+	scrollDest			= -1080.f;
+	numScrolls			= 0;
 
-	startLVL	= 0;
+	activeScroller		= NULL;
+	buttonsScrolling	= false;
+	scrollID			= SHOW_MAIN;
+
+	startLVL			= 0;
 }
 
 MainMenuLayer::~MainMenuLayer()
@@ -47,7 +60,7 @@ void MainMenuLayer::loadResources()
 	loadSprites();
 
 	// Load the music file
-	music = new Pim::Sound("songz\\MENU.ogg");
+	music = new Pim::Sound("res\\menumusic.ogg");
 	music->loop();
 
 	// Create the lighting system
@@ -56,33 +69,47 @@ void MainMenuLayer::loadResources()
 
 	// Setup a light def
 	Pim::FlatLightDef *ld = new Pim::FlatLightDef;
-	ld->radius		= 300;
+	ld->radius		= 450;
 	ld->falloff		= 2.f;
 	ld->innerColor  = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	
 	// Create the light
 	light = new Pim::GameNode;
+	light->position = Pim::Vec2(1080.f+192.f, 90.f);
 	addChild(light);
 	addLight(light, ld);
 
+	// Load the rain
+	loadRain();
 
 	listenFrame();
 	listenKeys();
 }
 void MainMenuLayer::loadButtons()
 {
-	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
-	const char *labels[]  = {
-		"Start lvl1", 
-		"Start lvl2", 
-		"Start lvl3", 
-		"Credits"
+	const char *mainLabels[]  = {
+		"Play",
+		"Highscores",
+		"Exit"
 	};
+	mainScroller = new ButtonScroller(buttonSheet, 3, mainLabels, this);
+	mainScroller->position.x = 1080.f + 192.f;
+	mainScroller->setZOrder(2);
+	mainScroller->hidden = true;
+	addChild(mainScroller);
 
-	buttonScroller = new ButtonScroller(buttonSheet, 4, labels, this);
-	buttonScroller->position.x = 1080.f + 192.f;
-	buttonScroller->setZOrder(2);
-	addChild(buttonScroller);
+	const char *playLabels[]  = {
+		"Level 1",
+		"Level 2",
+		"Level 3",
+		"Back",
+	};
+	playScroller = new ButtonScroller(buttonSheet, 4, playLabels, this);
+	playScroller->position.x = 1080.f + 192.f;
+	playScroller->position.y = 150.f;
+	playScroller->setZOrder(2);
+	playScroller->hidden = true;
+	addChild(playScroller);
 }
 void MainMenuLayer::loadSprites()
 {
@@ -139,45 +166,104 @@ void MainMenuLayer::loadParallax()
 	sprite->useBatchNode(scrollSheet);
 	front->addChild(sprite);
 }
+void MainMenuLayer::loadRain()
+{
+	for (int i=0; i<1000; i++)
+	{
+		Pim::Sprite *r = new Pim::Sprite;
+		r->position = Pim::Vec2(-position.x-450+rand()%835, rand()%230);
+		r->rect = Pim::Rect(1024+rand()%4,721,1,8);
+		r->useBatchNode(scrollSheet);
+
+		scrollSheet->addChild(r);
+		rain.push_back(r);
+	}
+}
 
 void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 {
-	int idx = buttonScroller->getButtonID(activeButton);
+	int idx = mainScroller->getButtonID(activeButton);
+	if (idx != -1)
+	{
+		activeScroller = mainScroller;
+		mainScroller->scrollUp();
 
-	if (idx == 0)
-	{
-		startLVL = 1;
-		startGame = true;
-		buttonScroller->scrollUp();
+		if (idx == 0)
+		{
+			scrollID = SHOW_PLAY;
+		}
+		else if (idx == 1)
+		{
+			scrollID = SHOW_HIGHSCORE;
+		}
+		else if (idx == 2)
+		{
+			scrollID = EXIT;
+		}
 	}
-	else if (idx == 1)
+
+	idx = playScroller->getButtonID(activeButton);
+	if (idx != -1)
 	{
-		startLVL = 2;
-		startGame = true;
-		buttonScroller->scrollUp();
-	}
-	else if (idx == 2)
-	{
-		startLVL = 3;
-		startGame = true;
-		buttonScroller->scrollUp();
-	}
-	else if (idx == 3)
-	{
-		exit(0);
+		// Go straight to the game
+		if (idx == 0)
+		{
+			startGame = true;
+			isScrolling = true;
+			scrollDest = -20.f;
+		}
+		else if (idx == 1)
+		{
+			startGame = true;
+			isScrolling = true;
+			scrollDest = -20.f;
+		}
+		else if (idx == 2)
+		{
+			startGame = true;
+			isScrolling = true;
+			scrollDest = -20.f;
+		}
+
+		// Scroll back the main buttons
+		else if (idx == 3)
+		{
+			activeScroller = playScroller;
+			playScroller->scrollUp();
+			scrollID = SHOW_MAIN;
+		}
 	}
 }
 
 void MainMenuLayer::update(float dt)
 {
-	if (startGame && buttonScroller->doneScrolling())
+	if (activeScroller && activeScroller->doneScrolling())
 	{
-		isScrolling = true;
-		scrollDest = -20.f;
-		startGame = false;
+		scrollCompleted();
 	}
 
+	// Fade the music as we're leaving the scene
+	music->setVolume(((position.x)-500)/-1000.f);
+
+	updateRain(dt);
+
 	updateScroll(dt);
+}
+void MainMenuLayer::updateRain(float dt)
+{
+	float d = 0.f;
+
+	for each (Pim::Sprite *r in rain)
+	{
+		d = r->position.x + position.x;
+		r->position.y -= 180 * dt;
+
+		if (r->position.y < 0.f)
+		{
+			r->position.y += 230.f;
+			r->position.x = -position.x - 450 + rand()%835;
+		}
+	}
 }
 void MainMenuLayer::updateScroll(float dt)
 {
@@ -201,7 +287,6 @@ void MainMenuLayer::updateScroll(float dt)
 		}
 
 		position.x += diff*dt*MENYSPEED;
-		light->position = Pim::Vec2(192.f-position.x, 108 - 50.f * sinf(position.x/100.f));
 
 		if (position.x > scrollDest)
 		{
@@ -212,15 +297,49 @@ void MainMenuLayer::updateScroll(float dt)
 			if (numScrolls == 1)
 			{
 				// Scroll down the buttons
-				buttonScroller->scrollDown();
+				mainScroller->scrollDown();
 			}
 			else
 			{
 				// Go to game
-				Pim::GameControl::getSingleton()->setScene(new GameScene(startLVL));
+				((MainMenuScene*)parentScene)->startGame();
 			}
 		}
 	}
+}
+
+void MainMenuLayer::scrollCompleted()
+{
+	if (scrollID == SHOW_MAIN)
+	{
+		playScroller->position.y = 150.f;
+		mainScroller->position.y = 0.f;
+
+		mainScroller->scrollDown();
+	}
+	else if (scrollID == SHOW_PLAY)
+	{
+		playScroller->position.y = 0.f;
+		mainScroller->position.y = 150.f;
+
+		playScroller->scrollDown();
+	}
+	else if (scrollID == SHOW_HIGHSCORE)
+	{
+	}
+	else if (scrollID == PLAY)
+	{
+		startGame = true;
+		isScrolling = true;
+		scrollDest = -20.f;
+	}
+	else if (scrollID == EXIT)
+	{
+		exit(0);	// Sayanora
+	}
+
+	scrollID = NONE;
+	activeScroller = NULL;
 }
 
 /* DEBUG */

@@ -86,6 +86,11 @@ void Troll::takeDamage(int damage)
 		health -= damage;
 		HUDLayer::getSingleton()->addDamageLabel(this, damage);
 
+		//Pim::Sound *s = new Pim::Sound;
+		//s->useCache("splat0");
+		//s->deleteWhenDone = true;
+		//s->play();
+
 		if (health <= 0)
 		{
 			// Flag as dead

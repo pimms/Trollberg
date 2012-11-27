@@ -26,6 +26,11 @@ void Revolver::fire()
 {
 	if (timer >= rof)
 	{
+		Pim::Sound *s = new Pim::Sound;
+		s->useCache("pis");
+		s->deleteWhenDone = true;
+		s->play();
+
 		Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());
 		getParentLayer()->addChild(bullet);
 

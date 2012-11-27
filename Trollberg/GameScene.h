@@ -13,7 +13,7 @@ public:
 	static b2World* getWorld() { return singleton->world; }
 	static GameScene* getSingleton() { return singleton; }
 
-	GameScene(int levelNumber);
+	GameScene(int levelNumber, float ambientPosition);
 	~GameScene();
 
 	Pim::Layer* pauseLayer();
@@ -32,6 +32,10 @@ private:
 	std::string				levelFile;
 	LevelData				levelData;
 	int						levelNum;
+
+	// The ambient rain sound
+	Pim::Sound				*ambientRain;
+	float					ambientStartPos;
 
 	// The batch object containing the texture used for all
 	// the custom layers in the scene

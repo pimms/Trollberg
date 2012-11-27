@@ -5,6 +5,17 @@
 #define NUMMENYBUTTONS 4
 #define MENYSPEED 1
 
+// Enumeration defining what will happen once a ButtonScroller has reached the top.
+enum ScrollCompleteID
+{
+	NONE,			// jack diddly squat
+	SHOW_MAIN,		// Show the main-scroller
+	SHOW_PLAY,		// Show the play-scroller
+	SHOW_HIGHSCORE,	// Show the highscore screen
+	PLAY,			// Play the game
+	EXIT,			// Exit the game
+};
+
 // Forward declaratins
 class ButtonScroller;
 
@@ -18,11 +29,15 @@ public:
 	void loadButtons();
 	void loadSprites();
 	void loadParallax();
+	void loadRain();
 
 	void buttonPressed(Pim::Button*);
 
 	void update(float dt);
+	void updateRain(float dt);
 	void updateScroll(float dt);
+
+	void scrollCompleted();
 
 	/* DEBUG */
 	void keyEvent(Pim::KeyEvent&);
@@ -33,10 +48,18 @@ private:
 
 	Pim::Sound				*music;
 
-	ButtonScroller			*buttonScroller;
+	ButtonScroller			*activeScroller;
+	bool					buttonsScrolling;
+	ScrollCompleteID		scrollID;
+
+	ButtonScroller			*mainScroller;
+	ButtonScroller			*playScroller;
 
 	// The light we will follow through the forest
 	Pim::GameNode			*light;
+
+	// The rain droplets
+	std::vector<Pim::Sprite*>	rain;
 
 	// The destination we're scrolling to
 	bool					isScrolling;

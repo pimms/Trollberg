@@ -18,6 +18,11 @@ void Shotgun::fire()
 {
 	if (timer >= rof)
 	{
+		Pim::Sound *s = new Pim::Sound;
+		s->useCache("sg");
+		s->deleteWhenDone = true;
+		s->play();
+
 		for (int i=0; i<10; i++)
 		{
 			Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());

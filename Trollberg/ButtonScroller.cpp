@@ -94,10 +94,10 @@ void ButtonScroller::update(float dt)
 {
 	if (scrollingDown)
 	{
-		cog1->rotation -= dt * 140.f;
-		cog2->rotation += dt * 140.f;
+		cog1->rotation -= dt * 280.f;
+		cog2->rotation += dt * 280.f;
 
-		scroller->position.y -= 100.f * dt;
+		scroller->position.y -= 200.f * dt;
 		if (scroller->position.y < 30.f)
 		{
 			scroller->position.y = 30.f;
@@ -106,10 +106,10 @@ void ButtonScroller::update(float dt)
 	}
 	else if (scrollingUp)
 	{
-		cog1->rotation += dt * 140.f;
-		cog2->rotation -= dt * 140.f;
+		cog1->rotation += dt * 280.f;
+		cog2->rotation -= dt * 280.f;
 
-		scroller->position.y += 100.f * dt;
+		scroller->position.y += 200.f * dt;
 		if (scroller->position.y > 216.f)
 		{
 			scroller->position.y = 216.f;
@@ -121,11 +121,19 @@ void ButtonScroller::scrollDown()
 {
 	scrollingDown = true;
 	scrollingUp = false;
+
+	Pim::Sound *s = new Pim::Sound("res\\bs_down.ogg");
+	s->deleteWhenDone = true;
+	s->play();
 }
 void ButtonScroller::scrollUp()
 {
 	scrollingDown = false;
 	scrollingUp = true;
+
+	Pim::Sound *s = new Pim::Sound("res\\bs_up.ogg");
+	s->deleteWhenDone = true;
+	s->play();
 }
 bool ButtonScroller::doneScrolling()
 {

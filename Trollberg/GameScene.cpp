@@ -9,21 +9,29 @@
 
 GameScene* GameScene::singleton = NULL;
 
-GameScene::GameScene(int levelNumber)
+GameScene::GameScene(int levelNumber, float ambientPosition)
 {
 	srand((unsigned int)time(0));
 
-	singleton = this;
-	levelNum  = levelNumber;
+	singleton		= this;
+	levelNum		= levelNumber;
 
 	std::stringstream ss;
 	ss <<"tbl" <<levelNum <<".pim";
 	levelFile = ss.str();
 
-	batch = NULL;
-	world = NULL;
+	ambientStartPos	= ambientPosition;
+	ambientRain		= NULL;
+	batch			= NULL;
+	world			= NULL;
 
 	levelWidth = 0;
+
+	// Load the ambient rain sound
+	ambientRain = new Pim::Sound("res\\ambientrain.ogg");
+	ambientRain->position(ambientStartPos);
+	ambientRain->setVolume(0.8f);
+	ambientRain->loop();
 }
 GameScene::~GameScene()
 {
@@ -45,12 +53,16 @@ GameScene::~GameScene()
 
 		delete world;
 	}
+
+	if (ambientRain)
+	{
+		delete ambientRain;
+	}
 }
 
 Pim::Layer* GameScene::pauseLayer()
 {
 	PauseLayer *pl = new PauseLayer;
-	pl->setZOrder(1000);
 	return pl;
 }
 

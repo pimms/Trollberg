@@ -18,12 +18,14 @@ public:
 	virtual ~GameLayer();
 
 	void draw();
+
 	void loadResources();
 	void loadLightingSystem();	// Create light sys, reload textures used by the guns
 	void loadRain();
+	void cacheSounds();
 
 	// Provide the game layer with a batch node (containing the texture), and a 
-	// rectangle which will be rendered from said texture.
+	// rectangle which will be rendered from said aa.
 	void setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r);
 
 	// Create a b2Body based on the vertex information in the Polygons-struct.

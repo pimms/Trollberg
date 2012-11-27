@@ -38,6 +38,12 @@ GameLayer::~GameLayer()
 		delete trollControl;
 	}
 
+	// Delete the cache
+	Pim::AudioManager::getSingleton()->deleteCache("sg");
+	Pim::AudioManager::getSingleton()->deleteCache("pis");
+	Pim::AudioManager::getSingleton()->deleteCache("snp");
+	Pim::AudioManager::getSingleton()->deleteCache("splat0");
+
 	singleton = NULL;
 }
 
@@ -110,11 +116,13 @@ void GameLayer::draw()
 	glEnable(GL_TEXTURE_2D);
 	glPopMatrix();
 }
+
 void GameLayer::loadResources()
 {
 	listenFrame();
 	listenKeys();
 	loadLightingSystem();
+	cacheSounds();
 
 	actorSheet = new Pim::SpriteBatchNode("res\\actor.png");
 	addChild(actorSheet);
@@ -158,6 +166,13 @@ void GameLayer::loadRain()
 		actorSheet->addChild(r);
 		rain.push_back(r);
 	}
+}
+void GameLayer::cacheSounds()
+{
+	Pim::AudioManager::getSingleton()->cacheOgg("sg", "res\\sg.ogg");
+	Pim::AudioManager::getSingleton()->cacheOgg("pis", "res\\pis.ogg");
+	Pim::AudioManager::getSingleton()->cacheOgg("snp", "res\\snp.ogg");
+	Pim::AudioManager::getSingleton()->cacheOgg("splat0", "res\\splat0.ogg");
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)

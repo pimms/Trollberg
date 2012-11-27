@@ -95,4 +95,6 @@ void Colossus::deleteBody()
 {
 	Troll::deleteBody();
 	destroyCrushSensor();
+
+	getParentLayer()->removeLight(this);
 }
