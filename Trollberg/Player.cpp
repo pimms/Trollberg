@@ -33,10 +33,23 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	deathTimer					= 0.f;
 
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
-	sensor = createSensor(body, -4.f/PTMR);
+	sensor = createSensor(body, -4.f/PTMR, TROLLS);
 
-	weapon = Weapon::createWeapon(actorSheet, SNIPER);
-	addChild(weapon);
+	// Create all the weapons
+	allWeapons[0]				= Weapon::createWeapon(actorSheet, REVOLVER);
+	allWeapons[1]				= Weapon::createWeapon(actorSheet, SHOTGUN);
+	allWeapons[2]				= Weapon::createWeapon(actorSheet, SNIPER);
+
+	// Child all the weapons
+	addChild(allWeapons[0]);
+	addChild(allWeapons[1]);
+	addChild(allWeapons[2]);
+
+	// Hide weapons 1 and 2
+	allWeapons[1]->hidden = true;
+	allWeapons[2]->hidden = true;
+	
+	weapon = allWeapons[0];
 
 	listenFrame();
 	listenInput();	// calls listenMouse() listenKeys()
@@ -108,7 +121,6 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 
 void Player::takeDamage(int damage)
 {
-	//FUCK DAMAGE!
 	return;
 	if (!dead)
 	{
@@ -201,7 +213,18 @@ void Player::updateWeapon()
 
 void Player::setActiveWeapon(WeaponID wep)
 {
-	weapon->getParent()->removeChild(weapon, true);
-	weapon = Weapon::createWeapon(actorSheet, wep);
-	addChild(weapon);
+	for (int i=0; i<3; i++)
+	{
+		if (i != wep)
+		{
+			allWeapons[i]->hidden = true;
+		}
+		else
+		{
+			allWeapons[i]->hidden = false;
+			weapon = allWeapons[i];
+
+			HUDLayer::getSingleton()->setSelectedWeapon(i);
+		}
+	}
 }

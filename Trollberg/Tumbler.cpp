@@ -39,6 +39,7 @@ Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 	deathAnim.framesInAnimation = 7;
 	deathAnim.totalFrames		= 7;
 
+	scoreValue					= 75;
 	player						= pl;
 	walkSpeed					= 5.f;
 	health						= 100;
@@ -52,10 +53,10 @@ Tumbler::Tumbler(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 p)
 
 void Tumbler::createPhysics()
 {
-	body = createCircularBody(7, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	body = createCircularBody(7, TROLLS_TL, TROLLS_TL | PLAYER | GROUND | SENSOR);
 	sensor = createSensor(body, -8.f/PTMR);
 
-	body2 = createCircularBody(7, TROLLS, TROLLS | PLAYER | GROUND | SENSOR);
+	body2 = createCircularBody(7, TROLLS_TL, TROLLS_TL | PLAYER | GROUND | SENSOR);
 
 	// Joint the two bodies together. WeldJoint didn't work. WHAT THE FLYING FUCK.
 	// Using a revolute joint instead, turning off rotation.

@@ -3,11 +3,10 @@
 
 // Defines
 #define NUMMENYBUTTONS 4
-#define MENYSPEED 10
+#define MENYSPEED 1
 
 // Forward declaratins
-class CreditsObject;
-class MenuButton;
+class ButtonScroller;
 
 class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
 {
@@ -20,20 +19,13 @@ public:
 	void loadSprites();
 	void loadParallax();
 
-	MenuButton* createButton(int xPos, int yPos, std::string buttonLabel);
-
 	void buttonPressed(Pim::Button*);
 
 	void update(float dt);
 	void updateScroll(float dt);
-	void updateButtons(float dt);
-
-	//void killTheCredits();
 
 	/* DEBUG */
 	void keyEvent(Pim::KeyEvent&);
-
-	CreditsObject			*creditsObject;
 
 private:
 	Pim::SpriteBatchNode	*buttonSheet;
@@ -41,14 +33,7 @@ private:
 
 	Pim::Sound				*music;
 
-	Pim::Font				*buttonFont;
-
-	MenuButton				*menuButtons[NUMMENYBUTTONS];
-	float					buttonYPos[NUMMENYBUTTONS];
-
-	MenuButton				*menuButtonTest;
-
-
+	ButtonScroller			*buttonScroller;
 
 	// The light we will follow through the forest
 	Pim::GameNode			*light;
@@ -63,12 +48,7 @@ private:
 	int						numScrolls;
 
 	// Button dropdown
-	bool					playIntro;
-	bool					playOutro;
 	bool					startGame;
-
-	bool					playCredits;
-	//bool					removeCredits;
 
 	int						startLVL;
 };

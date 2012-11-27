@@ -3,26 +3,7 @@
 #include "HUDLayer.h"
 #include "TrollControl.h"
 
-Pim::Font* Troll::floatFont = NULL;
 
-void Troll::createFont()
-{
-	if (!floatFont)
-	{
-		floatFont = new Pim::Font("res\\arial.ttf", 40, false);
-	}
-}
-Pim::Font* Troll::getFont()
-{
-	return floatFont;
-}
-void Troll::destroyFont()
-{
-	if (floatFont)
-	{
-		delete floatFont;
-	}
-}
 
 Troll::Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p)
 	: Actor(n, p)
@@ -37,6 +18,8 @@ Troll::Troll(Pim::SpriteBatchNode *n, Pim::Vec2 p)
 
 	timeToDie	= 2.f;
 	fadeTime	= 6.f;
+
+	scoreValue  = 0;
 
 	listenFrame();
 }
@@ -70,6 +53,7 @@ void Troll::update(float dt)
 				if (isGrounded())
 				{
 					deleteBody();
+
 					isFading	= true;
 					deathTimer	= 0.f;
 					
@@ -78,12 +62,7 @@ void Troll::update(float dt)
 			}
 			else if (isGrounded())
 			{
-				body->SetLinearVelocity(b2Vec2_zero);
-
-				if (body2)
-				{
-					body2->SetLinearVelocity(b2Vec2_zero);
-				}
+				deleteBody();
 			}
 		}
 		else
@@ -105,15 +84,19 @@ void Troll::takeDamage(int damage)
 	if (!dead)
 	{
 		health -= damage;
-		addFloatLabel(damage);
+		HUDLayer::getSingleton()->addDamageLabel(this, damage);
 
 		if (health <= 0)
 		{
 			// Flag as dead
 			dead = true;
 
-			//tell troll controll i'm dead
+			// Notify TrollControl of my unfortunate and permanent departure
 			TrollControl::getSingleton()->trollKilled();
+
+			// Create a score label
+			HUDLayer::getSingleton()->addScoreLabel(this, scoreValue);
+
 			// Set the collision filter to only collide with the ground
 			b2Filter filter;
 			filter.categoryBits = TROLLS;
@@ -121,20 +104,6 @@ void Troll::takeDamage(int damage)
 			body->GetFixtureList()->SetFilterData(filter);
 		}
 	}
-}
-void Troll::addFloatLabel(int damage)
-{
-	std::stringstream ss;
-	ss << damage;
-
-	FloatLabel *lab = new FloatLabel(floatFont);
-	lab->setText(ss.str());
-	lab->scale = Pim::Vec2(0.1f, 0.1f);
-	lab->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
-	lab->position = position + getParentLayer()->position + Pim::Vec2(0.f, 15.f);
-	lab->initialX = position.x;
-	
-	HUDLayer::getSingleton()->addFloatLabel(lab);
 }
 
 void Troll::deleteBody()

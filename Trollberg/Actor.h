@@ -8,7 +8,10 @@ public:
 	Actor(Pim::SpriteBatchNode *n, Pim::Vec2 p);
 	~Actor();
 	
-	b2Body* createSensor(b2Body *attachBody, float offsetY);
+	// Create a sensor attached to the "body" object at "offsetY" distance. 
+	// The sensor category is SENSOR, and it's mask GROUND by default. Pass any 
+	// additional mask bits you see fit.
+	b2Body* createSensor(b2Body *attachBody, float offsetY, unsigned int maskBits=0);
 
 	virtual void jump();		// Jump. Returns if Actor is airborne.
 	virtual bool isGrounded();	// Checks whether or not the Actors is in contact with the ground

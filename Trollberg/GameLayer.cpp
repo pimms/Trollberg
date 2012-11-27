@@ -38,8 +38,6 @@ GameLayer::~GameLayer()
 		delete trollControl;
 	}
 
-	Troll::destroyFont();
-
 	singleton = NULL;
 }
 
@@ -116,7 +114,6 @@ void GameLayer::loadResources()
 {
 	listenFrame();
 	listenKeys();
-	Troll::createFont();
 	loadLightingSystem();
 
 	actorSheet = new Pim::SpriteBatchNode("res\\actor.png");
@@ -157,8 +154,8 @@ void GameLayer::loadRain()
 		r->position = Pim::Vec2(-position.x-50+rand()%435, rand()%230);
 		r->rect = Pim::Rect(220+rand()%4,0,1,8);
 		r->useBatchNode(actorSheet);
-		actorSheet->addChild(r);
 
+		actorSheet->addChild(r);
 		rain.push_back(r);
 	}
 }
@@ -171,6 +168,7 @@ void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)
 	ground->useBatchNode(b);
 	ground->anchor = Pim::Vec2(0.f, 0.f);
 	ground->rect = r;
+	ground->setZOrder(1);
 	addChild(ground);
 }
 void GameLayer::createGroundBody(Polygons &poly)

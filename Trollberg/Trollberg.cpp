@@ -33,17 +33,6 @@ int main()
 }
 
 
-// Pim::Vec2 to b2Vec2 conversion. PTM-Ratio is taken into account.
-b2Vec2 toB2(const Pim::Vec2 &v)
-{
-	return b2Vec2(v.x / PTMR, v.y / PTMR);
-}
-
-// b2Vec2 to Pim::Vec2 conversion. PTM-Ratio is taken into account.
-Pim::Vec2 toPim(const b2Vec2 &v)
-{
-	return Pim::Vec2(v.x * PTMR, v.y * PTMR);
-}
 
 
 // Something went horribly wrong. Display an error message and exit the game completely.

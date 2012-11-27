@@ -10,7 +10,7 @@
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
-	body = createCircularBody(10, TROLLS, TROLLS | PLAYER | GROUND | SENSOR, 1.13f);
+	body = createCircularBody(10, TROLLS_SL, TROLLS_SL | PLAYER | GROUND | SENSOR, 1.13f);
 	sensor = createSensor(body, -8.f/PTMR);
 
 	walkAnim.firstFramePos		= Pim::Vec2(0.f, 14.f);
@@ -29,6 +29,7 @@ Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	deathAnim.totalFrames		= 7;
 	deathAnim.framesInAnimation = 7;
 
+	scoreValue	= 50;
 	deathTimer	= 0.f;
 	dead		= false;
 	ai			= new SlinkerAI(this, pl);

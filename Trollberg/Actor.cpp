@@ -16,7 +16,7 @@ Actor::~Actor()
 {
 }
 
-b2Body* Actor::createSensor(b2Body *attachBody, float offsetY)
+b2Body* Actor::createSensor(b2Body *attachBody, float offsetY, unsigned int maskBits)
 {
 	b2BodyDef bd;
 	bd.type					= b2_dynamicBody;
@@ -33,7 +33,7 @@ b2Body* Actor::createSensor(b2Body *attachBody, float offsetY)
 	fd.density				= 0.001f;
 	//fd.userData				= this;
 	fd.filter.categoryBits	= SENSOR;
-	fd.filter.maskBits		= GROUND;
+	fd.filter.maskBits		= GROUND | maskBits;
 	fd.isSensor				= true;
 
 	b2Body *retSensor = world->CreateBody(&bd);

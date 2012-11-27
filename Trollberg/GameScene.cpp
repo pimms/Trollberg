@@ -62,8 +62,6 @@ void GameScene::loadResources()
 	// Load stuff
 	loadLevelData();
 	loadLayers();
-
-	Pim::GameControl::getSingleton()->limitFrame(2);
 }
 void GameScene::loadLevelData()
 {
