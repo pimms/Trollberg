@@ -5,7 +5,7 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "ParallaxLayer.h"
-#include "CreditsObject.h"
+
 #include "MenuButton.h"
 
 MainMenuLayer::MainMenuLayer()

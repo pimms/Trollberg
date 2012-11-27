@@ -31,7 +31,7 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 	trollsToSpawn = 100000;
 	trollsOnScreen = 0;
 	maxTrollsOnScreen = 500;
-	trollTimeBetweenSpawn = 0.005f;
+	trollTimeBetweenSpawn = 0.5f;
 
 	//lvl 1
 	trollSpawnChance[1][1] = 60;
