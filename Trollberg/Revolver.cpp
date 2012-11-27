@@ -1,5 +1,6 @@
 #include "Revolver.h"
 #include "GameScene.h"
+#include "GameLayer.h"
 #include "Bullet.h"
 #include "Troll.h"
 
@@ -30,6 +31,8 @@ void Revolver::fire()
 		s->useCache("pis");
 		s->deleteWhenDone = true;
 		s->play();
+
+		GameLayer::getSingleton()->vibrate(1.f, 1.f, 0.1f);
 
 		Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());
 		getParentLayer()->addChild(bullet);

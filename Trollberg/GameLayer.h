@@ -36,6 +36,9 @@ public:
 	void updateRain(float dt);
 	void followPlayer();
 
+	// Vibrate the connected 360-pad
+	void vibrate(float left, float right, float duration);
+
 	void keyEvent(Pim::KeyEvent &evt);
 
 private:
@@ -68,5 +71,11 @@ private:
 
 	// The number of the current level (1-3)
 	int							levelNum;
+
+	// Is the controller set to vibrate?
+	bool						isVibrating;
+
+	// The remainding time vibrating
+	float						vibTimer;
 };
 

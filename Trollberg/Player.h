@@ -15,6 +15,7 @@ public:
 
 	void keyEvent(Pim::KeyEvent &evt);
 	void mouseEvent(Pim::MouseEvent &evt);
+	void controllerEvent(Pim::ControllerEvent &evt);
 
 	void takeDamage(int damage);
 
@@ -22,7 +23,7 @@ public:
 	void updateWeapon();	// Rotate according to the position of the mouse
 
 	// In the range 0-2
-	void setActiveWeapon(WeaponID wep); 
+	void setActiveWeapon(int wep); 
 
 private:
 	friend class GameLayer;
@@ -38,10 +39,14 @@ private:
 	Weapon					*allWeapons[3];	
 	
 	// The currently active weapon
+	int						curWep;
 	Weapon					*weapon;
 
-	// We're handling mouse events in update(), and must thus keep a ref.
+	// We're handling the aiming in 
 	Pim::MouseEvent			*mEvt;
+
+	// Force the player to single-fire using the controller
+	bool					RTReleaseRequired;
 
 	// Are we dead?
 	bool					dead;

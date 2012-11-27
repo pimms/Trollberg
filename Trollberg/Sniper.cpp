@@ -1,5 +1,6 @@
 #include "Sniper.h"
 #include "Bullet.h"
+#include "GameLayer.h"
 
 Sniper::Sniper(Pim::SpriteBatchNode *batch)
 	: Weapon(batch, Pim::Rect(180,0,15,6))
@@ -22,6 +23,8 @@ void Sniper::fire()
 		s->useCache("snp");
 		s->deleteWhenDone = true;
 		s->play();
+
+		GameLayer::getSingleton()->vibrate(1.f, 1.f, 0.4f);
 
 		Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());
 		getParentLayer()->addChild(bullet);

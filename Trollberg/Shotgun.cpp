@@ -1,5 +1,6 @@
 #include "Shotgun.h"
 #include "Bullet.h"
+#include "GameLayer.h"
 
 Shotgun::Shotgun(Pim::SpriteBatchNode *batch)
 	: Weapon(batch, Pim::Rect(165,0,10,5))
@@ -22,6 +23,8 @@ void Shotgun::fire()
 		s->useCache("sg");
 		s->deleteWhenDone = true;
 		s->play();
+
+		GameLayer::getSingleton()->vibrate(1.f, 1.f, 0.15f);
 
 		for (int i=0; i<10; i++)
 		{

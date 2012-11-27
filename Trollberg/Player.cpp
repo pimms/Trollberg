@@ -31,6 +31,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	mEvt						= NULL;
 	dead						= false;
 	deathTimer					= 0.f;
+	RTReleaseRequired			= false;
 
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
 	sensor = createSensor(body, -4.f/PTMR, TROLLS);
@@ -49,10 +50,12 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	allWeapons[1]->hidden = true;
 	allWeapons[2]->hidden = true;
 	
+	curWep = REVOLVER;
 	weapon = allWeapons[0];
 
 	listenFrame();
-	listenInput();	// calls listenMouse() listenKeys()
+	listenInput();			// calls listenMouse() listenKeys()
+	listenController();		// 360pad support
 }
 Player::~Player()
 {
@@ -74,7 +77,7 @@ void Player::keyEvent(Pim::KeyEvent &evt)
 	{
 		exit(0);
 	}
-	if (evt.isKeyFresh(Pim::KeyEvent::K_SPACE))
+	if (evt.isKeyDown(Pim::KeyEvent::K_SPACE))
 	{
 		jump();
 	}
@@ -113,15 +116,76 @@ void Player::mouseEvent(Pim::MouseEvent &evt)
 	{
 		weapon->fire();
 	}
-	if (evt.isKeyDown(Pim::MouseEvent::MBTN_RIGHT))
+	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_RIGHT))
 	{
 		weapon->fire();
+	}
+}
+void Player::controllerEvent(Pim::ControllerEvent &evt)
+{
+	// Movement - left stick
+	// Let keyboard movement override controller input
+	//if (abs(velX < 1.f))
+	{
+		Pim::Vec2 ls = evt.leftStick();
+		velX = ls.x * 500.f;
+	}
+
+	// Jumping - A or left trigger
+	if (evt.isKeyDown(Pim::ControllerEvent::X_A) || 
+		evt.leftTrigger() > 0.6f)
+	{
+		jump();
+	}
+	
+	// Firing the gun - right trigger
+	if (evt.rightTrigger() > 0.6f && !RTReleaseRequired)
+	{
+		weapon->fire();
+		RTReleaseRequired = true;
+	}
+	else if (evt.rightTrigger() <= 0.4f)
+	{
+		RTReleaseRequired = false;
+	}
+
+	// Weapon changing - left and right bumper
+	if (evt.isKeyFresh(Pim::ControllerEvent::X_LB))
+	{
+		setActiveWeapon((curWep-1) % 3);
+	}
+	else if (evt.isKeyFresh(Pim::ControllerEvent::X_RB))
+	{
+		setActiveWeapon((curWep+1) % 3);
+	}
+
+	// X Y B - Revolver Shotgun Sniper
+	if (evt.isKeyFresh(Pim::ControllerEvent::X_X))
+	{
+		setActiveWeapon(REVOLVER);
+	}
+	else if (evt.isKeyFresh(Pim::ControllerEvent::X_Y))
+	{
+		setActiveWeapon(SHOTGUN);
+	}
+	else if (evt.isKeyFresh(Pim::ControllerEvent::X_B))
+	{
+		setActiveWeapon(SNIPER);
+	}
+
+	// Weapon rotation
+	Pim::Vec2 rs = evt.rightStick();
+	if (rs.length() >= 0.1f)	// Ignore idle 0-degrees
+	{
+		weapon->rotation = 90 - rs.angleBetween360(Pim::Vec2(0.f, 1.f));
+		weapon->setMirrored(rs.x < 0.f);
 	}
 }
 
 void Player::takeDamage(int damage)
 {
-	return;
+	GameLayer::getSingleton()->vibrate(1.f, 1.f, 1.f);
+
 	if (!dead)
 	{
 		health -= damage;
@@ -211,8 +275,13 @@ void Player::updateWeapon()
 	}
 }
 
-void Player::setActiveWeapon(WeaponID wep)
+void Player::setActiveWeapon(int wep)
 {
+	if (wep < 0)
+	{
+		wep += 3;
+	}
+
 	for (int i=0; i<3; i++)
 	{
 		if (i != wep)
@@ -221,8 +290,13 @@ void Player::setActiveWeapon(WeaponID wep)
 		}
 		else
 		{
+			// keep the current rotation
+			allWeapons[i]->rotation = weapon->rotation;
+			allWeapons[i]->setMirrored(weapon->scale.y == -1.f);
+
 			allWeapons[i]->hidden = false;
 			weapon = allWeapons[i];
+			curWep = wep;
 
 			HUDLayer::getSingleton()->setSelectedWeapon(i);
 		}

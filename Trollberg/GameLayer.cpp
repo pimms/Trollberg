@@ -30,6 +30,9 @@ GameLayer::GameLayer(int lvl)
 	groundBody		= NULL;
 	trollControl	= NULL;
 	singleton		= this;
+
+	isVibrating		= false;
+	vibTimer		= 0.f;
 }
 GameLayer::~GameLayer()
 {
@@ -256,6 +259,16 @@ void GameLayer::createLevelEdges()
 
 void GameLayer::update(float dt)
 {
+	if (isVibrating)
+	{
+		vibTimer -= dt;
+		if (vibTimer <= 0.f)
+		{
+			Pim::Input::getSingleton()->vibrateXbox(0.f, 0.f);
+			isVibrating = false;
+		}
+	}
+
 	followPlayer();
 	updateRain(dt);
 	trollControl->update(dt);
@@ -291,6 +304,17 @@ void GameLayer::followPlayer()
 		position.x = -levelWidth+384;
 
 	position.y = -player->position.y / 5.f;
+}
+
+void GameLayer::vibrate(float left, float right, float duration)
+{
+	if (duration > vibTimer)
+	{
+		vibTimer = duration;
+	}
+
+	isVibrating = true;
+	Pim::Input::getSingleton()->vibrateXbox(left, right);
 }
 
 void GameLayer::keyEvent(Pim::KeyEvent &evt)
