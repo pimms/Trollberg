@@ -1,7 +1,7 @@
 #pragma once 
 #include "Pim.h"
 #include "MainMenuLayer.h"
-#include "MenuButton.h"
+#include "ButtonScroller.h"
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "ParallaxLayer.h"
@@ -9,12 +9,9 @@
 
 MainMenuLayer::MainMenuLayer()
 {
-	buttonFont	= NULL;
 	buttonSheet	= NULL;
 	scrollSheet = NULL;
 
-	playIntro	= false;
-	playOutro	= false;
 	startGame	= false;
 	
 	isScrolling = true;
@@ -27,11 +24,6 @@ MainMenuLayer::MainMenuLayer()
 
 MainMenuLayer::~MainMenuLayer()
 {
-	if (buttonFont)
-	{
-		delete buttonFont;
-	}
-
 	if (music)
 	{
 		delete music;
@@ -43,6 +35,7 @@ void MainMenuLayer::loadResources()
 	// Load the button sheet
 	buttonSheet = new Pim::SpriteBatchNode("res/mainMenuButtons.png");
     addChild(buttonSheet);
+
 	loadButtons();
 
 	// Load the scroll sheet
@@ -57,11 +50,6 @@ void MainMenuLayer::loadResources()
 	music = new Pim::Sound("songz\\MENU.ogg");
 	music->loop();
 
-	listenFrame();
-	listenKeys();
-}
-void MainMenuLayer::loadButtons()
-{
 	// Create the lighting system
 	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
 	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
@@ -78,26 +66,23 @@ void MainMenuLayer::loadButtons()
 	addLight(light, ld);
 
 
-	// Load the font
-	buttonFont =  new Pim::Font("res/arial.ttf", 50, true);
-
+	listenFrame();
+	listenKeys();
+}
+void MainMenuLayer::loadButtons()
+{
 	//std::string menyButtonLabels[NUMMENYBUTTONS]  = {"Start", "Options", "Highscore", "Exit"};
-	std::string menyButtonLabels[NUMMENYBUTTONS]  = {
+	const char *labels[]  = {
 		"Start lvl1", 
 		"Start lvl2", 
 		"Start lvl3", 
 		"Credits"
 	};
 
-
-	// Create the buttons
-	for(int i = 0; i < NUMMENYBUTTONS; i ++)
-	{
-		menuButtons[i]			= createButton(1272, 384 + 30, menyButtonLabels[i]);
-		buttonYPos[i]			= 108 - (i*30), menyButtonLabels[i];
-	}
-
-	menuButtons[0]->setZOrder(1000);
+	buttonScroller = new ButtonScroller(buttonSheet, 4, labels, this);
+	buttonScroller->position.x = 1080.f + 192.f;
+	buttonScroller->setZOrder(2);
+	addChild(buttonScroller);
 }
 void MainMenuLayer::loadSprites()
 {
@@ -155,65 +140,29 @@ void MainMenuLayer::loadParallax()
 	front->addChild(sprite);
 }
 
-MenuButton* MainMenuLayer::createButton(int xPos, int yPos, std::string buttonLabel)
-{
-
-	float scaleX = 1.0f;
-	float scaleY = 0.7f;
-
-    Pim::Sprite *normal = new Pim::Sprite;
-    normal->useBatchNode(buttonSheet) ; 
-    normal->rect = Pim::Rect(0,0,150,35);
-	normal->scale = Pim::Vec2(scaleX, scaleY);
-
-    Pim::Sprite *hovered = new Pim::Sprite;
-    hovered->useBatchNode(buttonSheet);
-    hovered->rect = Pim::Rect(0,34,150,35);
-	hovered->scale = Pim::Vec2(scaleX, scaleY);
-
-    Pim::Sprite *pressed = new Pim::Sprite;
-    pressed->useBatchNode(buttonSheet); 
-    pressed->rect = Pim::Rect(0,69,150,40);
-	pressed->scale = Pim::Vec2(scaleX, scaleY);
-
-	MenuButton *menuButton = new MenuButton(normal, hovered, pressed, buttonFont);
-	addChild(menuButton);
-	menuButton->position = Pim::Vec2(192, 108);
-	menuButton->setText(buttonLabel);
-
-	menuButton->setZOrder(105);
-
-    menuButton->setCallback(this);
-
-	menuButton->position = Pim::Vec2(xPos, yPos);
-
-
-	return menuButton;
-}
-
 void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 {
-	if(activeButton == menuButtons[0]) //start
+	int idx = buttonScroller->getButtonID(activeButton);
+
+	if (idx == 0)
 	{
-		//Pim::GameControl::getSingleton()->setScene(new GameScene(1));
-		playOutro = true;
 		startLVL = 1;
+		startGame = true;
+		buttonScroller->scrollUp();
 	}
-	if(activeButton == menuButtons[1]) //Options
+	else if (idx == 1)
 	{
-		playOutro = true;
 		startLVL = 2;
+		startGame = true;
+		buttonScroller->scrollUp();
 	}
-	if(activeButton == menuButtons[2]) //Highscore
-	{
-		playOutro = true;
-		startLVL = 3;
-	}
-	if(activeButton == menuButtons[3]) //Credits
+	else if (idx == 2)
 	{
 		startLVL = 3;
+		startGame = true;
+		buttonScroller->scrollUp();
 	}
-	if(activeButton == menuButtons[4]) //Exit
+	else if (idx == 3)
 	{
 		exit(0);
 	}
@@ -221,50 +170,14 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
-	updateButtons(dt);
+	if (startGame && buttonScroller->doneScrolling())
+	{
+		isScrolling = true;
+		scrollDest = -20.f;
+		startGame = false;
+	}
+
 	updateScroll(dt);
-}
-void MainMenuLayer::updateButtons(float dt)
-{
-	if(playIntro)
-	{
-		int numRight = 0;
-		for(int i = 0; i < NUMMENYBUTTONS; i ++)
-		{
-			if(menuButtons[i]->position.y > buttonYPos[i])
-			{
-				menuButtons[i]->position.y -= (2.8f * MENYSPEED);
-			}
-			else
-			{
-				menuButtons[i]->position.y = buttonYPos[i];
-				numRight ++;
-			}
-		}
-
-		if(numRight == NUMMENYBUTTONS)
-		{
-			playIntro = false;
-		}
-	}
-	
-	if(playOutro)
-	{
-		for(int i = 0; i < NUMMENYBUTTONS; i ++)
-		{
-			if(menuButtons[i]->position.x > -50 && menuButtons[i]->position.x < SCREENWIDTH + 50)
-			{	//2.8f ganer enten -1 erller 1 bassert på index
-				menuButtons[i]->position.x += (3.8f * MENYSPEED) * ( ((i % 2) * 2) -1);
-			}
-			else
-			{ 
-				isScrolling = true;
-				scrollDest  = -20.f;
-			}
-
-		}
-
-	}
 }
 void MainMenuLayer::updateScroll(float dt)
 {
@@ -299,7 +212,7 @@ void MainMenuLayer::updateScroll(float dt)
 			if (numScrolls == 1)
 			{
 				// Scroll down the buttons
-				playIntro = true;
+				buttonScroller->scrollDown();
 			}
 			else
 			{

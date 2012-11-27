@@ -8,24 +8,23 @@ MenuButton::MenuButton(Pim::Sprite *norm, Pim::Sprite *hover, Pim::Sprite *press
 	label->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
 	label->setTextAlignment(Pim::Label::TEXT_CENTER);
 	label->setZOrder(10);
-	label->position = Pim::Vec2(0.f, 1.f);
+	label->position = Pim::Vec2(0.f, 2.f);
 	label->scale = Pim::Vec2(0.2f, 0.2f);
 	addChild(label);
-
 }
 
 void MenuButton::setText(std::string txt)
 {
- label->setText(txt);
+	label->setText(txt);
 }
 
 void MenuButton::makeHoveredCurrent()
 {
 	Pim::Button::makeHoveredCurrent();
-	label->position = Pim::Vec2(0.f, 1.f);
+	label->position = Pim::Vec2(0.f, 2.f);
 }
 void MenuButton::makePressedCurrent()
 {
 	Pim::Button::makePressedCurrent();
-	label->position = Pim::Vec2(0.f, 0.f);
+	label->position = Pim::Vec2(0.f, 1.f);
 }
