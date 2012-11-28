@@ -12,6 +12,7 @@ ColossusAI::ColossusAI(Colossus *t, Player *pl)
 	crushTimer	= 0.f;
 	isCrushing	= false;
 	hasDamaged	= false;
+	hasPlayedSound = false;
 }
 ColossusAI::~ColossusAI()
 {
@@ -63,6 +64,15 @@ void ColossusAI::updateCrush(float dt)
 
 	if (crushTimer > 0.4f)
 	{
+		if (!hasPlayedSound)
+		{
+			Pim::Sound *s = new Pim::Sound;
+			s->useCache("splat2");
+			s->deleteWhenDone = true;
+			s->play();
+			hasPlayedSound = true;
+		}
+
 		colossus->createCrushSensor();
 		crushCheck();
 
@@ -78,6 +88,7 @@ void ColossusAI::updateCrush(float dt)
 
 			isCrushing = false;
 			hasDamaged = false;
+			hasPlayedSound = false;
 			crushTimer = 0.f;
 			colossus->pld->radius = 0;
 			

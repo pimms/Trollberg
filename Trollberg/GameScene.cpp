@@ -22,6 +22,7 @@ GameScene::GameScene(int levelNumber, float ambientPosition)
 
 	ambientStartPos	= ambientPosition;
 	ambientRain		= NULL;
+	music			= NULL;
 	batch			= NULL;
 	world			= NULL;
 
@@ -32,6 +33,12 @@ GameScene::GameScene(int levelNumber, float ambientPosition)
 	ambientRain->position(ambientStartPos);
 	ambientRain->setVolume(0.8f);
 	ambientRain->loop();
+
+	// Load the background music
+	ss.str("");
+	ss <<"res\\LEVEL" <<levelNumber <<".ogg";
+	music = new Pim::Sound(ss.str());
+	music->loop();
 }
 GameScene::~GameScene()
 {
@@ -57,6 +64,10 @@ GameScene::~GameScene()
 	if (ambientRain)
 	{
 		delete ambientRain;
+	}
+	if (music)
+	{
+		delete music;
 	}
 }
 

@@ -9,7 +9,7 @@ public:
 	~MainMenuScene();
 
 	void loadResources();
-	void startGame();
+	void startGame(int level);
 
 	void update(float dt);
 

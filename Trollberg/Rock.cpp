@@ -84,6 +84,11 @@ void Rock::update(float dt)
 
 			if (otherCollidingFixture(c->contact, PLAYER))
 			{
+				Pim::Sound *s = new Pim::Sound;
+				s->useCache("splat0");
+				s->deleteWhenDone = true;
+				s->play();
+
 				player->takeDamage(1);
 				dangerous = false;
 			}

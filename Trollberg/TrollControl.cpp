@@ -30,7 +30,7 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 
 	trollSpawnTimer			= 0.f;
 	trollsAlive				= 0;
-	maxTrollsAlive			= 20;
+	maxTrollsAlive			= 15;
 
 	if (levelIdx == 0)
 	{
@@ -104,20 +104,22 @@ void TrollControl::spawnTroll()
 
 TrollID TrollControl::getNextTrollType()
 {
-	int ran = rand() % 100 + 1;
-
-	int soFar = 0;
-	for (int i=0; i<3; i++)
+	if (trollsAlive <= maxTrollsAlive)
 	{
-		if (ran <= trollSpawnChance[i] + soFar)
-		{
-			return (TrollID)i;
-		}
-		
-		soFar += trollSpawnChance[i];
-	}
+		int ran = rand() % 100 + 1;
 
-	printf("ERROR IN SELECTING TROLL ID.\n");
+		int soFar = 0;
+		for (int i=0; i<3; i++)
+		{
+			if (ran <= trollSpawnChance[i] + soFar)
+			{
+				return (TrollID)i;
+			}
+		
+			soFar += trollSpawnChance[i];
+		}
+		printf("ERROR IN SELECTING TROLL ID.\n");
+	}
 	return NONE;
 }
 void TrollControl::addSlinker()

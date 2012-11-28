@@ -37,9 +37,9 @@ void MainMenuScene::loadResources()
 #endif
 }
 
-void MainMenuScene::startGame()
+void MainMenuScene::startGame(int level)
 {
-	Pim::GameControl::getSingleton()->setScene(new GameScene(1, ambientRain->position()));
+	Pim::GameControl::getSingleton()->setScene(new GameScene(level, ambientRain->position()));
 }
 
 void MainMenuScene::update(float dt)

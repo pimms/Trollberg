@@ -21,6 +21,10 @@ bool GameLayer::isPlayerDead()
 {
 	return singleton->player->deathTimer >= 0.6f;
 }
+float GameLayer::playerFuel()
+{
+	return singleton->player->jpFuel;
+}
 
 
 GameLayer::GameLayer(int lvl)
@@ -46,6 +50,8 @@ GameLayer::~GameLayer()
 	Pim::AudioManager::getSingleton()->deleteCache("pis");
 	Pim::AudioManager::getSingleton()->deleteCache("snp");
 	Pim::AudioManager::getSingleton()->deleteCache("splat0");
+	Pim::AudioManager::getSingleton()->deleteCache("splat1");
+	Pim::AudioManager::getSingleton()->deleteCache("splat2");
 
 	singleton = NULL;
 }
@@ -176,6 +182,8 @@ void GameLayer::cacheSounds()
 	Pim::AudioManager::getSingleton()->cacheOgg("pis", "res\\pis.ogg");
 	Pim::AudioManager::getSingleton()->cacheOgg("snp", "res\\snp.ogg");
 	Pim::AudioManager::getSingleton()->cacheOgg("splat0", "res\\splat0.ogg");
+	Pim::AudioManager::getSingleton()->cacheOgg("splat1", "res\\splat1.ogg");
+	Pim::AudioManager::getSingleton()->cacheOgg("splat2", "res\\splat2.ogg");
 }
 
 void GameLayer::setSpriteInformation(Pim::SpriteBatchNode *b, Pim::Rect r)

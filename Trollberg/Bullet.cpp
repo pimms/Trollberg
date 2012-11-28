@@ -20,6 +20,7 @@ Bullet::Bullet(Weapon *w, Pim::SpriteBatchNode *actorSheet, Pim::Vec2 pos, float
 	fadeOutTimer	= LBR_FADEOUTTIME;
 	rect			= Pim::Rect(136,0,5,5);
 	useBatchNode(actorSheet);
+	setZOrder(5);
 
 	b2BodyDef bd;
 	bd.type			= b2_dynamicBody;

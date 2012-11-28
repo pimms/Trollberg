@@ -24,6 +24,8 @@ public:
 	void loadPowerBar();			// Loads the power bar and it's background
 	void loadHearts();				// Loads the hearts
 
+	void draw();					// Overridden to render the fuel meter
+
 	void update(float dt);
 	void updateWeaponCog(float dt);
 
@@ -47,6 +49,8 @@ private:
 	int				score;
 	float			displayScore;
 	float			scoreToDisplay;
+
+	float			timer;
 
 	Pim::Sprite		*fadeSprite;	// Fade the HUD from black
 	bool			isFading;		// Done fading?

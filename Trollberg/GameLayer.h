@@ -13,6 +13,7 @@ public:
 	static GameLayer* getSingleton();
 	static Pim::SpriteBatchNode* getActorSheet();
 	static bool isPlayerDead();
+	static float playerFuel();
 
 	GameLayer(int lvl);
 	virtual ~GameLayer();

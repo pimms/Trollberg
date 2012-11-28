@@ -102,6 +102,11 @@ void SlinkerAI::leapUpdate(float dt)
 					float d = player->position.y - troll->position.y;
 					if (d <= 0.f)
 					{
+						Pim::Sound *s = new Pim::Sound;
+						s->useCache("splat1");
+						s->deleteWhenDone = true;
+						s->play();
+
 						player->takeDamage(1);
 						hasDamagedPlayer = true;
 					}

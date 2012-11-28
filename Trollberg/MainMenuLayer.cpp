@@ -205,6 +205,8 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 	idx = playScroller->getButtonID(activeButton);
 	if (idx != -1)
 	{
+		startLVL = idx + 1;
+
 		// Go straight to the game
 		if (idx == 0)
 		{
@@ -302,7 +304,7 @@ void MainMenuLayer::updateScroll(float dt)
 			else
 			{
 				// Go to game
-				((MainMenuScene*)parentScene)->startGame();
+				((MainMenuScene*)parentScene)->startGame(startLVL);
 			}
 		}
 	}

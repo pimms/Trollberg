@@ -53,6 +53,8 @@ HUDLayer::HUDLayer()
 	curWeapon		= 0;
 	weaponRotDest	= 60.f;
 	weaponRotDir	= 1;
+
+	timer			= 0.f;
 }
 HUDLayer::~HUDLayer()
 {
@@ -84,8 +86,9 @@ void HUDLayer::loadResources()
 	// Load the score label
 	scoreLabel = new Pim::Label(arial40);
 	scoreLabel->color = Pim::Color(1.f, 0.8f, 0.f, 1.f);
-	scoreLabel->position = Pim::Vec2(108.f, 205.f);
-	scoreLabel->scale *= 0.3f;
+	scoreLabel->position = Pim::Vec2(83.f, 194.f);
+	scoreLabel->setTextAlignment(Pim::Label::TEXT_RIGHT);
+	scoreLabel->scale *= 0.2f;
 	scoreLabel->setText("0");
 	addChild(scoreLabel);
 
@@ -99,6 +102,7 @@ void HUDLayer::loadResources()
 }
 void HUDLayer::loadHelperSprites()
 {
+	/*
 	Pim::Sprite *menu = new Pim::Sprite;
 	menu->useBatchNode(actorSheet);
 	menu->anchor = Pim::Vec2(0.f, 1.f);
@@ -112,6 +116,15 @@ void HUDLayer::loadHelperSprites()
 	soundInd->rect = Pim::Rect(203, 149, 10, 24);
 	soundInd->position = Pim::Vec2(58.f, 216.f);
 	addChild(soundInd);
+	*/
+
+	// The score background
+	Pim::Sprite *scb = new Pim::Sprite;
+	scb->useBatchNode(actorSheet);
+	scb->anchor = Pim::Vec2(0.5f, 1.f);
+	scb->rect = Pim::Rect(0.f, 257.f, 54.f, 33.f);
+	scb->position = Pim::Vec2(60.f, 216.f);
+	addChild(scb);
 }
 void HUDLayer::loadWeaponCogs()
 {
@@ -206,10 +219,43 @@ void HUDLayer::loadHearts()
 	}
 }
 
+void HUDLayer::draw()
+{
+	Pim::Layer::draw();	// Superclass draw
+
+	glPushMatrix();	
+	glLoadIdentity();
+	glDisable(GL_TEXTURE_2D);
+
+	glColor4f(1.f, 0.f, 0.f, 1.f);
+
+	Pim::Vec2 scale = Pim::GameControl::getSingleton()->windowScale();
+	glScalef(scale.x, scale.y, 1.f);
+
+	glBegin(GL_TRIANGLE_FAN);
+		float yv = 124.f + 46.f * GameLayer::playerFuel();
+		glVertex2f(343.f, 124.f);
+		//glVertex2f(354.f, 124.f);
+		
+		for (int i=0; i<=11; i++)
+		{
+			glVertex2f(343.f+i, yv + sinf((timer+i)*5.f)*0.4f);
+		}
+
+		glVertex2f(354.f, 124.f);
+
+	glEnd();
+
+	glEnable(GL_TEXTURE_2D);
+	glPopMatrix();
+}
+
 void HUDLayer::update(float dt)
 {
 	updateLabels(dt);
 	updateWeaponCog(dt);
+
+	timer += dt;
 
 	powerCogs[0]->rotation += dt * 70.f;
 	powerCogs[1]->rotation -= dt * 70.f;

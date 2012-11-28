@@ -32,6 +32,18 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	dead						= false;
 	deathTimer					= 0.f;
 	RTReleaseRequired			= false;
+	keyMovement					= false;
+	
+	// jetpack
+	jpFuel						= 1.f;
+	usingJp						= false;
+	reqJpRelease				= false;
+	jpFire = new Pim::Sprite;
+	jpFire->useBatchNode(actorSheet);
+	jpFire->rect = Pim::Rect(224.f, 0.f, 3.f, 3.f);
+	jpFire->anchor = Pim::Vec2(0.f, 0.f);
+	jpFire->position = Pim::Vec2(-6.f, -6.f);
+	addChild(jpFire);
 
 	body = createCircularBody(6.f, PLAYER, GROUND | TROLLS | LVLEDGE);
 	sensor = createSensor(body, -4.f/PTMR, TROLLS);
@@ -47,15 +59,15 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	addChild(allWeapons[2]);
 
 	// Hide weapons 1 and 2
-	allWeapons[1]->hidden = true;
-	allWeapons[2]->hidden = true;
+	allWeapons[1]->hidden		= true;
+	allWeapons[2]->hidden		= true;
 	
-	curWep = REVOLVER;
-	weapon = allWeapons[0];
+	curWep						= REVOLVER;
+	weapon						= allWeapons[0];
 
 	listenFrame();
 	listenInput();			// calls listenMouse() listenKeys()
-	listenController();		// 360pad support
+	listenController();		// Xboxcontroller input
 }
 Player::~Player()
 {
@@ -85,14 +97,17 @@ void Player::keyEvent(Pim::KeyEvent &evt)
 	if (evt.isKeyDown(Pim::KeyEvent::K_A))
 	{
 		velX = -500.f;
+		keyMovement = true;
 	}
 	else if (evt.isKeyDown(Pim::KeyEvent::K_D))
 	{
 		velX = 500.f;
+		keyMovement = true;
 	}
 	else 
 	{
 		velX = 0.f;
+		keyMovement = false;
 	}
 
 	if (evt.isKeyFresh(Pim::KeyEvent::K_1))
@@ -107,10 +122,22 @@ void Player::keyEvent(Pim::KeyEvent &evt)
 	{
 		setActiveWeapon(SNIPER);
 	}
+
+	if (evt.isKeyDown(Pim::KeyEvent::K_SHIFT))
+	{
+		usingJp = !reqJpRelease;
+	}
+	else
+	{
+		reqJpRelease = false;
+		usingJp = false;
+	}
 } 
 void Player::mouseEvent(Pim::MouseEvent &evt)
 {
 	mEvt = &evt;
+
+	ShowCursor(true);
 
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
@@ -125,7 +152,7 @@ void Player::controllerEvent(Pim::ControllerEvent &evt)
 {
 	// Movement - left stick
 	// Let keyboard movement override controller input
-	//if (abs(velX < 1.f))
+	if (!keyMovement)
 	{
 		Pim::Vec2 ls = evt.leftStick();
 		velX = ls.x * 500.f;
@@ -177,6 +204,9 @@ void Player::controllerEvent(Pim::ControllerEvent &evt)
 	Pim::Vec2 rs = evt.rightStick();
 	if (rs.length() >= 0.1f)	// Ignore idle 0-degrees
 	{
+		mEvt = NULL;	// Ignore mouse input
+		ShowCursor(false);
+
 		weapon->rotation = 90 - rs.angleBetween360(Pim::Vec2(0.f, 1.f));
 		weapon->setMirrored(rs.x < 0.f);
 	}
@@ -199,6 +229,7 @@ void Player::takeDamage(int damage)
 			deathTimer = 0.f;
 
 			unlistenInput();
+			unlistenController();
 		}
 	}
 }
@@ -212,11 +243,35 @@ void Player::update(float dt)
 
 		// Face the aimed direction
 		scale.x = weapon->scale.y;	
+		jpFire->position.x = (scale.x > 0.f) ? (-6.f) : (3.f);
 		b2offset.x = 2*scale.x;
 
 		// Update the velocity of the player's body
 		b2Vec2 vel(velX*dt, body->GetLinearVelocity().y);
 		body->SetLinearVelocity(vel);
+
+		// Update the jetpack
+		if (usingJp && jpFuel >= 0.f)
+		{
+			jpFuel -= dt * 2.f;
+			jpFire->hidden = false;
+			body->ApplyForce(b2Vec2(0.f, 10000.f*dt), body->GetPosition());
+
+			if (jpFuel < 0.f)
+			{
+				reqJpRelease = true;
+			}
+		}
+		else
+		{
+			jpFuel += dt * 0.5f;
+			if (jpFuel > 1.f)
+			{
+				jpFuel = 1.f;
+			}
+
+			jpFire->hidden = true;
+		}
 
 		// Update the animation
 		if (isGrounded())
@@ -229,11 +284,13 @@ void Player::update(float dt)
 		else
 		{
 			walkAnim.reset();
-			rect = walkAnim.frameIndex(2);
+			rect = walkAnim.frameIndex(3);
 		}
 	}
 	else
 	{
+		jpFire->hidden = true;
+
 		if (isGrounded())
 		{
 			body->SetLinearVelocity(b2Vec2_zero);

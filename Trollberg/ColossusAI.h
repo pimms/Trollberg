@@ -18,6 +18,7 @@ public:
 private:
 	Colossus				*colossus;
 
+	bool					hasPlayedSound;
 	bool					hasDamaged;
 	bool					isCrushing;
 	float					crushTimer;

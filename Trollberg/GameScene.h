@@ -33,8 +33,8 @@ private:
 	LevelData				levelData;
 	int						levelNum;
 
-	// The ambient rain sound
-	Pim::Sound				*ambientRain;
+	Pim::Sound				*music;				// The background music
+	Pim::Sound				*ambientRain;		// The ambient rain sound
 	float					ambientStartPos;
 
 	// The batch object containing the texture used for all

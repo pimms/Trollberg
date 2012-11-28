@@ -35,6 +35,11 @@ private:
 	Animation				walkAnim;
 	Animation				deathAnim;
 
+	Pim::Sprite				*jpFire;		// the jetpack fire-sprite
+	float					jpFuel;			// The fuel in the jetpack
+	bool					usingJp;		// Using JP right now?
+	bool					reqJpRelease;	// If the player ran out of fuel
+
 	// Keep all weapons instantiated at all times
 	Weapon					*allWeapons[3];	
 	
@@ -44,6 +49,9 @@ private:
 
 	// We're handling the aiming in 
 	Pim::MouseEvent			*mEvt;
+
+	// Was the last received walk-input keyboard originated?
+	bool					keyMovement;
 
 	// Force the player to single-fire using the controller
 	bool					RTReleaseRequired;
