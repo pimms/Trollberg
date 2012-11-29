@@ -20,56 +20,6 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 
 	singleton = this;
 
-	actorSheet	= batch;
-	player		= pl;
-	levelWidth	= lvlWidth;
-	levelNum	= lvl;
-	layer		= l;
-
-	this->pl = pl;
-
-	trollSpawnTimer = 0.f;
-	trollsToSpawn = 100000;
-	trollsOnScreen = 0;
-	maxTrollsOnScreen = 500;
-	trollTimeBetweenSpawn = 0.5f;
-
-	//lvl 1
-	trollSpawnChance[1][1] = 60;
-	trollSpawnChance[1][2] = 30;
-	trollSpawnChance[1][3] = 10;
-
-	//lvl 2
-	trollSpawnChance[2][1] = 40;
-	trollSpawnChance[2][2] = 40;
-	trollSpawnChance[2][3] = 20;
-
-	//lvl3
-	trollSpawnChance[3][1] = 20;
-	trollSpawnChance[3][2] = 40;
-	trollSpawnChance[3][3] = 40;
-
-	//extra delay when spawning one type of troll:
-	//lvl 1
-	trollSpawnDelay[1][1] = 0.f;
-	trollSpawnDelay[1][2] = 0.f;
-	trollSpawnDelay[1][3] = 0.f;
-
-	//lvl 2
-	trollSpawnDelay[2][1] = 0.f;
-	trollSpawnDelay[2][2] = 1.f;
-	trollSpawnDelay[2][3] = 2.f;
-
-	//lvl3
-	trollSpawnDelay[3][1] = 0.f;
-	trollSpawnDelay[3][2] = 0.f;
-	trollSpawnDelay[3][3] = 1.f;
-}
-TrollControl::~TrollControl(void)
-{
-	singleton = NULL;
-}
-
 	actorSheet				= batch;
 	player					= pl;
 	levelWidth				= lvlWidth;

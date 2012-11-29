@@ -1,6 +1,8 @@
 #pragma once 
 #include "Pim.h"
 
+class HighscoreLayer;
+
 // Defines
 #define NUMMENYBUTTONS 4
 #define MENYSPEED 1
@@ -27,6 +29,8 @@ public:
 	/* DEBUG */
 	void keyEvent(Pim::KeyEvent&);
 
+
+
 private:
 	Pim::SpriteBatchNode	*buttonSheet;
 	Pim::SpriteBatchNode	*scrollSheet;
@@ -51,4 +55,6 @@ private:
 	bool					startGame;
 
 	int						startLVL;
+
+	HighscoreLayer *theHighscoreLayer;
 };

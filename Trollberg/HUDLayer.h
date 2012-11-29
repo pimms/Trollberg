@@ -4,6 +4,7 @@
 // Forward declarations
 class Troll;
 class DamageLabel;
+class HighscoreLayer;
 
 class HUDLayer : public Pim::Layer
 {
@@ -34,6 +35,12 @@ public:
 	void setPlayerHealth(int health);
 	void setSelectedWeapon(int wep);
 
+	void updateScore(float dt);
+
+	bool playerDead;
+
+	int				score;
+
 private:
 	static HUDLayer	*singleton;
 	static Pim::Font *arial40;
@@ -44,7 +51,7 @@ private:
 
 	// Keeps track of the current score
 	Pim::Label		*scoreLabel;
-	int				score;
+	
 	float			displayScore;
 	float			scoreToDisplay;
 
@@ -92,5 +99,9 @@ private:
 
 	std::vector<DamageLabel*>	dmgLabels;
 	std::vector<ScoreLabel*>	scoreLabels;
+
+	void showHighscore();
+	HighscoreLayer *theHighscoreLayer;
+
 };
 

@@ -19,6 +19,7 @@ void MainMenuScene::loadResources()
 
 	addLayer(new MainMenuLayer());
 	loadMainMenu();
+	//startGame();
 
 	// Maximize the window
 	//HWND hwnd = Pim::GameControl::getSingleton()->getRenderWindow()->getHwnd();
