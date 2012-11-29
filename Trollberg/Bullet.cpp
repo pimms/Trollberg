@@ -54,7 +54,7 @@ void Bullet::createLight()
 {
 	lightDef = new Pim::PreloadLightDef;
 	lightDef->radius = 1;
-	finalLightRadius = 100 + rand()%100;
+	finalLightRadius = 20 + rand()%21;
 	getParentLayer()->addLight(this, lightDef, "Bullet");
 }
 

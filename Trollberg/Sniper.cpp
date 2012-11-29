@@ -33,7 +33,7 @@ void Sniper::fire()
 		bullet->createLight();
 		bullet->rect = Pim::Rect(200,0,13,3);
 		
-		bullet->finalLightRadius += 100;
+		bullet->finalLightRadius += 20;
 
 		timer = 0.f;
 	}

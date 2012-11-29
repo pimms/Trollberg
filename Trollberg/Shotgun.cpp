@@ -33,7 +33,7 @@ void Shotgun::fire()
 
 			// The bullet must create it's light AFTER it's been parented.
 			bullet->createLight();
-			bullet->finalLightRadius -= 70;
+			bullet->finalLightRadius -= 14;
 			bullet->maxLife	= 0.1f;
 			bullet->scale *= 0.3f;
 

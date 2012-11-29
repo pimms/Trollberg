@@ -76,8 +76,8 @@ Player::~Player()
 void Player::createLight()
 {
 	lightDef = new Pim::SmoothLightDef;
-	lightDef->radius			= 600;
-	lightDef->castShadows		= false;
+	lightDef->radius			= 120;
+	lightDef->castShadows		= true;
 	getParentLayer()->addLight(this, lightDef);
 
 	lightPosition = Pim::Vec2(0.f, -4.f);
@@ -209,6 +209,18 @@ void Player::controllerEvent(Pim::ControllerEvent &evt)
 
 		weapon->rotation = 90 - rs.angleBetween360(Pim::Vec2(0.f, 1.f));
 		weapon->setMirrored(rs.x < 0.f);
+	}
+
+	// Jetpack
+	if (evt.isKeyDown(Pim::ControllerEvent::X_LS) ||
+		evt.isKeyDown(Pim::ControllerEvent::X_RS))
+	{
+		usingJp = !reqJpRelease;
+	}
+	else
+	{
+		reqJpRelease = false;
+		usingJp = false;
 	}
 }
 

@@ -37,6 +37,10 @@ GameLayer::GameLayer(int lvl)
 
 	isVibrating		= false;
 	vibTimer		= 0.f;
+
+#ifdef _DEBUG
+	debugDraw		= false;
+#endif
 }
 GameLayer::~GameLayer()
 {
@@ -60,70 +64,73 @@ void GameLayer::draw()
 {
 	Pim::Layer::draw();
 
-	return;	// Comment the return to enable physics debug-drawing
-
-	glPushMatrix();
-	glLoadIdentity();
-
-	Pim::Vec2 fac = Pim::GameControl::getSingleton()->coordinateFactor();
-	glTranslatef(position.x / fac.x, position.y / fac.y, 0.f);
-
-	fac = Pim::GameControl::getSingleton()->windowScale();
-	glScalef(scale.x * fac.x * PTMR, scale.y * fac.y * PTMR, 1.f);
-
-	glColor4ub(255,0,0,80);
-
-	glDisable(GL_TEXTURE_2D);
-
-	for (auto b=world->GetBodyList(); b; b=b->GetNext())
+#ifdef _DEBUG
+	if (debugDraw)
 	{
-		for (auto f=b->GetFixtureList(); f; f=f->GetNext())
+		glPushMatrix();
+		glLoadIdentity();
+
+		Pim::Vec2 fac = Pim::GameControl::getSingleton()->coordinateFactor();
+		glTranslatef(position.x / fac.x, position.y / fac.y, 0.f);
+
+		fac = Pim::GameControl::getSingleton()->windowScale();
+		glScalef(scale.x * fac.x * PTMR, scale.y * fac.y * PTMR, 1.f);
+
+		glColor4ub(255,0,0,80);
+
+		glDisable(GL_TEXTURE_2D);
+
+		for (auto b=world->GetBodyList(); b; b=b->GetNext())
 		{
-			// Is the body a polygon shape?
-			b2PolygonShape *poly = dynamic_cast<b2PolygonShape*>(f->GetShape());
-			if (poly)
+			for (auto f=b->GetFixtureList(); f; f=f->GetNext())
 			{
-				glPushMatrix();
-				glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
-				glRotatef(b->GetAngle()*RADTODEG, 0.f, 0.f, 1.f);
+				// Is the body a polygon shape?
+				b2PolygonShape *poly = dynamic_cast<b2PolygonShape*>(f->GetShape());
+				if (poly)
+				{
+					glPushMatrix();
+					glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
+					glRotatef(b->GetAngle()*RADTODEG, 0.f, 0.f, 1.f);
 
-				glBegin(GL_POLYGON);
-					for (int i=0; i<poly->GetVertexCount(); i++)
-					{
-						glVertex2f(poly->GetVertex(i).x, poly->GetVertex(i).y);
-					}
-				glEnd();
+					glBegin(GL_POLYGON);
+						for (int i=0; i<poly->GetVertexCount(); i++)
+						{
+							glVertex2f(poly->GetVertex(i).x, poly->GetVertex(i).y);
+						}
+					glEnd();
 
-				glPopMatrix();
-			}
+					glPopMatrix();
+				}
 
-			// Is the body a circular shape?
-			b2CircleShape *circle = dynamic_cast<b2CircleShape*>(f->GetShape());
-			if (circle)
-			{
-				glPushMatrix();
-				glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
+				// Is the body a circular shape?
+				b2CircleShape *circle = dynamic_cast<b2CircleShape*>(f->GetShape());
+				if (circle)
+				{
+					glPushMatrix();
+					glTranslatef(b->GetPosition().x, b->GetPosition().y, 0.f);
 				
-				float rad = circle->m_radius;
+					float rad = circle->m_radius;
 
-				glBegin(GL_TRIANGLE_FAN);
-					glVertex2f(0.f, 0.f);
+					glBegin(GL_TRIANGLE_FAN);
+						glVertex2f(0.f, 0.f);
 
-					for (float a=0.f; a<2*M_PI; a+=(2*M_PI)/32.f)
-					{
-						glVertex2f( rad*cosf(a), rad*sinf(a) );
-					}
+						for (float a=0.f; a<2*M_PI; a+=(2*M_PI)/32.f)
+						{
+							glVertex2f( rad*cosf(a), rad*sinf(a) );
+						}
 
-					glVertex2f( rad*cosf(0.f), rad*sinf(0.f) );
-				glEnd();
+						glVertex2f( rad*cosf(0.f), rad*sinf(0.f) );
+					glEnd();
 
-				glPopMatrix();
+					glPopMatrix();
+				}
 			}
 		}
-	}
 
-	glEnable(GL_TEXTURE_2D);
-	glPopMatrix();
+		glEnable(GL_TEXTURE_2D);
+		glPopMatrix();
+	}
+#endif
 }
 
 void GameLayer::loadResources()
@@ -148,18 +155,18 @@ void GameLayer::loadLightingSystem()
 {
 	// Create the lighting system
 	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
-	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
+	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.95f));
 	setCastShadows(false);
 
 	// Preload the Lighting Rifle bullet tex
 	Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
-	sld->radius = 250;
+	sld->radius = 50;
 	sld->innerColor.a = 0.7f;
 	preloadLightTexture(sld, "Bullet");
 
 	// Preoad the Colossus crush light
 	Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
-	fld->radius = 150;
+	fld->radius = 30;
 	fld->falloff = 0.5f;
 	preloadLightTexture(fld, "CCrush");
 }
@@ -168,7 +175,7 @@ void GameLayer::loadRain()
 	for (int i=0; i<1000; i++)
 	{
 		Pim::Sprite *r = new Pim::Sprite;
-		r->position = Pim::Vec2(-position.x-50+rand()%435, rand()%230);
+		r->position = Pim::Vec2(-position.x-100+rand()%535, rand()%260);
 		r->rect = Pim::Rect(220+rand()%4,0,1,8);
 		r->useBatchNode(actorSheet);
 
@@ -292,8 +299,8 @@ void GameLayer::updateRain(float dt)
 
 		if (r->position.y < 0.f)
 		{
-			r->position.y += 230.f;
-			r->position.x = -position.x - 50 + rand()%435;
+			r->position.y += 260.f;
+			r->position.x = -position.x - 100 + rand()%535;
 		}
 	}
 }
@@ -331,4 +338,11 @@ void GameLayer::keyEvent(Pim::KeyEvent &evt)
 	{
 		Pim::GameControl::getSingleton()->pause();
 	}
+
+#ifdef _DEBUG
+	if (evt.isKeyFresh(Pim::KeyEvent::K_F8))
+	{
+		debugDraw = !debugDraw;
+	}
+#endif
 }

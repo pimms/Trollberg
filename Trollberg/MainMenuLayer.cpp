@@ -69,7 +69,7 @@ void MainMenuLayer::loadResources()
 
 	// Setup a light def
 	Pim::FlatLightDef *ld = new Pim::FlatLightDef;
-	ld->radius		= 450;
+	ld->radius		= 90;
 	ld->falloff		= 2.f;
 	ld->innerColor  = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	

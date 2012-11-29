@@ -3,6 +3,7 @@
 #include "SlinkerAI.h"
 #include "Animation.h"
 #include "TrollControl.h"
+#include "GameLayer.h"
 
 #define SL_TIMETODIE 0.7f
 #define SL_FADETIME 6.f
@@ -10,7 +11,7 @@
 Slinker::Slinker(Player *pl, Pim::SpriteBatchNode *b, Pim::Vec2 pos)
 	: Troll(b, pos)
 {
-	body = createCircularBody(10, TROLLS_SL, TROLLS_SL | PLAYER | GROUND | SENSOR, 1.13f);
+	body = createCircularBody(7.f, TROLLS_SL, TROLLS_SL | PLAYER | GROUND | SENSOR, 1.13f);
 	sensor = createSensor(body, -8.f/PTMR);
 
 	walkAnim.firstFramePos		= Pim::Vec2(0.f, 14.f);

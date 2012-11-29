@@ -86,7 +86,7 @@ void HUDLayer::loadResources()
 	// Load the score label
 	scoreLabel = new Pim::Label(arial40);
 	scoreLabel->color = Pim::Color(1.f, 0.8f, 0.f, 1.f);
-	scoreLabel->position = Pim::Vec2(83.f, 194.f);
+	scoreLabel->position = Pim::Vec2(83.f, 192.f);
 	scoreLabel->setTextAlignment(Pim::Label::TEXT_RIGHT);
 	scoreLabel->scale *= 0.2f;
 	scoreLabel->setText("0");
@@ -233,17 +233,15 @@ void HUDLayer::draw()
 	glScalef(scale.x, scale.y, 1.f);
 
 	glBegin(GL_TRIANGLE_FAN);
-		float yv = 124.f + 46.f * GameLayer::playerFuel();
+		float yv = 124.f + 47.f * GameLayer::playerFuel();
 		glVertex2f(343.f, 124.f);
-		//glVertex2f(354.f, 124.f);
 		
 		for (int i=0; i<=11; i++)
 		{
-			glVertex2f(343.f+i, yv + sinf((timer+i)*5.f)*0.4f);
+			glVertex2f(343.f+i, yv + sinf((timer+i)*5.f)*0.4f + 0.4f);
 		}
 
 		glVertex2f(354.f, 124.f);
-
 	glEnd();
 
 	glEnable(GL_TEXTURE_2D);

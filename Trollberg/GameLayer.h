@@ -78,5 +78,10 @@ private:
 
 	// The remainding time vibrating
 	float						vibTimer;
+
+	/* DEBUG BUILDS ONY */
+#ifdef _DEBUG
+	bool						debugDraw;
+#endif
 };
 
