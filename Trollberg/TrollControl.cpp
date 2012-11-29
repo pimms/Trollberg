@@ -17,7 +17,8 @@ TrollControl* TrollControl::singleton = NULL;
 TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l, 
 						   Player *pl, float lvlWidth, int lvl)
 {
-	singleton				= this;
+
+	singleton = this;
 
 	actorSheet				= batch;
 	player					= pl;

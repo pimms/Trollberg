@@ -1,6 +1,7 @@
 #include "HUDLayer.h"
 #include "Troll.h"
 #include "GameLayer.h"
+#include "HighscoreLayer.h"
 
 
 // The lifetime of the floating dmgLabels
@@ -41,6 +42,9 @@ HUDLayer::HUDLayer()
 
 	singleton		= this;
 	immovable		= true;
+
+	playerDead		= false;
+	theHighscoreLayer = NULL;
 
 	isFading		= true;
 	fadeTimer		= 0.f;
@@ -255,6 +259,12 @@ void HUDLayer::update(float dt)
 
 	timer += dt;
 
+	if(playerDead)
+	{
+		showHighscore();
+	}
+
+
 	powerCogs[0]->rotation += dt * 70.f;
 	powerCogs[1]->rotation -= dt * 70.f;
 	powerCogs[2]->rotation += dt * 70.f;
@@ -420,4 +430,16 @@ void HUDLayer::setSelectedWeapon(int wep)
 	}
 
 	curWeapon = wep;
+}
+
+void HUDLayer::showHighscore()
+{
+	if(theHighscoreLayer == NULL)
+	{
+		theHighscoreLayer = new HighscoreLayer(false);
+		addChild(theHighscoreLayer);
+		theHighscoreLayer->loadResources();
+		theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
+		//DEN FORSVINNER BAKERST! YOU FIK JOAKIM!
+	}
 }

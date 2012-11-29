@@ -5,7 +5,9 @@
 #include "MainMenuScene.h"
 #include "GameScene.h"
 #include "ParallaxLayer.h"
+
 #include "MenuButton.h"
+#include "HighscoreLayer.h"
 
 /*
 	Two ButtonScrollers are utilized - mainScroller and playScroller. Once a button in
@@ -20,6 +22,8 @@ MainMenuLayer::MainMenuLayer()
 
 	buttonSheet			= NULL;
 	scrollSheet			= NULL;
+
+	theHighscoreLayer	= NULL;
 
 	startGame			= false;
 	
@@ -41,6 +45,10 @@ MainMenuLayer::~MainMenuLayer()
 	{
 		delete music;
 	}
+	//if(theHighscoreLayer != NULL)
+	//{
+	//	delete theHighscoreLayer;
+	//}
 }
 
 void MainMenuLayer::loadResources()
@@ -328,6 +336,13 @@ void MainMenuLayer::scrollCompleted()
 	}
 	else if (scrollID == SHOW_HIGHSCORE)
 	{
+		if(theHighscoreLayer == NULL)
+		{
+			theHighscoreLayer = new HighscoreLayer(true);
+			addChild(theHighscoreLayer);
+			theHighscoreLayer->loadResources();
+			theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
+		}
 	}
 	else if (scrollID == PLAY)
 	{

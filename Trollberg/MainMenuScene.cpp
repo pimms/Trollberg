@@ -23,6 +23,9 @@ void MainMenuScene::loadResources()
 	color = Pim::Color(0.207, 0.537, 0.647, 1.f);
 
 	addLayer(new MainMenuLayer());
+	
+	//loadMainMenu();
+	//startGame();
 
 	// Load the rain-sound
 	ambientRain = new Pim::Sound("res\\ambientrain.ogg");

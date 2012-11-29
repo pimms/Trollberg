@@ -315,6 +315,7 @@ void Player::update(float dt)
 			{
 				getParentLayer()->removeLight(this);
 				lightDef = NULL;
+				HUDLayer::getSingleton()->playerDead = true;
 			}
 		}
 
