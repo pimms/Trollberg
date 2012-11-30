@@ -339,10 +339,34 @@ void GameLayer::keyEvent(Pim::KeyEvent &evt)
 		Pim::GameControl::getSingleton()->pause();
 	}
 
+	if (evt.isKeyFresh(Pim::KeyEvent::K_F5))
+	{
+		Pim::WinStyle::WinStyle curStyle, newStyle;
+		curStyle = Pim::GameControl::getSingleton()->getCreationData().winStyle;
+
+		if (curStyle == Pim::WinStyle::WINDOWED)
+		{
+			newStyle = Pim::WinStyle::BORDERLESS_WINDOWED;
+		}
+		else
+		{
+			newStyle = Pim::WinStyle::WINDOWED;
+		}
+
+		Pim::GameControl::getSingleton()->setWindowStyle(newStyle);
+	}
+
 #ifdef _DEBUG
 	if (evt.isKeyFresh(Pim::KeyEvent::K_F8))
 	{
 		debugDraw = !debugDraw;
 	}
 #endif
+}
+void GameLayer::controllerEvent(Pim::ControllerEvent &evt)
+{
+	if (evt.isKeyFresh(Pim::ControllerEvent::X_START))
+	{
+		Pim::GameControl::getSingleton()->pause();
+	}
 }

@@ -13,7 +13,6 @@ enum ScrollCompleteID
 	NONE,			// jack diddly squat
 	SHOW_MAIN,		// Show the main-scroller
 	SHOW_PLAY,		// Show the play-scroller
-	SHOW_HIGHSCORE,	// Show the highscore screen
 	PLAY,			// Play the game
 	EXIT,			// Exit the game
 };
@@ -41,10 +40,7 @@ public:
 
 	void scrollCompleted();
 
-	/* DEBUG */
 	void keyEvent(Pim::KeyEvent&);
-
-
 
 private:
 	Pim::SpriteBatchNode	*buttonSheet;

@@ -40,6 +40,11 @@ void Troll::update(float dt)
 	else
 	{
 		deathTimer += dt;
+
+		if (isGrounded())
+		{
+			deleteBody();
+		}
 		
 		if (!isFading)
 		{
@@ -50,19 +55,11 @@ void Troll::update(float dt)
 
 			if (deathTimer >= timeToDie)
 			{
-				if (isGrounded())
-				{
-					deleteBody();
 
-					isFading	= true;
-					deathTimer	= 0.f;
+				isFading	= true;
+				deathTimer	= 0.f;
 					
-					rect = deathAnim.frameIndex(deathAnim.framesInAnimation-1);
-				}
-			}
-			else if (isGrounded())
-			{
-				deleteBody();
+				rect = deathAnim.frameIndex(deathAnim.framesInAnimation-1);
 			}
 		}
 		else

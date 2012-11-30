@@ -33,7 +33,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	velX						= 0.;
 	mEvt						= NULL;
 
-	dead						= true;
+	dead						= false;
 	deathTimer					= 0.f;
 	RTReleaseRequired			= false;
 	keyMovement					= false;
@@ -314,7 +314,7 @@ void Player::update(float dt)
 			rect = walkAnim.frameIndex(3);
 		}
 	}
-	else
+	else	// He's dead yo
 	{
 		jpFire->hidden = true;
 
@@ -346,7 +346,7 @@ void Player::update(float dt)
 		else
 		{
 			rect = deathAnim.frameIndex(deathAnim.totalFrames-1);
-			HUDLayer::getSingleton()->playerDead = true;
+			HUDLayer::getSingleton()->showHighscore();
 		}
 	}
 }

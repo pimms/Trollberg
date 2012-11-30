@@ -43,7 +43,6 @@ HUDLayer::HUDLayer()
 	singleton		= this;
 	immovable		= true;
 
-	playerDead		= false;
 	theHighscoreLayer = NULL;
 
 	isFading		= true;
@@ -53,6 +52,7 @@ HUDLayer::HUDLayer()
 	scoreLabel		= NULL;
 	displayScore	= 0;
 	scoreToDisplay	= 0;
+	scoreMoveTimer	= 0.f;
 
 	curWeapon		= 0;
 	weaponRotDest	= 60.f;
@@ -271,16 +271,40 @@ void HUDLayer::update(float dt)
 	updateLabels(dt);
 	updateWeaponCog(dt);
 
+	// Append the timer
 	timer += dt;
 	
+	// Fade out the red overlay (from the player taking damage)
 	damageFadeTimer -= dt;
 	damageIndicator->color.a = damageFadeTimer;
 
-	if(playerDead)
+	// When the player is dead, move the score label to the center
+	// of the screen, and scale it up
+	if (GameLayer::isPlayerDead())
 	{
-		showHighscore();
-	}
+		if (scoreMoveTimer == 0.f)
+		{
+			scoreLabel->setTextAlignment(Pim::Label::TEXT_CENTER);
+		}
 
+		scoreMoveTimer += dt;
+
+		if (scoreMoveTimer <= 1.f)
+		{
+			// The vector from the original position to the center
+			Pim::Vec2 diff =  Pim::Vec2(192.f, 108.f) - Pim::Vec2(83.f, 192.f);
+			scoreLabel->position = Pim::Vec2(83.f, 192.f) + diff * scoreMoveTimer;
+
+			// Scale up to 1.5 size
+			float scaleAdd = scoreMoveTimer / 10.f;
+			scoreLabel->scale = Pim::Vec2(0.2f + scaleAdd, 0.2f + scaleAdd);
+		}
+		else
+		{
+			scoreLabel->position = Pim::Vec2(192.f, 108.f);
+			scoreLabel->scale = Pim::Vec2(0.3f, 0.3f);
+		}
+	}
 
 	powerCogs[0]->rotation += dt * 70.f;
 	powerCogs[1]->rotation -= dt * 70.f;
@@ -300,7 +324,7 @@ void HUDLayer::update(float dt)
 	scoreLabel->setTextWithFormat("%0.0f\n", displayScore);
 
 
-	if (isFading)	// Only occurs for the first 0.5 seconds of the game
+	if (isFading)	// Only occurs for the first 2 seconds of the game
 	{
 		fadeTimer += dt;
 		fadeSprite->color.a = 1.f - fadeTimer / 2.f;

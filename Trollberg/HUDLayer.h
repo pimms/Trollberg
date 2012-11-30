@@ -40,7 +40,7 @@ public:
 
 	void updateScore(float dt);
 
-	bool			playerDead;
+	void showHighscore();
 
 	int				score;
 
@@ -54,6 +54,7 @@ private:
 
 	// Keeps track of the current score
 	Pim::Label		*scoreLabel;
+	float			scoreMoveTimer;	// Move the score label to the 
 	
 	float			displayScore;
 	float			scoreToDisplay;
@@ -83,7 +84,7 @@ private:
 
 	Pim::Sprite		*powerCogs[3];
 
-	// The mute / unmute indicator
+	// The mute / unmute indicator (NOT USED)
 	Pim::Sprite		*soundInd;
 
 	// Indicator label that a troll has been hit
@@ -110,8 +111,6 @@ private:
 	std::vector<DamageLabel*>	dmgLabels;
 	std::vector<ScoreLabel*>	scoreLabels;
 
-	void showHighscore();
 	HighscoreLayer *theHighscoreLayer;
 
 };
-

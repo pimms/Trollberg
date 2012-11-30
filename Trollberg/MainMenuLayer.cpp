@@ -193,20 +193,26 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 	int idx = mainScroller->getButtonID(activeButton);
 	if (idx != -1)
 	{
-		activeScroller = mainScroller;
-		mainScroller->scrollUp();
-
 		if (idx == 0)
 		{
 			scrollID = SHOW_PLAY;
+			activeScroller = mainScroller;
+			mainScroller->scrollUp();
 		}
 		else if (idx == 1)
 		{
-			scrollID = SHOW_HIGHSCORE;
+			if(theHighscoreLayer == NULL)
+			{
+				theHighscoreLayer = new HighscoreLayer(true);
+				parentScene->addLayer(theHighscoreLayer);
+				theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
+			}
 		}
 		else if (idx == 2)
 		{
 			scrollID = EXIT;
+			activeScroller = mainScroller;
+			mainScroller->scrollUp();
 		}
 	}
 
@@ -334,15 +340,6 @@ void MainMenuLayer::scrollCompleted()
 
 		playScroller->scrollDown();
 	}
-	else if (scrollID == SHOW_HIGHSCORE)
-	{
-		if(theHighscoreLayer == NULL)
-		{
-			theHighscoreLayer = new HighscoreLayer(true);
-			parentScene->addLayer(theHighscoreLayer);
-			theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
-		}
-	}
 	else if (scrollID == PLAY)
 	{
 		startGame = true;
@@ -358,9 +355,26 @@ void MainMenuLayer::scrollCompleted()
 	activeScroller = NULL;
 }
 
-/* DEBUG */
 void MainMenuLayer::keyEvent(Pim::KeyEvent &evt)
 {
+	if (evt.isKeyFresh(Pim::KeyEvent::K_F5))
+	{
+		Pim::WinStyle::WinStyle curStyle, newStyle;
+		curStyle = Pim::GameControl::getSingleton()->getCreationData().winStyle;
+
+		if (curStyle == Pim::WinStyle::WINDOWED)
+		{
+			newStyle = Pim::WinStyle::BORDERLESS_WINDOWED;
+		}
+		else
+		{
+			newStyle = Pim::WinStyle::WINDOWED;
+		}
+
+		Pim::GameControl::getSingleton()->setWindowStyle(newStyle);
+	}
+
+	/* DEBUG */
 	if (evt.isKeyDown(Pim::KeyEvent::K_D))
 	{
 		position.x -= 20;

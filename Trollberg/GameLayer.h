@@ -41,6 +41,7 @@ public:
 	void vibrate(float left, float right, float duration);
 
 	void keyEvent(Pim::KeyEvent &evt);
+	void controllerEvent(Pim::ControllerEvent &evt);
 
 private:
 	static GameLayer			*singleton;
