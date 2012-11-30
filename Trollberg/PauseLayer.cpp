@@ -28,14 +28,19 @@ void PauseLayer::keyEvent(Pim::KeyEvent &evt)
 		Pim::GameControl::getSingleton()->unpause();
 	}
 
-	if (evt.isKeyFresh(Pim::KeyEvent::K_R))
+	// The timer is required to allow for any eventual played sounds to
+	// finish and delete themselves. Last restort quick-fix. Nasty fix.
+	if (timer >= 1.5f)	
 	{
-		Pim::GameControl::getSingleton()->unpause();
-		GameScene::getSingleton()->restart();
-	}
-	else if (evt.isKeyFresh(Pim::KeyEvent::K_M))
-	{
-		Pim::GameControl::getSingleton()->unpause();
-		Pim::GameControl::getSingleton()->setScene(new MainMenuScene);
+		if (evt.isKeyFresh(Pim::KeyEvent::K_R))
+		{
+			Pim::GameControl::getSingleton()->unpause();
+			GameScene::getSingleton()->restart();
+		}
+		else if (evt.isKeyFresh(Pim::KeyEvent::K_M))
+		{
+			Pim::GameControl::getSingleton()->unpause();
+			Pim::GameControl::getSingleton()->setScene(new MainMenuScene);
+		}
 	}
 }

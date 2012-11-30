@@ -72,7 +72,6 @@ LevelData LevelParser::parseTrollbergLevel(std::string path)
 }
 
 // ------------------------------------
-// ------------------------------------
 
 std::string LevelParser::getResourcePath(std::string path)
 {
@@ -95,7 +94,6 @@ std::string LevelParser::getResourcePath(std::string path)
 
 	return resPath;
 }
-
 void LevelParser::setResourcePath(std::string file, std::string path)
 {
 	TiXmlDocument doc( file.c_str() );
@@ -142,7 +140,6 @@ Pim::Layer* LevelParser::parse(std::string path)
 
 	return layer;
 }
-
 Polygons LevelParser::parsePoly(std::string path)
 {
 	Polygons ret;
