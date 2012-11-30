@@ -2,6 +2,8 @@
 #include "HighscoreLayer.h"
 #include "Trollberg.h"
 #include "HUDLayer.h"
+#include "MenuButton.h"
+
 
 
 HighscoreLayer::HighscoreLayer(bool onlyShow)
@@ -27,11 +29,18 @@ HighscoreLayer::HighscoreLayer(bool onlyShow)
 
 HighscoreLayer::~HighscoreLayer(void)
 {
+	if(arial40)
+	{
+		delete arial40;
+	}
+
 
 }
 
 void HighscoreLayer::loadResources()
 {
+
+	this->setZOrder(100);
 
 	if (!arial40)
 	{
@@ -39,9 +48,9 @@ void HighscoreLayer::loadResources()
 	}
 
 	//load bg
-	Pim::Sprite *testy = new Pim::Sprite("res/HIGHSCOREMENU.png");
+	Pim::Sprite *myBGImage = new Pim::Sprite("res/HIGHSCOREMENU.png");
 	//testy->scale = Pim::Vec2(1.5f, 1.f);
-	addChild(testy);
+	addChild(myBGImage);
 
 	// Load the score label
 	tittleLabel = new Pim::Label(arial40);
@@ -53,20 +62,20 @@ void HighscoreLayer::loadResources()
 
 	if(!onlyShow)
 	{
-		youText = new Pim::Label(arial40);
-		youText->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
-		youText->position = Pim::Vec2(0.f, +SCREENHEIGHT/2-50);
-		youText->scale *= 0.2f;
-		youText->setTextWithFormat("You got: %d\n points", HUDLayer::getSingleton()->score);
-		addChild(youText);
+		yourScoreLabel = new Pim::Label(arial40);
+		yourScoreLabel->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
+		yourScoreLabel->position = Pim::Vec2(0.f, +SCREENHEIGHT/2-50);
+		yourScoreLabel->scale *= 0.2f;
+		yourScoreLabel->setTextWithFormat("You got: %d\n points", HUDLayer::getSingleton()->score);
+		addChild(yourScoreLabel);
 	
 
-		youName = new Pim::Label(arial40);
-		youName->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
-		youName->position = Pim::Vec2(0.f, +SCREENHEIGHT/2-70);
-		youName->scale *= 0.2f;
-		youName->setText("Enter your name");
-		addChild(youName);
+		youNameInputLabel = new Pim::Label(arial40);
+		youNameInputLabel->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
+		youNameInputLabel->position = Pim::Vec2(0.f, +SCREENHEIGHT/2-70);
+		youNameInputLabel->scale *= 0.2f;
+		youNameInputLabel->setText("Enter your name");
+		addChild(youNameInputLabel);
 	}
 
 	//add all lables, and hide them
@@ -78,13 +87,31 @@ void HighscoreLayer::loadResources()
 		addChild(theLables[i]);
 	}
 
+	//exit button
+	Pim::SpriteBatchNode	*buttonSheet = new Pim::SpriteBatchNode("res/HSExit.png");
+	Pim::Sprite *normal = new Pim::Sprite;
+	normal->useBatchNode(buttonSheet) ; 
+	normal->rect = Pim::Rect(0,0,20,20);
+	normal->scale = Pim::Vec2(1.0f, 0.7f);
 
-	
+	Pim::Sprite *hovered = new Pim::Sprite;
+	hovered->useBatchNode(buttonSheet);
+	hovered->rect = Pim::Rect(20,0,20,20);
+	hovered->scale = Pim::Vec2(1.0f, 0.7f);
+
+	Pim::Sprite *pressed = new Pim::Sprite;
+	pressed->useBatchNode(buttonSheet); 
+	pressed->rect = Pim::Rect(40,0,20,20);
+	pressed->scale = Pim::Vec2(1.0f, 0.7f);
+
+	Pim::Button *closeButton = new Pim::Button(normal, hovered, pressed);
+	closeButton->position = Pim::Vec2(192, 108);
 
 	updateScoreList();
 
 
 }
+
 
 //get content of xml doc and update lables:
 void HighscoreLayer::updateScoreList(){
@@ -103,7 +130,7 @@ void HighscoreLayer::updateScoreList(){
 			pParm = pRoot->FirstChildElement("player");
 			int i = 0; // for sorting the entries
 			//max 6:
-			while(pParm)
+			while(pParm && numData < HS_MAXNUMHS-(!nameEntered))
 			{
 
 				std::string name = pParm->Attribute("name");
@@ -155,7 +182,7 @@ void HighscoreLayer::addMyScore(){
 	root->LinkEndChild( window );
 	const char *myName = yourName.c_str();
 	window->SetAttribute("name", myName);
-	window->SetAttribute("score", 50);
+	window->SetAttribute("score", HUDLayer::getSingleton()->score);
 
 
 
@@ -174,7 +201,7 @@ void HighscoreLayer::addMyScore(){
 
 	doc.SaveFile( "highscore.pim" );
 
-	youName->setText("Saved!");
+	youNameInputLabel->setText("Saved!");
 
 }
 
@@ -205,11 +232,20 @@ void HighscoreLayer::keyEvent(Pim::KeyEvent &evt){
 	for (int i = Pim::KeyEvent::K_A; i <= Pim::KeyEvent::K_Z && !nameEntered; i ++)
 	{
 
-		if (evt.isKeyFresh( (Pim::KeyEvent::KeyCode)i ))
+		if (evt.isKeyFresh( (Pim::KeyEvent::KeyCode)i ) && yourName.size() <= HS_MAXNAMESIZE )
 		{
-			std::cout << (char) i <  "!\n";
 			yourName += (char) i;
-			youName->setText(yourName);
+			youNameInputLabel->setText(yourName);
+		}
+
+	}
+
+	if (evt.isKeyFresh(Pim::KeyEvent::KeyCode::K_BACKSPACE) && !nameEntered)
+	{
+		if(yourName.size() > 0)
+		{
+			yourName = yourName.substr(0, yourName.size()-1);
+			youNameInputLabel->setText(yourName);
 		}
 
 	}
@@ -217,7 +253,6 @@ void HighscoreLayer::keyEvent(Pim::KeyEvent &evt){
 	if (evt.isKeyFresh(Pim::KeyEvent::KeyCode::K_ENTER) && !nameEntered)
 	{
 		nameEntered = true;
-		std::cout << "\n" << "suksess!";
 		addMyScore();
 		updateScoreList();
 	}
@@ -229,14 +264,21 @@ void HighscoreLayer::mouseEvent(Pim::MouseEvent &evt){
 
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
-		parent->removeChild(this, true);
-		
+		if (parent) //if parent, er dette en child
+		{
+			parent->removeChild(this, true);
+		}
+		else
+		{
+			parentScene->removeLayer(this);
+		}
+
 	}
 
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_RIGHT))
 	{
 		updateScoreList();
-		youText->setTextWithFormat("You got: %d\n points", HUDLayer::getSingleton()->score);
+		yourScoreLabel->setTextWithFormat("You got: %d\n points", HUDLayer::getSingleton()->score);
 	}
 
 

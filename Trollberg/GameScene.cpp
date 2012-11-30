@@ -159,7 +159,7 @@ void GameScene::update(float dt)
 {
 	if (world)
 	{
-		world->Step(1.f/60.f, 10, 10);
+		world->Step(dt, 10, 10);
 
 		// Iterate over all the bodies, update position and rotation
 		for (auto it=world->GetBodyList(); it; it=it->GetNext())

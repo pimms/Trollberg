@@ -339,8 +339,7 @@ void MainMenuLayer::scrollCompleted()
 		if(theHighscoreLayer == NULL)
 		{
 			theHighscoreLayer = new HighscoreLayer(true);
-			addChild(theHighscoreLayer);
-			theHighscoreLayer->loadResources();
+			parentScene->addLayer(theHighscoreLayer);
 			theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
 		}
 	}

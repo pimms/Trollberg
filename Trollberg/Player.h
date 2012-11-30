@@ -30,6 +30,8 @@ private:
 
 	float velX;
 
+	float healthTimer;
+
 	Pim::LightDef			*lightDef;
 
 	Animation				walkAnim;
