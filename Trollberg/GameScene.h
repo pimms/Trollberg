@@ -16,6 +16,8 @@ public:
 	GameScene(int levelNumber, float ambientPosition);
 	~GameScene();
 
+	void restart();
+
 	Pim::Layer* pauseLayer();
 
 	void loadResources();

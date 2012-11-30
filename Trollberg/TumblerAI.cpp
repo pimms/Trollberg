@@ -4,7 +4,7 @@
 #include "GameLayer.h"
 
 #define TL_THROWTIME	0.75f	// Time required to throw
-#define TL_THROWCD		3.f		// Cooldown between throws
+#define TL_THROWCD		0.f		// Cooldown between throws
 
 TumblerAI::TumblerAI(Tumbler *tr, Player *pl)
 {
@@ -100,7 +100,7 @@ void TumblerAI::update(float dt)
 			}
 
 			// He's got a towel! Run away!
-			else if (trollPlayerXDiff() < 40.f)
+			else if (trollPlayerXDiff() < 10.f)
 			{
 				moveFromPlayer();
 				faceAwayPlayer();

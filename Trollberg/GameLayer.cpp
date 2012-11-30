@@ -33,7 +33,6 @@ GameLayer::GameLayer(int lvl)
 	world			= GameScene::getWorld();
 	groundBody		= NULL;
 	trollControl	= NULL;
-	singleton		= this;
 
 	isVibrating		= false;
 	vibTimer		= 0.f;
@@ -56,8 +55,6 @@ GameLayer::~GameLayer()
 	Pim::AudioManager::getSingleton()->deleteCache("splat0");
 	Pim::AudioManager::getSingleton()->deleteCache("splat1");
 	Pim::AudioManager::getSingleton()->deleteCache("splat2");
-
-	singleton = NULL;
 }
 
 void GameLayer::draw()
@@ -135,6 +132,8 @@ void GameLayer::draw()
 
 void GameLayer::loadResources()
 {
+	singleton = this;
+
 	listenFrame();
 	listenKeys();
 	loadLightingSystem();

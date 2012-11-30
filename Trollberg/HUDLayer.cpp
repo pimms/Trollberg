@@ -9,38 +9,16 @@
 
 
 HUDLayer* HUDLayer::singleton = NULL;
-Pim::Font* HUDLayer::arial40 = NULL;
-
 
 HUDLayer* HUDLayer::getSingleton()
 {
 	return singleton;
 }
 
-void HUDLayer::createFont()
-{
-	if (!arial40)
-	{
-		arial40 = new Pim::Font("res\\arial.ttf", 40, false);
-	}
-}
-Pim::Font* HUDLayer::getFont()
-{
-	return arial40;
-}
-void HUDLayer::destroyFont()
-{
-	if (arial40)
-	{
-		delete arial40;
-	}
-}
-
 HUDLayer::HUDLayer()
 {
-	createFont();
+	arial40 = new Pim::Font("res\\arial.ttf", 40);
 
-	singleton		= this;
 	immovable		= true;
 
 	theHighscoreLayer = NULL;
@@ -64,13 +42,18 @@ HUDLayer::HUDLayer()
 }
 HUDLayer::~HUDLayer()
 {
-	destroyFont();
+	if (arial40)
+	{
+		delete arial40;
+	}
 
 	singleton = NULL;
 }
 
 void HUDLayer::loadResources()
 {
+	singleton		= this;
+
 	listenFrame();
 
 	actorSheet = GameLayer::getActorSheet();

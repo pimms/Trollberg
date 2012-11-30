@@ -11,9 +11,6 @@ class HUDLayer : public Pim::Layer
 public:
 	static HUDLayer* getSingleton();
 
-	static void createFont();
-	static Pim::Font* getFont();
-	static void destroyFont();
 
 	HUDLayer();
 	~HUDLayer();
@@ -46,7 +43,7 @@ public:
 
 private:
 	static HUDLayer	*singleton;
-	static Pim::Font *arial40;
+	Pim::Font *arial40;
 
 	Pim::SpriteBatchNode *actorSheet;
 

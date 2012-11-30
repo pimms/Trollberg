@@ -13,7 +13,6 @@ GameScene::GameScene(int levelNumber, float ambientPosition)
 {
 	srand((unsigned int)time(0));
 
-	singleton		= this;
 	levelNum		= levelNumber;
 
 	std::stringstream ss;
@@ -42,8 +41,6 @@ GameScene::GameScene(int levelNumber, float ambientPosition)
 }
 GameScene::~GameScene()
 {
-	singleton = NULL;
-
 	// As the GameScene does not inherit from the GameNode-class, all 
 	// memory management regarding batch nodes has do be performed manually.
 	if (batch) delete batch;
@@ -71,6 +68,12 @@ GameScene::~GameScene()
 	}
 }
 
+void GameScene::restart()
+{
+	float sec = music->position();
+	Pim::GameControl::getSingleton()->setScene(new GameScene(levelNum, sec));
+}
+
 Pim::Layer* GameScene::pauseLayer()
 {
 	PauseLayer *pl = new PauseLayer;
@@ -79,6 +82,8 @@ Pim::Layer* GameScene::pauseLayer()
 
 void GameScene::loadResources()
 {
+	singleton		= this;
+
 	// Create the Box2D world
 	world = new b2World(b2Vec2(0, -30));
 

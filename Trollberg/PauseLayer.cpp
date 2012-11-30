@@ -1,4 +1,6 @@
 #include "PauseLayer.h"
+#include "GameScene.h"
+#include "MainMenuScene.h"
 
 PauseLayer::PauseLayer()
 {
@@ -24,5 +26,16 @@ void PauseLayer::keyEvent(Pim::KeyEvent &evt)
 	if (timer >= 0.1f && evt.isKeyFresh(Pim::KeyEvent::K_ESC))
 	{
 		Pim::GameControl::getSingleton()->unpause();
+	}
+
+	if (evt.isKeyFresh(Pim::KeyEvent::K_R))
+	{
+		Pim::GameControl::getSingleton()->unpause();
+		GameScene::getSingleton()->restart();
+	}
+	else if (evt.isKeyFresh(Pim::KeyEvent::K_M))
+	{
+		Pim::GameControl::getSingleton()->unpause();
+		Pim::GameControl::getSingleton()->setScene(new MainMenuScene);
 	}
 }
