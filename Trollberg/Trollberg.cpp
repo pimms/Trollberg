@@ -2,15 +2,8 @@
 #include "GameScene.h"
 #include "MainMenuScene.h"
 
-#include "OLLeaderboard.h"
-
 int main()
 {
-	OLLeaderboard leader;
-	leader.connect();
-
-	//system("pause"); 
-
 	{   // Stack cheating: avoid 'cd' from "leaking" memory
 		Pim::WinStyle::CreationData cd;
 
