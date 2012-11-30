@@ -90,6 +90,7 @@ void HUDLayer::loadResources()
 	scoreLabel->setText("0");
 	addChild(scoreLabel);
 
+	/*
 	// Load the FPS label
 	FPSLabel = new Pim::Label(arial40);
 	FPSLabel->color = Pim::Color(1.f, 1.f, 0.f, 1.f);
@@ -97,6 +98,7 @@ void HUDLayer::loadResources()
 	FPSLabel->position = Pim::Vec2(384.f, 20.f);
 	FPSLabel->scale = Pim::Vec2(0.2f, 0.2f);
 	addChild(FPSLabel);
+	*/
 }
 void HUDLayer::loadHelperSprites()
 {
@@ -293,7 +295,7 @@ void HUDLayer::update(float dt)
 	powerCogs[1]->rotation -= dt * 70.f;
 	powerCogs[2]->rotation += dt * 70.f;
 
-	FPSLabel->setTextWithFormat("FPS: %0.0f\n", 1.f/dt);
+	//FPSLabel->setTextWithFormat("FPS: %0.0f\n", 1.f/dt);
 
 	// Update the score label
 	float scoreAppend = dt * (10.f * scoreToDisplay);

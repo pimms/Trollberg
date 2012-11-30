@@ -9,6 +9,7 @@
 
 
 
+
 HighscoreLayer::HighscoreLayer(bool onlyShow)
 {
 
@@ -36,8 +37,6 @@ HighscoreLayer::~HighscoreLayer(void)
 	{
 		delete arial40;
 	}
-
-
 }
 
 void HighscoreLayer::loadResources()
@@ -137,12 +136,14 @@ void HighscoreLayer::updateScoreList()
 	TiXmlDocument doc("highscore.pim");
 	int counter = 0;
 
+	std::vector<std::pair<std::string, int>> scores;
+
 	//if we are able to load the file
 	if(doc.LoadFile())
 	{
 		TiXmlHandle hDoc(&doc);
 		TiXmlElement *pRoot, *pParm;
-		pRoot = doc.FirstChildElement("palyers");
+		pRoot = doc.FirstChildElement("players");
 		if(pRoot)
 		{
 			pParm = pRoot->FirstChildElement("player");
@@ -154,11 +155,18 @@ void HighscoreLayer::updateScoreList()
 				std::string name = pParm->Attribute("name");
 				std::string score = pParm->Attribute("score");
 
+				std::pair<std::string, int> s;
+				s.first = name;
+				s.second = atoi(score.c_str());
+				scores.push_back(s);
+
+				/*
 				//her er magien
 				if(counter < HS_MAXLABELS)
 				{
 					updateText(0, 15 - (i*20), i, name + " got: " + score);
 				}
+				*/
 
 				//her er litt Frodekode:
 				if(!scoreStored)
@@ -167,7 +175,7 @@ void HighscoreLayer::updateScoreList()
 					strcpy(lastFileData[i][1], pParm->Attribute("score"));
 					numData ++;
 				}
-
+				
 
 				pParm = pParm->NextSiblingElement("player");
 				i++;
@@ -176,10 +184,27 @@ void HighscoreLayer::updateScoreList()
 		}
 	}
 
+	for (unsigned int j=1; j<scores.size(); j++)
+	{
+		auto key = scores[j];
+		int i = j - 1;
+
+		while (i >= 0 && scores[i].second < key.second)
+		{
+			scores[i+1] = scores[i];
+			i--;
+		}
+		scores[i+1] = key;
+	}
+
+	for (int i=0; i<counter; i++)
+	{
+		std::stringstream ss;
+		ss << scores[i].first << ": " << scores[i].second;
+		updateText(0, 15 - (i*20), i, ss.str());
+	}
+
 	scoreStored = true;
-
-	
-
 }
 
 void HighscoreLayer::addMyScore()
@@ -192,7 +217,7 @@ void HighscoreLayer::addMyScore()
 
 	//doc.FirstChildElement("palyers");
  
-	TiXmlElement * root = new TiXmlElement( "palyers" );  
+	TiXmlElement * root = new TiXmlElement( "players" );  
 	doc.LinkEndChild( root );  
 
 	TiXmlElement * window;

@@ -389,7 +389,8 @@ void MainMenuLayer::keyEvent(Pim::KeyEvent &evt)
 		Pim::GameControl::getSingleton()->setWindowStyle(newStyle);
 	}
 
-	/* DEBUG */
+	
+	/* DEBUG 
 	if (evt.isKeyDown(Pim::KeyEvent::K_D))
 	{
 		position.x -= 20;
@@ -402,4 +403,5 @@ void MainMenuLayer::keyEvent(Pim::KeyEvent &evt)
 	{
 		printf("MLPOS: %0.1f, %0.1f\n", position.x, position.y);
 	}
+	*/
 }
