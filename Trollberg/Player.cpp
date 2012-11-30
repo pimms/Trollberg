@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 #include "HUDLayer.h"
 
-#define PL_TIMETODIE 1009.f
+#define PL_TIMETODIE 6.9f
 
 Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	: Actor(node, pos)
@@ -311,12 +311,11 @@ void Player::update(float dt)
 
 		if (lightDef)
 		{
-			lightDef->radius -= dt * 10;
+			lightDef->radius = 120 - (deathTimer*24.f);
 			if (lightDef->radius <= 0)
 			{
 				getParentLayer()->removeLight(this);
 				lightDef = NULL;
-				HUDLayer::getSingleton()->playerDead = true;
 			}
 		}
 
@@ -324,10 +323,16 @@ void Player::update(float dt)
 		{
 			if (deathAnim.curFrame == 3)
 			{
+				// Slow down the animation for the last two frames
 				deathAnim.frameTime = 2.f;
 			}
 			rect		= deathAnim.update(dt);
 			deathTimer += dt;
+		}
+		else
+		{
+			rect = deathAnim.frameIndex(deathAnim.totalFrames-1);
+			HUDLayer::getSingleton()->playerDead = true;
 		}
 	}
 }

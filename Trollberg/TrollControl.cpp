@@ -39,9 +39,9 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 		trollSpawnChance[1] = 30;
 		trollSpawnChance[2] = 10;
 
-		trollSpawnCost[0]	= 1.f;
-		trollSpawnCost[1]	= 1.5f;
-		trollSpawnCost[2]	= 2.5f;
+		trollSpawnCost[0]	= 0.5f;
+		trollSpawnCost[1]	= 1.f;
+		trollSpawnCost[2]	= 1.5f;
 	}
 	else if (levelIdx == 1)
 	{
@@ -49,9 +49,9 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 		trollSpawnChance[1] = 40;
 		trollSpawnChance[2] = 20;
 
-		trollSpawnCost[0]	= 0.1f;
-		trollSpawnCost[1]	= 1.f;
-		trollSpawnCost[2]	= 2.f;
+		trollSpawnCost[0]	= 0.5f;
+		trollSpawnCost[1]	= 0.5f;
+		trollSpawnCost[2]	= 1.f;
 	}
 	else if (levelIdx == 2)
 	{
@@ -59,9 +59,9 @@ TrollControl::TrollControl(Pim::SpriteBatchNode *batch, GameLayer *l,
 		trollSpawnChance[1] = 40;
 		trollSpawnChance[2] = 40;
 
-		trollSpawnCost[0]	= 0.1f;
-		trollSpawnCost[1]	= 0.2f;
-		trollSpawnCost[2]	= 1.f;
+		trollSpawnCost[0]	= 0.25f;
+		trollSpawnCost[1]	= 0.25f;
+		trollSpawnCost[2]	= 0.5f;
 	}
 }
 TrollControl::~TrollControl(void)

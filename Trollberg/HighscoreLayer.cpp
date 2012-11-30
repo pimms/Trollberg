@@ -178,8 +178,8 @@ void HighscoreLayer::addMyScore()
 
 }
 
-void HighscoreLayer::updateText(int xPos, int yPos, int index,  std::string text){
-
+void HighscoreLayer::updateText(int xPos, int yPos, int index,  std::string text)
+{
 	theLables[index]->color = Pim::Color(0.f, 0.f, 0.f, 1.f);
 	theLables[index]->position = Pim::Vec2(xPos, yPos);
 
@@ -224,7 +224,6 @@ void HighscoreLayer::keyEvent(Pim::KeyEvent &evt){
 
 void HighscoreLayer::mouseEvent(Pim::MouseEvent &evt)
 {
-
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
 		parent->removeChild(this, true);
