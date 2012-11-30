@@ -1,3 +1,4 @@
+#pragma once 
 #include "Pim.h"
 #include "GameScene.h"
 #include "MainMenuScene.h"

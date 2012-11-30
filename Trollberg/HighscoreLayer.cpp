@@ -3,6 +3,9 @@
 #include "Trollberg.h"
 #include "HUDLayer.h"
 #include "MenuButton.h"
+#include "MainMenuLayer.h"
+#include "MainMenuScene.h"
+#include "GameLayer.h"
 
 
 
@@ -46,6 +49,8 @@ void HighscoreLayer::loadResources()
 	{
 		arial40 = new Pim::Font("res\\arial.ttf", 40, false);
 	}
+
+	
 
 	//load bg
 	Pim::Sprite *myBGImage = new Pim::Sprite("res/HIGHSCOREMENU.png");
@@ -92,27 +97,39 @@ void HighscoreLayer::loadResources()
 	Pim::Sprite *normal = new Pim::Sprite;
 	normal->useBatchNode(buttonSheet) ; 
 	normal->rect = Pim::Rect(0,0,20,20);
-	normal->scale = Pim::Vec2(1.0f, 0.7f);
 
 	Pim::Sprite *hovered = new Pim::Sprite;
 	hovered->useBatchNode(buttonSheet);
 	hovered->rect = Pim::Rect(20,0,20,20);
-	hovered->scale = Pim::Vec2(1.0f, 0.7f);
 
 	Pim::Sprite *pressed = new Pim::Sprite;
 	pressed->useBatchNode(buttonSheet); 
 	pressed->rect = Pim::Rect(40,0,20,20);
-	pressed->scale = Pim::Vec2(1.0f, 0.7f);
 
 	Pim::Button *closeButton = new Pim::Button(normal, hovered, pressed);
-	addChild(closeButton);		// :)
-	closeButton->position = Pim::Vec2(192, 108);
+	addChild(closeButton);
+	closeButton->position = Pim::Vec2(162.f, 80.f);
+	closeButton->setCallback(this);
 
 	updateScoreList();
 
 
 }
 
+void HighscoreLayer::buttonReleased(Pim::Button *activeButton){
+
+	if (parent) //if parent, er dette en child
+	{
+		parent->removeChild(this, true);
+	}
+	else
+	{
+		//((MainMenuScene*)parentScene)->mml->setHighscoreDone();
+		parentScene->removeLayer(this);
+	}
+
+
+}
 
 //get content of xml doc and update lables:
 void HighscoreLayer::updateScoreList()
@@ -192,7 +209,7 @@ void HighscoreLayer::addMyScore()
 		//vi liker vår frodekode!
 		//den legger til de elementene fra filen da den ble lest til den nye
 		window = new TiXmlElement( "player" );  
-		root->LinkEndChild( window );  
+		root->LinkEndChild( window ); 
 		window->SetAttribute("name", lastFileData[i][0]);
 		window->SetAttribute("score", lastFileData[i][1]);
 
@@ -262,14 +279,7 @@ void HighscoreLayer::mouseEvent(Pim::MouseEvent &evt)
 {
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
-		if (parent) //if parent, er dette en child
-		{
-			parent->removeChild(this, true);
-		}
-		else
-		{
-			parentScene->removeLayer(this);
-		}
+
 
 	}
 

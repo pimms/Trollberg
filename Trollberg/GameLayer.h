@@ -43,6 +43,10 @@ public:
 	void keyEvent(Pim::KeyEvent &evt);
 	void controllerEvent(Pim::ControllerEvent &evt);
 
+	// The number of the current level (1-3)
+	int							levelNum;
+	int							getLvlNum();
+
 private:
 	static GameLayer			*singleton;
 
@@ -71,8 +75,6 @@ private:
 	// The width of the level in pixels
 	float						levelWidth;
 
-	// The number of the current level (1-3)
-	int							levelNum;
 
 	// Is the controller set to vibrate?
 	bool						isVibrating;

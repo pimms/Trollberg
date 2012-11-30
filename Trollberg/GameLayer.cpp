@@ -57,6 +57,12 @@ GameLayer::~GameLayer()
 	Pim::AudioManager::getSingleton()->deleteCache("splat2");
 }
 
+int GameLayer::getLvlNum(){
+
+	return levelNum;
+
+}
+
 void GameLayer::draw()
 {
 	Pim::Layer::draw();
