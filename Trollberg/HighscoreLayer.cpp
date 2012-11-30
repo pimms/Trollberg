@@ -131,7 +131,6 @@ void HighscoreLayer::buttonReleased(Pim::Button *activeButton){
 
 }
 
-
 //get content of xml doc and update lables:
 void HighscoreLayer::updateScoreList()
 {
