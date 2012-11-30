@@ -35,6 +35,7 @@ public:
 	void addScoreLabel(Troll *t, int score);
 
 	void setPlayerHealth(int health);
+	void playerTookDamage();		// Displays red borders across the screen
 	void setSelectedWeapon(int wep);
 
 	void updateScore(float dt);
@@ -66,6 +67,10 @@ private:
 	int				curWeapon;		// The currently selected weapon
 	int				weaponRotDir;	// Rotation direction of the weapon cog
 	float			weaponRotDest;	// The angle the weapon cog is rotation towards
+
+	// The red outline displayed when the player takes damage
+	Pim::Sprite		*damageIndicator;
+	float damageFadeTimer;
 
 	// The hearts
 	Pim::Sprite		*hearts[3];

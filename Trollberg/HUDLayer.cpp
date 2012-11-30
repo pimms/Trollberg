@@ -57,6 +57,7 @@ HUDLayer::HUDLayer()
 	curWeapon		= 0;
 	weaponRotDest	= 60.f;
 	weaponRotDir	= 1;
+	damageFadeTimer = 0.f;
 
 	timer			= 0.f;
 }
@@ -86,6 +87,15 @@ void HUDLayer::loadResources()
 	fadeSprite->anchor = Pim::Vec2(0.f,0.f);
 	fadeSprite->rect = Pim::Rect(3,4,1,1);
 	addChild(fadeSprite);
+
+	// Load the red border outline
+	damageIndicator = new Pim::Sprite;
+	damageIndicator->rect = Pim::Rect(130, 4, 1, 1);
+	damageIndicator->scale = Pim::Vec2(384.f, 216.f);
+	damageIndicator->useBatchNode(actorSheet);
+	damageIndicator->anchor = Pim::Vec2(0.f, 0.f);
+	damageIndicator->color.a = 0.f;
+	addChild(damageIndicator);
 
 	// Load the score label
 	scoreLabel = new Pim::Label(arial40);
@@ -258,6 +268,9 @@ void HUDLayer::update(float dt)
 	updateWeaponCog(dt);
 
 	timer += dt;
+	
+	damageFadeTimer -= dt;
+	damageIndicator->color.a = damageFadeTimer;
 
 	if(playerDead)
 	{
@@ -415,6 +428,10 @@ void HUDLayer::setPlayerHealth(int health)
 			hearts[i]->rect.x = 42;
 		}
 	}
+}
+void HUDLayer::playerTookDamage()
+{
+	damageFadeTimer = 0.3f;
 }
 void HUDLayer::setSelectedWeapon(int wep)
 {

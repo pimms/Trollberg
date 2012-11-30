@@ -232,6 +232,7 @@ void Player::takeDamage(int damage)
 	{
 		health -= damage;
 		HUDLayer::getSingleton()->setPlayerHealth(health);
+		HUDLayer::getSingleton()->playerTookDamage();
 
 		if (health <= 0)
 		{
