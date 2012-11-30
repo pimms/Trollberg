@@ -105,6 +105,7 @@ void HighscoreLayer::loadResources()
 	pressed->scale = Pim::Vec2(1.0f, 0.7f);
 
 	Pim::Button *closeButton = new Pim::Button(normal, hovered, pressed);
+	addChild(closeButton);		// :)
 	closeButton->position = Pim::Vec2(192, 108);
 
 	updateScoreList();
