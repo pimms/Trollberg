@@ -3,10 +3,13 @@
 #include "HUDLayer.h"
 
 #define PL_TIMETODIE 6.9f
+#define PL_HEALTIME 10.0f
 
 Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	: Actor(node, pos)
 {
+	healthTimer = 0;
+
 	// Prepare the animation object
 	walkAnim.frameWidth			= 14;
 	walkAnim.frameHeight		= 14;
@@ -16,7 +19,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	walkAnim.horizontalFrames	= 5;
 	walkAnim.frameTime			= 0.1f;
 	rect						= walkAnim.frameIndex(0);
-
+	 
 	deathAnim.frameWidth		= 14;
 	deathAnim.frameHeight		= 14;
 	deathAnim.firstFramePos		= Pim::Vec2(0,0);
@@ -29,7 +32,8 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	jumpForce					= 70.f;
 	velX						= 0.;
 	mEvt						= NULL;
-	dead						= false;
+
+	dead						= true;
 	deathTimer					= 0.f;
 	RTReleaseRequired			= false;
 	keyMovement					= false;
@@ -76,7 +80,7 @@ Player::~Player()
 void Player::createLight()
 {
 	lightDef = new Pim::SmoothLightDef;
-	lightDef->radius			= 120;
+	lightDef->radius			= 220;
 	lightDef->castShadows		= true;
 	getParentLayer()->addLight(this, lightDef);
 
@@ -85,10 +89,7 @@ void Player::createLight()
 
 void Player::keyEvent(Pim::KeyEvent &evt)
 {
-	if (evt.isKeyFresh(Pim::KeyEvent::K_Q))
-	{
-		exit(0);
-	}
+
 	if (evt.isKeyDown(Pim::KeyEvent::K_SPACE))
 	{
 		jump();
@@ -251,6 +252,19 @@ void Player::update(float dt)
 {
 	if (!dead)
 	{
+		if(health < 3)
+		{
+			healthTimer += dt;
+		}
+
+		if(healthTimer > PL_HEALTIME && health < 3)
+		{
+ 			health ++;
+			HUDLayer::getSingleton()->setPlayerHealth(health);
+			healthTimer = 0;
+		}
+
+
 		// Update the weapon
 		updateWeapon();					
 
