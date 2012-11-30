@@ -85,7 +85,7 @@ void SlinkerAI::leapUpdate(float dt)
 		int ran = rand() % abs((int)trollPlayerXDiff());
 		xForce += ran * (xForce > 0) ? (1.f) : (-1.f);
 
-		b2Vec2 force = b2Vec2(xForce * 0.7f, 30 + rand() % 20);
+		b2Vec2 force = b2Vec2(xForce * 0.7f, 10 + rand() % 20);
 
 		troll->body->ApplyLinearImpulse(force, troll->body->GetPosition());
 	}

@@ -155,7 +155,7 @@ void GameLayer::loadLightingSystem()
 {
 	// Create the lighting system
 	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
-	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.95f));
+	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.8f));
 	setCastShadows(false);
 
 	// Preload the Lighting Rifle bullet tex

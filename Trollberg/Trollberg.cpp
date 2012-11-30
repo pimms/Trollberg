@@ -7,10 +7,10 @@ int main()
 	{   // Stack cheating: avoid 'cd' from "leaking" memory
 		Pim::WinStyle::CreationData cd;
 
-		cd.resolution					= Pim::Vec2(960, 540);
+		cd.resolution					= Pim::Vec2(960.f, 540.f);
 		cd.defaultWindowedResolution	= cd.resolution;
 
-		cd.renderResolution				= Pim::Vec2(384, 216);
+		cd.renderResolution				= Pim::Vec2(384.f, 216.f);
 		cd.coordinateSystem				= cd.renderResolution;
 
 		cd.forcedAspectRatio			= true;
