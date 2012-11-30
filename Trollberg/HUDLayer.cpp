@@ -431,6 +431,10 @@ void HUDLayer::setPlayerHealth(int health)
 		{
 			hearts[i]->rect.x = 42;
 		}
+		else
+		{
+			hearts[i]->rect.x = 32;
+		}
 	}
 }
 void HUDLayer::playerTookDamage()
