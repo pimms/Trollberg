@@ -463,6 +463,5 @@ void HUDLayer::showHighscore()
 		addChild(theHighscoreLayer);
 		theHighscoreLayer->loadResources();
 		theHighscoreLayer->position = Pim::Vec2(SCREENWIDTH/2, SCREENHEIGHT/2);
-		//DEN FORSVINNER BAKERST! YOU FIK JOAKIM!
 	}
 }

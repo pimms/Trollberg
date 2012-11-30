@@ -87,8 +87,8 @@ void HighscoreLayer::loadResources()
 }
 
 //get content of xml doc and update lables:
-void HighscoreLayer::updateScoreList(){
-
+void HighscoreLayer::updateScoreList()
+{
 	TiXmlDocument doc("highscore.pim");
 	int counter = 0;
 
@@ -137,8 +137,8 @@ void HighscoreLayer::updateScoreList(){
 
 }
 
-void HighscoreLayer::addMyScore(){
-
+void HighscoreLayer::addMyScore()
+{
 	//må lese inn forrige og legge inn nytt!
 
 
@@ -190,9 +190,6 @@ void HighscoreLayer::updateText(int xPos, int yPos, int index,  std::string text
 void HighscoreLayer::update(float dt)
 {
 
-
-
-
 }
 
 void HighscoreLayer::keyEvent(Pim::KeyEvent &evt){
@@ -225,7 +222,8 @@ void HighscoreLayer::keyEvent(Pim::KeyEvent &evt){
 
 }
 
-void HighscoreLayer::mouseEvent(Pim::MouseEvent &evt){
+void HighscoreLayer::mouseEvent(Pim::MouseEvent &evt)
+{
 
 	if (evt.isKeyFresh(Pim::MouseEvent::MBTN_LEFT))
 	{
