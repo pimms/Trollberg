@@ -4,7 +4,7 @@
 #define HS_MAXNUMHS 150
 #define HS_MAXNAMESIZE 12
 
-class HighscoreLayer : public Pim::Layer
+class HighscoreLayer : public Pim::Layer, public Pim::ButtonCallback
 {
 public:
 	HighscoreLayer(bool onlyShow);
@@ -39,6 +39,10 @@ public:
 	void addMyScore();
 
 	void keyEvent(Pim::KeyEvent&);
+
+	void buttonReleased(Pim::Button *activeButton);
+
+
 
 
 };

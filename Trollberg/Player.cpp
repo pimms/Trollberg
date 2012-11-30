@@ -33,7 +33,7 @@ Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	velX						= 0.;
 	mEvt						= NULL;
 
-	dead						= true;
+	dead						= false;
 	deathTimer					= 0.f;
 	RTReleaseRequired			= false;
 	keyMovement					= false;

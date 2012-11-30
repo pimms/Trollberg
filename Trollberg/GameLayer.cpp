@@ -60,6 +60,12 @@ GameLayer::~GameLayer()
 	singleton = NULL;
 }
 
+int GameLayer::getLvlNum(){
+
+	return levelNum;
+
+}
+
 void GameLayer::draw()
 {
 	Pim::Layer::draw();

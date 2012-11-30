@@ -16,8 +16,13 @@
 	is used to determine what action will be taken next.
 */
 
+
+
 MainMenuLayer::MainMenuLayer()
 {
+
+	singleton = this;
+
 	music				= NULL;
 
 	buttonSheet			= NULL;
@@ -49,6 +54,14 @@ MainMenuLayer::~MainMenuLayer()
 	//{
 	//	delete theHighscoreLayer;
 	//}
+}
+
+MainMenuLayer* MainMenuLayer::singleton = NULL;
+
+
+MainMenuLayer* MainMenuLayer::getSingleton()
+{
+	return singleton;
 }
 
 void MainMenuLayer::loadResources()
@@ -247,6 +260,8 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
+
+
 	if (activeScroller && activeScroller->doneScrolling())
 	{
 		scrollCompleted();

@@ -22,7 +22,9 @@ void MainMenuScene::loadResources()
 {
 	color = Pim::Color(0.207, 0.537, 0.647, 1.f);
 
-	addLayer(new MainMenuLayer());
+	MainMenuLayer *mml = new MainMenuLayer();
+	addLayer(mml);
+	
 	
 	//loadMainMenu();
 	//startGame();

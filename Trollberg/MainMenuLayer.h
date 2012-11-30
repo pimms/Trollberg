@@ -24,6 +24,11 @@ class ButtonScroller;
 class MainMenuLayer: public Pim::Layer, public Pim::ButtonCallback
 {
 public:
+
+
+	static MainMenuLayer* getSingleton();
+	static MainMenuLayer	*singleton;
+
 	MainMenuLayer();
 	~MainMenuLayer();
 
@@ -46,7 +51,10 @@ public:
 
 
 
+
 private:
+	
+
 	Pim::SpriteBatchNode	*buttonSheet;
 	Pim::SpriteBatchNode	*scrollSheet;
 
@@ -78,6 +86,7 @@ private:
 	bool					startGame;
 
 	int						startLVL;
+	
 
 	HighscoreLayer *theHighscoreLayer;
 };
