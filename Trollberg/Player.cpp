@@ -2,7 +2,7 @@
 #include "GameLayer.h"
 #include "HUDLayer.h"
 
-#define PL_TIMETODIE 6.9f
+#define PL_TIMETODIE 1009.f
 
 Player::Player(Pim::SpriteBatchNode *node, Pim::Vec2 pos)
 	: Actor(node, pos)
@@ -311,7 +311,7 @@ void Player::update(float dt)
 
 		if (lightDef)
 		{
-			lightDef->radius -= dt * 50;
+			lightDef->radius -= dt * 10;
 			if (lightDef->radius <= 0)
 			{
 				getParentLayer()->removeLight(this);

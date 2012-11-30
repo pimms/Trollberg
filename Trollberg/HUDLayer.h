@@ -40,7 +40,7 @@ public:
 
 	void updateScore(float dt);
 
-	bool playerDead;
+	bool			playerDead;
 
 	int				score;
 
@@ -58,6 +58,7 @@ private:
 	float			displayScore;
 	float			scoreToDisplay;
 
+	bool			drawPower;
 	float			timer;
 
 	Pim::Sprite		*fadeSprite;	// Fade the HUD from black

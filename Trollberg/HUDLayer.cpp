@@ -59,6 +59,7 @@ HUDLayer::HUDLayer()
 	weaponRotDir	= 1;
 	damageFadeTimer = 0.f;
 
+	drawPower		= true;
 	timer			= 0.f;
 }
 HUDLayer::~HUDLayer()
@@ -237,29 +238,32 @@ void HUDLayer::draw()
 {
 	Pim::Layer::draw();	// Superclass draw
 
-	glPushMatrix();	
-	glLoadIdentity();
-	glDisable(GL_TEXTURE_2D);
+	if (drawPower)
+	{
+		glPushMatrix();	
+		glLoadIdentity();
+		glDisable(GL_TEXTURE_2D);
 
-	glColor4f(1.f, 0.f, 0.f, 1.f);
+		glColor4f(1.f, 0.f, 0.f, 1.f);
 
-	Pim::Vec2 scale = Pim::GameControl::getSingleton()->windowScale();
-	glScalef(scale.x, scale.y, 1.f);
+		Pim::Vec2 scale = Pim::GameControl::getSingleton()->windowScale();
+		glScalef(scale.x, scale.y, 1.f);
 
-	glBegin(GL_TRIANGLE_FAN);
-		float yv = 124.f + 47.f * GameLayer::playerFuel();
-		glVertex2f(343.f, 124.f);
+		glBegin(GL_TRIANGLE_FAN);
+			float yv = 124.f + 47.f * GameLayer::playerFuel();
+			glVertex2f(343.f, 124.f);
 		
-		for (int i=0; i<=11; i++)
-		{
-			glVertex2f(343.f+i, yv + sinf((timer+i)*5.f)*0.4f + 0.4f);
-		}
+			for (int i=0; i<=11; i++)
+			{
+				glVertex2f(343.f+i, yv + sinf((timer+i)*5.f)*0.4f + 0.4f);
+			}
 
-		glVertex2f(354.f, 124.f);
-	glEnd();
+			glVertex2f(354.f, 124.f);
+		glEnd();
 
-	glEnable(GL_TEXTURE_2D);
-	glPopMatrix();
+		glEnable(GL_TEXTURE_2D);
+		glPopMatrix();
+	}
 }
 
 void HUDLayer::update(float dt)
@@ -451,6 +455,8 @@ void HUDLayer::setSelectedWeapon(int wep)
 
 void HUDLayer::showHighscore()
 {
+	drawPower = false;
+
 	if(theHighscoreLayer == NULL)
 	{
 		theHighscoreLayer = new HighscoreLayer(false);
