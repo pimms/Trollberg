@@ -82,9 +82,8 @@ void Player::createLight()
 	lightDef = new Pim::SmoothLightDef;
 	lightDef->radius			= 220;
 	lightDef->castShadows		= true;
+	lightDef->position			= Pim::Vec2(0.f, -4.f);
 	getParentLayer()->addLight(this, lightDef);
-
-	lightPosition = Pim::Vec2(0.f, -4.f);
 }
 
 void Player::keyEvent(Pim::KeyEvent &evt)

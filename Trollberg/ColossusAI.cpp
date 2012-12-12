@@ -80,7 +80,7 @@ void ColossusAI::updateCrush(float dt)
 		float x = crushTimer - 0.4f;
 		colossus->pld->radius = cosf((x-0.05f)*30.f) * 40.f;
 
-		colossus->lightPosition = Pim::Vec2(colossus->scale.x*-14.f, -5.f);
+		colossus->pld->position = Pim::Vec2(colossus->scale.x*-14.f, -5.f);
 
 		if (crushTimer > 0.5f)
 		{
