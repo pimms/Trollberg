@@ -84,21 +84,24 @@ void MainMenuLayer::loadResources()
 	music = new Pim::Sound("res\\menumusic.ogg");
 	music->loop();
 
-	// Create the lighting system
-	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
-	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
+	if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+	{
+		// Create the lighting system
+		createLightingSystem(Pim::Vec2(1920.f, 1080.f));
+		setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.85f));
 
-	// Setup a light def
-	Pim::FlatLightDef *ld = new Pim::FlatLightDef;
-	ld->radius		= 90;
-	ld->falloff		= 2.f;
-	ld->innerColor  = Pim::Color(1.f, 1.f, 0.f, 1.f);
+		// Setup a light def
+		Pim::FlatLightDef *ld = new Pim::FlatLightDef;
+		ld->radius		= 90*5;
+		ld->falloff		= 2.f;
+		ld->innerColor  = Pim::Color(1.f, 1.f, 0.f, 1.f);
 	
-	// Create the light
-	light = new Pim::GameNode;
-	light->position = Pim::Vec2(1080.f+192.f, 90.f);
-	addChild(light);
-	addLight(light, ld);
+		// Create the light
+		light = new Pim::GameNode;
+		light->position = Pim::Vec2(1080.f+192.f, 90.f);
+		addChild(light);
+		addLight(light, ld);
+	}
 
 	// Load the rain
 	loadRain();
@@ -266,8 +269,6 @@ void MainMenuLayer::buttonPressed(Pim::Button* activeButton)
 
 void MainMenuLayer::update(float dt)
 {
-
-
 	if (activeScroller && activeScroller->doneScrolling())
 	{
 		scrollCompleted();

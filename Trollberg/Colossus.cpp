@@ -65,10 +65,13 @@ void Colossus::createPhysics()
 }
 void Colossus::createLight()
 {
-	pld = new Pim::PreloadLightDef;
-	pld->radius = 0;
+	if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+	{
+		pld = new Pim::PreloadLightDef;
+		pld->radius = 0;
 	
-	getParentLayer()->addLight(this, pld, "CCrush");
+		getParentLayer()->addLight(this, pld, "CCrush");
+	}
 }
 
 void Colossus::createCrushSensor()

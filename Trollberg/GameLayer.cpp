@@ -158,22 +158,25 @@ void GameLayer::loadResources()
 }
 void GameLayer::loadLightingSystem()
 {
-	// Create the lighting system
-	createLightingSystem(Pim::Vec2(1920.f, 1080.f));
-	setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.8f));
-	setCastShadows(false);
+	if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+	{
+		// Create the lighting system
+		createLightingSystem(Pim::Vec2(1920.f, 1080.f));
+		setLightingUnlitColor(Pim::Color(0.f, 0.f, 0.f, 0.8f));
+		setCastShadows(false);
 
-	// Preload the Lighting Rifle bullet tex
-	Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
-	sld->radius = 50;
-	sld->innerColor.a = 0.7f;
-	preloadLightTexture(sld, "Bullet");
+		// Preload the Lighting Rifle bullet tex
+		Pim::SmoothLightDef *sld = new Pim::SmoothLightDef;
+		sld->radius = 50;
+		sld->innerColor.a = 0.7f;
+		preloadLightTexture(sld, "Bullet");
 
-	// Preoad the Colossus crush light
-	Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
-	fld->radius = 30;
-	fld->falloff = 0.5f;
-	preloadLightTexture(fld, "CCrush");
+		// Preoad the Colossus crush light
+		Pim::SmoothLightDef *fld = new Pim::SmoothLightDef;
+		fld->radius = 30;
+		fld->falloff = 0.5f;
+		preloadLightTexture(fld, "CCrush");
+	}
 }
 void GameLayer::loadRain()
 {

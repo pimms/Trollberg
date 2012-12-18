@@ -76,11 +76,14 @@ void ColossusAI::updateCrush(float dt)
 		colossus->createCrushSensor();
 		crushCheck();
 
-		// Update the light
-		float x = crushTimer - 0.4f;
-		colossus->pld->radius = cosf((x-0.05f)*30.f) * 40.f;
+		if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+		{
+			// Update the light
+			float x = crushTimer - 0.4f;
+			colossus->pld->radius = cosf((x-0.05f)*30.f) * 200.f;
 
-		colossus->pld->position = Pim::Vec2(colossus->scale.x*-14.f, -5.f);
+			colossus->pld->position = Pim::Vec2(colossus->scale.x*-14.f, -5.f);
+		}
 
 		if (crushTimer > 0.5f)
 		{
@@ -90,9 +93,12 @@ void ColossusAI::updateCrush(float dt)
 			hasDamaged = false;
 			hasPlayedSound = false;
 			crushTimer = 0.f;
-			colossus->pld->radius = 0;
-			
 			colossus->rect = colossus->attackAnim.reset();
+
+			if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+			{
+				colossus->pld->radius = 0;
+			}
 		}
 	}
 }

@@ -9,6 +9,7 @@
 #include "Box2D\Box2D.h"
 
 #include "LevelData.h"
+#include "VersionControl.h"
 
 typedef std::vector<std::vector<Pim::Vec2>> Polygons;
 
@@ -34,6 +35,9 @@ typedef std::vector<std::vector<Pim::Vec2>> Polygons;
 
 	#define SCREENWIDTH		384
 	#define SCREENHEIGHT	216
+	
+    #define LIGHT_GL_VERSION 3.0
+
 #endif /* _TROLLDEFINES_ */
 
 

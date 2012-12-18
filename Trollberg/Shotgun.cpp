@@ -31,9 +31,13 @@ void Shotgun::fire()
 			Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());
 			getParentLayer()->addChild(bullet);
 
-			// The bullet must create it's light AFTER it's been parented.
-			bullet->createLight();
-			bullet->finalLightRadius -= 14;
+			if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+			{
+				// The bullet must create it's light AFTER it's been parented.
+				bullet->createLight();
+				bullet->finalLightRadius -= 70;
+			}
+
 			bullet->maxLife	= 0.1f;
 			bullet->scale *= 0.3f;
 

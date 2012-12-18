@@ -2,6 +2,7 @@
 #include "Pim.h"
 #include "GameScene.h"
 #include "MainMenuScene.h"
+#include "VersionControl.h"
 
 int main()
 {
@@ -24,6 +25,8 @@ int main()
 		gc->go(new MainMenuScene, cd);
 		delete gc;
 	}
+	
+	VersionControl::clearSingleton();
 
 #ifdef _DEBUG
 	// Prints leaked memory TO THE OUTPUT TAB. Not the console. The outputtab in VS. 

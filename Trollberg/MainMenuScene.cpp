@@ -20,6 +20,8 @@ MainMenuScene::~MainMenuScene()
 
 void MainMenuScene::loadResources()
 {
+	VersionControl::instantiateSingleton();
+
 	color = Pim::Color(0.207, 0.537, 0.647, 1.f);
 
 	MainMenuLayer *mml = new MainMenuLayer();

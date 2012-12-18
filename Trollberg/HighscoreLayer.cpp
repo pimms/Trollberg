@@ -254,7 +254,6 @@ void HighscoreLayer::updateText(int xPos, int yPos, int index,  std::string text
 	theLables[index]->position = Pim::Vec2(xPos, yPos);
 
 	theLables[index]->setText(text);
-
 }
 
 void HighscoreLayer::update(float dt)

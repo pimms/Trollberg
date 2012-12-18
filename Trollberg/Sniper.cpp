@@ -29,11 +29,14 @@ void Sniper::fire()
 		Bullet *bullet = new Bullet(this, actorSheet, muzzlePoint(), angle());
 		getParentLayer()->addChild(bullet);
 
-		// The bullet must create it's light AFTER it's been parented.
-		bullet->createLight();
-		bullet->rect = Pim::Rect(200,0,13,3);
+		if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+		{
+			// The bullet must create it's light AFTER it's been parented.
+			bullet->createLight();
+			bullet->rect = Pim::Rect(200,0,13,3);
 		
-		bullet->finalLightRadius += 20;
+			bullet->finalLightRadius += 100;
+		}
 
 		timer = 0.f;
 	}

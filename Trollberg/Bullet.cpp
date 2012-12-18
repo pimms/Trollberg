@@ -54,7 +54,7 @@ void Bullet::createLight()
 {
 	lightDef = new Pim::PreloadLightDef;
 	lightDef->radius = 1;
-	finalLightRadius = 20 + rand()%21;
+	finalLightRadius = 100 + rand()%101;
 	getParentLayer()->addLight(this, lightDef, "Bullet");
 }
 
@@ -62,15 +62,18 @@ void Bullet::update(float dt)
 {
 	life += dt;
 
-	if (life <= LBR_FADEINTIME)
+	if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
 	{
-		lightDef->radius = finalLightRadius * (life/LBR_FADEINTIME);
-	}
-	else
-	{
-		// In the range 0.8-1.0
-		float factor =  (sinf(life*10.f) + 1.f) / 10.f + 0.8f;
-		lightDef->radius = finalLightRadius * factor;
+		if (life <= LBR_FADEINTIME)
+		{
+			lightDef->radius = finalLightRadius * (life/LBR_FADEINTIME);
+		}
+		else
+		{
+			// In the range 0.8-1.0
+			float factor =  (sinf(life*10.f) + 1.f) / 10.f + 0.8f;
+			lightDef->radius = finalLightRadius * factor;
+		}
 	}
 	
 	if ((life >= LBR_MAXLIFE && !dead) || (fadeOutTimer <= 0.f))
@@ -112,9 +115,12 @@ void Bullet::update(float dt)
 
 		// In the range 1.0 - 0.0
 		float factor = (fadeOutTimer/LBR_FADEOUTTIME);
-
-		lightDef->radius = finalLightRadius * factor;
 		scale = Pim::Vec2(1.f, 1.f) * factor;
+
+		if (VersionControl::getGLVersion() > LIGHT_GL_VERSION)
+		{
+			lightDef->radius = finalLightRadius * factor;
+		}
 
 		body->SetLinearVelocity(b2Vec2_zero);
 	}
